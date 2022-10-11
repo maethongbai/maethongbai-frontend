@@ -15,6 +15,8 @@ import Profile from './components/profile/Profile.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/test">Test</RouterLink>
+        <RouterLink to="/redemptions/view">Redemptions</RouterLink>
       </nav>
     </div>
   </header>

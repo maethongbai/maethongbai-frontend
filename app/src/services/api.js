@@ -59,3 +59,22 @@ export const goldAPI = {
     }
   }
 }
+
+export const redemptionAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/redemptions')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+  async saveNew (redemption) {
+    const response = await axiosInstance.post('/redemptions', redemption)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  }
+}
