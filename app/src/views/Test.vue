@@ -5,27 +5,23 @@
 </template>
 
 <script>
-import axios from 'axios'
-export default {
-    data() {
+    import { useGoldStore } from '@/stores/gold.js'
+    export default {
+      setup() {
+        const gold_store = useGoldStore()
+        return { gold_store }
+      },
+      data() {
         return {
-            title: "gold list",
-            golds: null
+          title: "Golds",
+          golds: null,
+          error: null
         }
-    },
-    async mounted() {
-        const url = "http://localhost/api/golds"
-
-        try {
-            const response = await axios.get(url)
-            if (response.status == 200) {
-                this.golds = response.data
-            }
-            console.log(response.data)
-        } catch (error) {
-            console.error(error.message)
-        }
-
+      },
+      async mounted() {
+        await this.gold_store.fetch()
+        this.golds = this.gold_store.getGolds
+        
+      }
     }
-}
-</script>
+    </script>
