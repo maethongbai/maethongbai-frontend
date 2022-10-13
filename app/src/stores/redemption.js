@@ -18,7 +18,7 @@ export const useRedemptionStore = defineStore("redemptions", {
     },
     filterConfirmed (state) {
       var filtered = [...state.redemptions.data]
-      return filtered.filter((redemption) => redemption.check_status == "ผ่าน")
+      return filtered.filter((redemption) => redemption.check_status == "ผ่านการตรวจสอบ")
     }
   },
 

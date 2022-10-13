@@ -28,6 +28,7 @@
   
   <script>
   import { useAuthStore } from '@/stores/auth.js'
+import router from '../router'
   
   export default {
     setup() {
@@ -48,10 +49,15 @@
         this.disabledButton = true
         try {
           if (await this.auth_store.login(this.phone, this.password)) {
+            // if (this.auth_store.isAuthen) {
+            //   // this.$router.push('/')
+            // }
             this.$router.push('/')
+            
           } else {
             this.disabledButton = false
           }
+          
         } catch (error) {
           this.error = error.message
           this.disabledButton = false

@@ -38,6 +38,14 @@ export const authAPI = {
   },
   logout () {
     localStorage.removeItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+  },
+  async getUser (id) {
+    const response = await axiosInstance.get(`/users/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data
+    }
+    return []
   }
 }
 

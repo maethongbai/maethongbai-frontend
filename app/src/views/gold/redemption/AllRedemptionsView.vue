@@ -5,10 +5,7 @@
 </div>
 
 <!-- redemptions will show up when logged in -->
-<div v-if="auth" class="center">
-    <!-- <div v-for="redemption in redemptions">
-        {{ redemption }}
-    </div> -->
+<div v-if="auth" class="mt-5 center">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
@@ -186,6 +183,7 @@ export default {
     data() {
         return {
             auth: null,
+            user: null,
             redemptions: null,
             redemptions_checking: null,
             redemptions_confirmed: null,
@@ -197,16 +195,29 @@ export default {
             immediate: true,
             deep: true,
             handler(newValue, oldValue) {
-                // console.log(newValue.getAuth)
-                this.auth = this.auth_store.getAuth
+                console.log(newValue.getAuth)
+                this.auth = newValue.getAuth
+                this.user = JSON.parse(newValue.getUser)
             }
         }
     },
     async mounted() {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
+            // console.log(this.auth.user)
+            this.user = JSON.parse(this.auth_store.getUser)
+            if(this.user.role == "employee" ||
+                this.user.role == "account" ||
+                this.user.role == "manager") {
+                console.log("authorized");
+            } else {
+                this.$router.push("/");
+            }
+            
+            // console.log(this.user);
         } else {
             this.auth = null
+            this.user = null
             this.$router.push("/login")
         }
 

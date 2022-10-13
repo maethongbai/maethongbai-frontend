@@ -5,7 +5,7 @@
     <router-link to="/logout">Logout</router-link>
 </div>
 
-<div v-else>
+<div v-else class="center">
     <router-link to="/login">Please Login</router-link>
 </div>
 </template>
