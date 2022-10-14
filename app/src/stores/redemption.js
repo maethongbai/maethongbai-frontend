@@ -36,6 +36,14 @@ export const useRedemptionStore = defineStore("redemptions", {
         }
 	      return false
     },
+    async editCheckStatus (id, check_status) {
+      const obj = {
+        id,
+        check_status
+      }
+      const response = await redemptionAPI.saveEdit(id, obj)
+      this.redemptions = await redemptionAPI.getAll()
+  },
     delete (id) {
       this.redemptions = this.redemptions.filter(redemption => redemption.id != id)
     },

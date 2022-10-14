@@ -85,6 +85,15 @@ export const redemptionAPI = {
       success: false
     }
   },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/redemptions/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
   async getID (id) {
     const response = await axiosInstance.get(`/redemptions/${id}`)
     if (response.status == 200) {
