@@ -51,6 +51,11 @@ const router = createRouter({
       name: 'redemptions.edit',
       component: () => import('@/views/gold/redemption/EditRedemptionView.vue'),
     },
+    {
+      path: '/sale/view',
+      name: 'sale.view',
+      component: () => import('@/views/gold/sale/AllSaleView.vue'),
+    },
   ]
 })
 

@@ -103,3 +103,23 @@ export const redemptionAPI = {
     return []
   }
 }
+
+export const onsiteSaleAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/onsite_sales')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (onsite_sale) {
+    const response = await axiosInstance.post('/onsite_sales', onsite_sale)
+    if (response.status == 201) {
+      return response.data.data
+    }
+    return {
+      success: false
+    }
+  }
+
+}
