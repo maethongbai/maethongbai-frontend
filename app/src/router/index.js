@@ -51,6 +51,11 @@ const router = createRouter({
       name: 'redemptions.edit',
       component: () => import('@/views/gold/redemption/EditRedemptionView.vue'),
     },
+    {
+      path: '/redemption/create',
+      name: 'redemptions.create',
+      component: () => import('@/views/gold/redemption/CreateRedemptionView.vue'),
+    }
   ]
 })
 

@@ -5,10 +5,10 @@
 </template>
 
 <script>
-    import { useGoldStore } from '@/stores/gold.js'
+    import { useUserStore } from '@/stores/user.js'
     export default {
       setup() {
-        const gold_store = useGoldStore()
+        const gold_store = useUserStore()
         return { gold_store }
       },
       data() {
@@ -20,7 +20,7 @@
       },
       async mounted() {
         await this.gold_store.fetch()
-        this.golds = this.gold_store.getGolds
+        this.golds = this.gold_store.getUsers
         
       }
     }
