@@ -84,5 +84,13 @@ export const redemptionAPI = {
     return {
       success: false
     }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/redemptions/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
   }
 }

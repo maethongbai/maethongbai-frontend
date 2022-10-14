@@ -9,7 +9,7 @@
       <form @submit.prevent="onFormSubmit()">
         <div>
           <label>Phone</label>
-          <input type="phone" v-model="phone" required autocomplete="off">
+          <input type="text" v-model="phone" required autocomplete="off">
         </div>
   
         <div>

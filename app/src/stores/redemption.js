@@ -38,6 +38,14 @@ export const useRedemptionStore = defineStore("redemptions", {
     },
     delete (id) {
       this.redemptions = this.redemptions.filter(redemption => redemption.id != id)
+    },
+    async getID(id) {
+      const redemption = await redemptionAPI.getID(id)
+      return redemption
+    },
+    filterRedemptionsByID(redemptions, id) {
+      var filtered = [...redemptions]
+      return filtered.filter((redemption) => redemption.id == id)
     }
-  },
+  }
 })
