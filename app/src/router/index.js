@@ -44,14 +44,23 @@ const router = createRouter({
     {
       path: '/redemption/view',
       name: 'redemptions.view',
-      component: () => import('@/views/gold/redemption/AllRedemptionsView.vue'),
+      component: () => import('@/views/gold/redemption/AllRedemptionsView.vue')
     },
     {
       path: '/redemption/edit/:id',
       name: 'redemptions.edit',
-      component: () => import('@/views/gold/redemption/EditRedemptionView.vue'),
+      component: () => import('@/views/gold/redemption/EditRedemptionView.vue')
     },
     {
+      path: '/stock/view',
+      name: 'stock.view',
+      component: () => import('@/views/gold/stock/AllStockView.vue')
+    },
+    {
+      path: '/redemption/create',
+      name: 'redemptions.create',
+      component: () => import('@/views/gold/redemption/CreateRedemptionView.vue'),
+    },
       path: '/sale/view',
       name: 'sale.view',
       component: () => import('@/views/gold/sale/AllSaleView.vue'),

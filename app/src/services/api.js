@@ -42,8 +42,7 @@ export const authAPI = {
   async getUser (id) {
     const response = await axiosInstance.get(`/users/${id}`)
     if (response.status == 200) {
-      // console.log(response.data);
-      return response.data
+      return response.data.data
     }
     return []
   }
@@ -53,14 +52,16 @@ export const goldAPI = {
   async getAll () {
     const response = await axiosInstance.get('/golds')
     if (response.status == 200) {
-      return response.data
+      return response.data.data
     }
     return []
   },
   async saveNew (gold) {
+    console.log(gold)
     const response = await axiosInstance.post('/golds', gold)
     if (response.status == 201) {
       return response.data
+      // return response.data.data
     }
     return {
       success: false
@@ -72,11 +73,12 @@ export const redemptionAPI = {
   async getAll () {
     const response = await axiosInstance.get('/redemptions')
     if (response.status == 200) {
-      return response.data
+      return response.data.data
     }
     return []
   },
   async saveNew (redemption) {
+    // console.log(redemption)
     const response = await axiosInstance.post('/redemptions', redemption)
     if (response.status == 201) {
       return response.data
@@ -101,9 +103,92 @@ export const redemptionAPI = {
       return response.data.data
     }
     return []
+  },
+  async getNextID() {
+    const response = await axiosInstance.get('/redemptions')
+    var redemptions = null;
+    if (response.status == 200) {
+      redemptions = response.data.data
+      // console.log(redemptions)
+    }
+    if (redemptions != null) {
+      var id = 1
+      redemptions.forEach(element => {
+        id = id + 1
+      });
+      return id
+    }
+    return null
   }
 }
 
+export const goldTypeAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/gold_types')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  }
+}
+
+export const goldPatternAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/gold_patterns')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  }
+}
+
+export const goldPriceAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/gold_prices')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+  async getLast () {
+    const response = await axiosInstance.get('/gold_prices')
+    if (response.status == 200) {
+      var array = response.data
+      var sliced = array.slice(-1)[0] 
+      return sliced
+    }
+    return []
+  }
+}
+
+export const userAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/users')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (user) {
+    const response = await axiosInstance.post('/users', user)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/users/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+}
+      
 export const onsiteSaleAPI = {
   async getAll () {
     const response = await axiosInstance.get('/onsite_sales')
@@ -132,7 +217,7 @@ export const onlineSaleAPI = {
     }
     return []
   },
-  async saveNew (onsite_sale) {
+  async saveNew (online_sale) {
     const response = await axiosInstance.post('/online_sales', online_sale)
     if (response.status == 201) {
       return response.data.data
@@ -140,6 +225,5 @@ export const onlineSaleAPI = {
     return {
       success: false
     }
-  }
-
+  },
 }

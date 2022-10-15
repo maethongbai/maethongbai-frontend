@@ -10,14 +10,14 @@ export const useRedemptionStore = defineStore("redemptions", {
   
   getters: {
     getRedemptions (state) {
-      return state.redemptions.data
+      return state.redemptions
     },
     filterChecking (state) {
-      var filtered = [...state.redemptions.data]
+      var filtered = [...state.redemptions]
       return filtered.filter((redemption) => redemption.check_status == "รอตรวจสอบ")
     },
     filterConfirmed (state) {
-      var filtered = [...state.redemptions.data]
+      var filtered = [...state.redemptions]
       return filtered.filter((redemption) => redemption.check_status == "ผ่านการตรวจสอบ")
     }
   },
@@ -27,11 +27,13 @@ export const useRedemptionStore = defineStore("redemptions", {
         this.redemptions = await redemptionAPI.getAll()
     },
     async add (redemption) {
+      // console.log(redemption)
         const response = await redemptionAPI.saveNew(redemption)
         if (response.success) {
-          this.redemptions.push({
-            ...redemption
-          })
+          // this.redemptions.push({
+          //   ...redemption
+          // })
+          this.redemptions = await redemptionAPI.getAll()
           return response.redemption_id
         }
 	      return false
@@ -54,6 +56,10 @@ export const useRedemptionStore = defineStore("redemptions", {
     filterRedemptionsByID(redemptions, id) {
       var filtered = [...redemptions]
       return filtered.filter((redemption) => redemption.id == id)
-    }
+    },
+    async getNextID() {
+      const nextID = await redemptionAPI.getNextID()
+      return nextID
+    },
   }
 })

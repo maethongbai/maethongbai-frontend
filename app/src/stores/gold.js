@@ -11,19 +11,7 @@ export const useGoldStore = defineStore("golds", {
   getters: {
     getGolds (state) {
       return state.golds
-    },
-    // sortByPoint (state) {
-    //   const sortable = [...state.golds]
-    //   return sortable.sort((a, b) => {
-    //     return a.point - b.point
-    //   })
-    // },
-	// 	sortByName (state) {
-	// 		const sortable = [...state.rewards]
-	// 		return sortable.sort((a, b) => {
-    //     return (a.name).localeCompare(b.name)
-    //   })
-    // }
+    }
   },
 
   actions: {
@@ -31,11 +19,14 @@ export const useGoldStore = defineStore("golds", {
         this.golds = await goldAPI.getAll()
     },
     async add (gold) {
+      // console.log(gold)
         const response = await goldAPI.saveNew(gold)
         if (response.success) {
-          this.golds.push({
-            ...gold
-          })
+          // this.golds.push({
+          //   ...gold
+          // })
+          this.golds = await goldAPI.getAll()
+          // console.log(response)
           return response.gold_id
         }
 	      return false
