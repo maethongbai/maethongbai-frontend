@@ -52,7 +52,7 @@ export const goldAPI = {
   async getAll () {
     const response = await axiosInstance.get('/golds')
     if (response.status == 200) {
-      return response.data
+      return response.data.data
     }
     return []
   },
@@ -60,8 +60,8 @@ export const goldAPI = {
     console.log(gold)
     const response = await axiosInstance.post('/golds', gold)
     if (response.status == 201) {
-      // console.log("api.js ".response)
       return response.data
+      // return response.data.data
     }
     return {
       success: false
