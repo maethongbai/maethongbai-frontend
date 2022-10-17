@@ -227,3 +227,30 @@ export const onlineSaleAPI = {
     }
   },
 }
+
+export const customOrderAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/custom_orders')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (custom_order) {
+    const response = await axiosInstance.post('/custom_orders', custom_order)
+    if (response.status == 201) {
+      return response.data.data
+    }
+    return {
+      success: false
+    }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/custom_orders/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  }
+}

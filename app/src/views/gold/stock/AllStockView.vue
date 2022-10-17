@@ -1,35 +1,35 @@
 <template>
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
         <thead class="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" class="px-6 py-3">
                     ลำดับ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" class="px-6 py-3">
                     ชื่อสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" class="px-6 py-3">
                     จำนวนคงเหลือ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" class="px-6 py-3">
                     พนักงานเจ้าของ
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="gold in golds" class="bg-blue-600 border-b border-blue-400 hover:bg-blue-500">
-                <th scope="row" class="py-4 px-6 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                     {{ gold.id }}
                 </th>
-                <td class="py-4 px-6">
+                <td class="px-6 py-4">
                     {{ gold.name }}
                 </td>
-                <td class="py-4 px-6">
+                <td class="px-6 py-4">
                     คงเหลือ
                 </td>
-                <td class="py-4 px-6">
-                    {{ gold.employee_add_stock.nickname }}
+                <td class="px-6 py-4">
+                    {{ gold.employee_add_stock }}
                 </td>
             </tr>
         </tbody>
@@ -60,7 +60,7 @@ export default {
             immediate: true,
             deep: true,
             handler(newValue, oldValue) {
-                console.log(newValue.getAuth)
+                // console.log(newValue.getAuth)
                 this.auth = newValue.getAuth
                 this.user = JSON.parse(newValue.getUser)
             }
@@ -85,6 +85,17 @@ export default {
         
         await this.gold_store.fetch()
         this.golds = this.gold_store.getGolds
+        var i = 1;
+        while (1 < 30) {
+            console.log(this.golds[i].employee_add_stock.nickname)
+            i = i+1;           
+        }
+
+        // var ind = 0;
+        // for (var gold in this.golds) {
+        //     console.log(this.golds[ind].employee_add_stock.nickname)
+        //     ind += 1
+        // }
 
     }
 }

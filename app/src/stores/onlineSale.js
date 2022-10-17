@@ -15,8 +15,8 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
     },
 
     getTrackingEmployee (state) {
-        console.log(state.onlineSales.)
-        return state.onlineSales.
+        // console.log(state.onlineSales)
+        return state.onlineSales
     }
 
   },
@@ -38,13 +38,5 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
     delete (id) {
       this.onlineSales = this.onlineSales.filter(onlineSale => onlineSale.id != id)
     },
-    // async getID(id) {
-    //   const redemption = await redemptionAPI.getID(id)
-    //   return redemption
-    // },
-    // filterRedemptionsByID(redemptions, id) {
-    //   var filtered = [...redemptions]
-    //   return filtered.filter((redemption) => redemption.id == id)
-    // }
   }
 })
