@@ -103,22 +103,6 @@ export const redemptionAPI = {
       return response.data.data
     }
     return []
-  },
-  async getNextID() {
-    const response = await axiosInstance.get('/redemptions')
-    var redemptions = null;
-    if (response.status == 200) {
-      redemptions = response.data.data
-      // console.log(redemptions)
-    }
-    if (redemptions != null) {
-      var id = 1
-      redemptions.forEach(element => {
-        id = id + 1
-      });
-      return id
-    }
-    return null
   }
 }
 

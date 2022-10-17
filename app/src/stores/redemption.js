@@ -57,9 +57,12 @@ export const useRedemptionStore = defineStore("redemptions", {
       var filtered = [...redemptions]
       return filtered.filter((redemption) => redemption.id == id)
     },
-    async getNextID() {
-      const nextID = await redemptionAPI.getNextID()
-      return nextID
-    },
-  }
+    getNextID() {
+      var id = 1
+      this.redemptions.forEach(element => {
+        id = id + 1
+      });
+      return id
+    }
+  },
 })

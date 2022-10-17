@@ -233,7 +233,7 @@ export default {
             this.user = null
             this.$router.push("/login")
         }
-        this.redemption.id = await this.redemption_store.getNextID()
+        this.redemption.id = this.redemption_store.getNextID()
         await this.gold_type_store.fetch()
         this.gold_types = this.gold_type_store.getGoldTypes
         await this.gold_pattern_store.fetch()

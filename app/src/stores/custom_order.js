@@ -42,5 +42,12 @@ export const useCustomOrderStore = defineStore("custom_orders", {
       var filtered = [...custom_orders]
       return filtered.filter((custom_order) => custom_order.id == id)
     },
+    getNextID() {
+      var id = 1
+      this.custom_orders.forEach(element => {
+        id = id + 1
+      });
+      return id
+    }
   }
 })
