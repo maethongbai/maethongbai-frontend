@@ -232,8 +232,17 @@ export const customOrderAPI = {
   async getID (id) {
     const response = await axiosInstance.get(`/custom_orders/${id}`)
     if (response.status == 200) {
-      // console.log(response.data);
       return response.data.data
+    }
+    return []
+  }
+}
+
+export const customOrderWorkerAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/custom_order_workers')
+    if (response.status == 200) {
+      return response.data
     }
     return []
   }

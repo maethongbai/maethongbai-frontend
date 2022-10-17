@@ -203,8 +203,6 @@ export default {
                 gold_pattern: true,
                 phone_user: true,
                 create_user: false,
-                user_change_id_card_number: false,
-                user_change_address: false,
                 error_message: "",
                 user_found: false
             },
@@ -234,8 +232,7 @@ export default {
                 }
                 if (newValue > 0) {
                     this.redemption.gold.weight = newValue
-                    this.redemption.redemption_price = this.redemption.gold_redemption_price.buy_price * 90 / 100 * 0.0656 * this.redemption.gold.weight
-                    // console.log(this.redemption.gold.weight)
+                    this.redemption.redemption_price = Number(Math.round((this.redemption.gold_redemption_price.buy_price * 90 / 100 * 0.0656 * this.redemption.gold.weight)+'e2')+'e-2')
                 } else {
                     this.redemption.gold.weight = null
                 }
@@ -273,7 +270,6 @@ export default {
     },
     methods: {
         async createRedemption() {
-            
             
             // validation (select)
             if (this.redemption.gold.percentage == null ||
@@ -394,13 +390,7 @@ export default {
             this.redemption.user.id = temp_user.id
             this.redemption.user.first_name = temp_user.first_name
             this.redemption.user.last_name = temp_user.last_name
-            if (temp_user.id_card_number == null) {
-                this.checks.user_change_id_card_number = true
-            }
             this.redemption.user.id_card_number = temp_user.id_card_number
-            if (temp_user.address == null) {
-                this.checks.user_change_address = true
-            }
             this.redemption.user.address = temp_user.address
             this.checks.create_user = false
             this.checks.phone_user = true
