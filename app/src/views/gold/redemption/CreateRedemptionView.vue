@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="mx-3 my-3">
-            <label class="mx-3">วันที่รับซื้อ: {{redemption.redemption_date}}</label>
+            <label class="mx-3">วันที่รับซื้อ: {{showDate}}</label>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">ราคาทองตอนรับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
@@ -206,6 +206,7 @@ export default {
                 error_message: "",
                 user_found: false
             },
+            showDate: "",
             gold_types: [],
             gold_patterns: [],
             disabledButton: false,
@@ -262,6 +263,7 @@ export default {
         this.gold_types = this.gold_type_store.getGoldTypes
         await this.gold_pattern_store.fetch()
         this.gold_patterns = this.gold_pattern_store.getGoldPatterns
+        this.showDate = moment().format("DD/MM/YYYY")
         var formattedDate = moment().format("YYYY-MM-DD")
         this.redemption.redemption_date = formattedDate
         this.redemption.gold_redemption_price = await this.gold_price_store.getLast()
