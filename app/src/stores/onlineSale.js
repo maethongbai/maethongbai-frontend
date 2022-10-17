@@ -13,12 +13,17 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       console.log(state.onlineSales)
       return state.onlineSales
     },
-
     getTrackingEmployee (state) {
-        // console.log(state.onlineSales)
         return state.onlineSales
+    },
+    filterDelivery (state) {
+      var filtered = [...state.onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.delivery_status == "จัดส่งสำเร็จ")
+    },
+    filterNotDelivery (state) {
+      var filtered = [...state.onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.delivery_status != "จัดส่งสำเร็จ")
     }
-
   },
 
   actions: {
@@ -38,5 +43,17 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
     delete (id) {
       this.onlineSales = this.onlineSales.filter(onlineSale => onlineSale.id != id)
     },
+    async getID(id) {
+      const onlineSale = await onlineSaleAPI.getID(id)
+      return onlineSale
+    },
+    filterRedemptionsByID(onlineSales, id) {
+      var filtered = [...onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.id == id)
+    },
+    async getNextID() {
+      const nextID = await onlineSaleAPI.getNextID()
+      return nextID
+    }
   }
 })
