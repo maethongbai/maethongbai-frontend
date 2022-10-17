@@ -327,7 +327,7 @@ export default {
                 // console.log(this.image)
             }
         },
-        findUser() {
+        findUser(e) {
             var temp_user = this.user_store.findByPhone(this.redemption.user.phone)
             if (temp_user == undefined ||
                 temp_user == null) {
@@ -351,6 +351,7 @@ export default {
             }
             this.redemption.user.address = temp_user.address
             this.checks.create_user = false
+            e.preventDefault();
         }
     }
 }

@@ -1,0 +1,46 @@
+import { defineStore } from 'pinia'
+import { customOrderAPI } from '@/services/api.js'
+
+export const useCustomOrderStore = defineStore("custom_orders", {
+  state: () => {
+    return {
+      custom_orders: []
+    }
+  },
+  
+  getters: {
+    getCustomOrders (state) {
+      return state.custom_orders
+    },
+    filterNotSent (state) {
+      var filtered = [...state.custom_orders]
+      return filtered.filter((custom_order) => (custom_order.delivery_date == null))
+    },
+    filterSent (state) {
+      var filtered = [...state.custom_orders]
+      return filtered.filter((custom_order) => (custom_order.delivery_date != null))
+    },
+  },
+
+  actions: {
+    async fetch () {
+        this.custom_orders = await customOrderAPI.getAll()
+    },
+    async add (custom_order) {
+        const response = await customOrderAPI.saveNew(custom_order)
+        if (response.success) {
+          this.custom_orders = await customOrderAPI.getAll()
+          return response.custom_order_id
+        }
+	    return false
+    },
+    async getID(id) {
+      const custom_order = await customOrderAPI.getID(id)
+      return custom_order
+    },
+    filterCustomOrdersByID(custom_orders, id) {
+      var filtered = [...custom_orders]
+      return filtered.filter((custom_order) => custom_order.id == id)
+    },
+  }
+})

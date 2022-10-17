@@ -13,6 +13,9 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       console.log(state.onlineSales)
       return state.onlineSales
     },
+    getTrackingEmployee (state) {
+        return state.onlineSales
+    },
     filterDelivery (state) {
       var filtered = [...state.onlineSales]
       return filtered.filter((onlineSale) => onlineSale.delivery_status == "จัดส่งสำเร็จ")
