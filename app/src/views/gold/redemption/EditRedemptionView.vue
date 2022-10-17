@@ -75,7 +75,7 @@
         <div>
             <p class="mx-1 mb-3 font-normal text-gray-700">
                 รูปบัตรประชาชน
-                <img :src="`${redemption_searched.id_card_image}`" alt="ไม่พบรูปบัตรประชาชน" width="200">
+                <img :src="`${redemption.id_card_image}`" alt="ไม่พบรูปบัตรประชาชน" width="200">
             </p>
         </div>
         <button @click="saveRedemption()" class="px-4 py-2 rounded-lg bg-lime-400">
@@ -131,6 +131,7 @@ export default {
             const response = await this.$axios.get(url)
             if (response.status === 200) {
                 this.redemption = response.data.data
+                console.log(this.redemption)
                 this.redemption_id = this.redemption.id
             }
         } catch (error) {
