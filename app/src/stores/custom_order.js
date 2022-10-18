@@ -48,6 +48,30 @@ export const useCustomOrderStore = defineStore("custom_orders", {
         id = id + 1
       });
       return id
-    }
+    },
+    async editOrderStatus (id, custom_order_status) {
+      const obj = {
+        id,
+        custom_order_status
+      }
+      const response = await customOrderAPI.saveEdit(id, obj)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
+    async editDepositStatus (id, deposit_status) {
+      const obj = {
+        id,
+        deposit_status
+      }
+      const response = await customOrderAPI.saveEdit(id, obj)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
+    async editDifferenceStatus (id, difference_status) {
+      const obj = {
+        id,
+        difference_status
+      }
+      const response = await customOrderAPI.saveEdit(id, obj)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
   }
 })

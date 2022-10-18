@@ -235,7 +235,16 @@ export const customOrderAPI = {
       return response.data.data
     }
     return []
-  }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/custom_orders/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const customOrderWorkerAPI = {
@@ -245,5 +254,5 @@ export const customOrderWorkerAPI = {
       return response.data
     }
     return []
-  }
+  },
 }

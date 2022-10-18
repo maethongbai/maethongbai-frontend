@@ -1,7 +1,7 @@
 <template>
 <div v-if='user.role == "manager"'>
     <div class="block my-5">
-        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        <router-link to="/redemptions/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
     </div>
     <div v-if="redemption != null" class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
         <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
@@ -131,7 +131,7 @@ export default {
             const response = await this.$axios.get(url)
             if (response.status === 200) {
                 this.redemption = response.data.data
-                console.log(this.redemption)
+                // console.log(this.redemption)
                 this.redemption_id = this.redemption.id
             }
         } catch (error) {
