@@ -30,6 +30,7 @@
         <label class="mx-3">ค่าแรง</label>
         <input class="mx-3" type="number" v-model="temp_wage" autocomplete="off" required>
         <label class="mx-3">บาท</label>
+        <label class="mx-3 font-medium text-red-500" v-if="error_message == 'ค่าแรงต้องไม่เป็นค่าติดลบ'"> {{error_message}}</label>
     </div>
     <div class="mx-3 my-3">
         <label class="mx-3">ราคาทองตอนสั่ง: {{custom_order.gold_order_price.sell_price}} บาท</label>
@@ -43,6 +44,8 @@
         <label class="mx-3">มัดจำ</label>
         <input class="mx-3" type="number" :disabled="checks.show_full_price != true" v-model="temp_deposit_amount" autocomplete="off" required>
         <label class="mx-3">บาท</label>
+        <label class="mx-3 font-medium text-red-500" v-if="checks.show_deposit_amount_error == true">
+            ค่ามัดจำต้องมีค่าระหว่าง {{custom_order.min_deposit_amount}} - {{custom_order.max_deposit_amount}} บาท</label>
     </div>
     <div class="mx-3 my-3">
         <label class="ml-3">ส่วนต่าง: </label>
@@ -52,6 +55,10 @@
     <div class="mx-3 my-3">
         <label class="mx-3">วันที่เสร็จ</label>
         <Datepicker v-model="custom_order.finish_date" :format="date_format"></Datepicker>
+        <label class="mx-3 font-medium text-red-500" v-if="error_message == 'กรุณาเลือกวันที่เสร็จที่อยู่ในอนาคต'"> {{error_message}}</label>
+    </div>
+    <div class="mx-3 my-3">
+        <label class="mx-3">วันที่สั่ง: {{dates.show_date}}</label>
     </div>
     <div class="mx-3 my-3">
         <label class="mx-3">ช่างที่รับผลิต</label>
@@ -61,13 +68,15 @@
         </select>
         <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="custom_order.custom_order_worker == ''">กรุณาเลือกช่างที่รับผลิต</label>
     </div>
+    <label class="mx-3 my-3 font-medium text-red-500" v-if="error_message == 'กรุณาเลือกช่องทางการชำระเงินมัดจำ'"> {{error_message}}</label>
     <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
         ช่องทางการชำระมัดจำ
     </h5>
     <div class="mx-3 my-3">
         <input v-model="checks.credit_card_check" :disabled="checks.cash_check == true ||
                    checks.transfer_check == true ||
-                   checks.valid_deposit_amount != true" type="checkbox" class="brand">
+                   checks.valid_deposit_amount != true ||
+                   custom_order.deposit_total_amount < 0" type="checkbox" class="brand">
         <label class="mx-3 my-3">บัตรเครดิต</label>
         <div v-if="checks.credit_card_check == true">
             <label class="mx-3 my-3">ประเภท</label>
@@ -96,39 +105,46 @@
     <div class="mx-3 my-3">
         <input v-model="checks.cash_check" :disabled="checks.credit_card_check == true ||
                    checks.transfer_check == true ||
-                   checks.valid_deposit_amount != true" type="checkbox" class="brand">
+                   checks.valid_deposit_amount != true ||
+                   custom_order.deposit_total_amount < 0" type="checkbox" class="brand">
         <label class="mx-3 my-3">เงินสด</label>
         <div v-if="checks.cash_check == true">
             <div>
-                <label class="mx-3 my-3">ราคาสุทธิ: {{custom_order.deposit_total_amount}} บาท</label>
+                <label class="my-3 ml-3">ราคาสุทธิ: </label>
+                <label class="inline" v-if="checks.valid_deposit_amount == true">{{custom_order.deposit_total_amount}} บาท</label>
+                <label class="inline" v-else>-</label>
             </div>
             <div>
                 <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
-                <input class="mx-3 my-3" type="text" :required="checks.cash_check != true" v-model="custom_order.cash.paid_amount" autocomplete="off">
+                <input class="mx-3 my-3" type="text" :required="checks.cash_check != true" v-model="temp_paid_amount" autocomplete="off">
                 <label class="mx-3 my-3">บาท</label>
+                <label class="mx-3 font-medium text-red-500" v-if="error_message == 'ค่าเงินที่ลูกค้าจ่ายต้องไม่เป็นค่าติดลบ'"> {{error_message}}</label>
             </div>
             <div>
-                <label class="mx-3 my-3">เงินทอน</label>
-                <input class="mx-3 my-3" type="text" :required="checks.cash_check != true" v-model="custom_order.cash.change_amount" autocomplete="off">
-                <label class="mx-3 my-3">บาท</label>
+                <label class="my-3 ml-3">เงินทอน: </label>
+                <label class="inline" v-if="checks.valid_paid_amount == true">{{custom_order.cash.change_amount}} บาท</label>
+                <label class="inline" v-else>-</label>
             </div>
         </div>
     </div>
     <div class="mx-3 my-3">
         <input v-model="checks.transfer_check" :disabled="checks.credit_card_check == true ||
                    checks.cash_check == true ||
-                   checks.valid_deposit_amount != true" type="checkbox" class="brand">
+                   checks.valid_deposit_amount != true ||
+                   custom_order.deposit_total_amount < 0" type="checkbox" class="brand">
         <label class="mx-3 my-3">โอน</label>
         <div v-if="checks.transfer_check == true">
             <div class="mx-3 my-3">
                 <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
                 <img :src="`${custom_order.transfer.slip_image}`" width="200">
             </div>
+            <label class="mx-3 font-medium text-red-500" v-if="error_message == 'กรุณาอัปโหลดรูปสลิป'"> {{error_message}}</label>
         </div>
     </div>
     <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
         ข้อมูลลูกค้าที่สั่ง
     </h5>
+    <label class="mx-3 my-3 font-medium text-red-500" v-if="error_message == 'กรุณาค้นหาลูกค้าด้วยเบอร์โทร'"> {{error_message}}</label>
     <div class="mx-3 my-3">
         <label class="mx-3">เบอร์โทร</label>
         <input class="mx-3" type="text" v-model="custom_order.user_phone_search" autocomplete="off" required>
@@ -237,7 +253,9 @@ export default {
                 finish_date: "",
                 order_date: null,
                 delivery_date: "-",
-                custom_order_worker: null,
+                custom_order_worker: {
+                    name: ""
+                },
                 user_phone_search: null,
                 user: {
                     id: null,
@@ -266,14 +284,17 @@ export default {
                 cash_check: false,
                 transfer_check: false,
                 valid_deposit_amount: false,
+                valid_paid_amount: false,
                 show_full_price: false,
                 show_difference_amount: false,
                 custom_order_worker_check: true,
-                user_checked: true
+                user_checked: true,
+                show_deposit_amount_error: false
             },
             temp_deposit_amount: null,
             temp_wage: null,
             temp_weight: null,
+            temp_paid_amount: null,
             options: {
                 custom_order_workers: [],
                 credit_card_type: [
@@ -292,6 +313,10 @@ export default {
                     "ไทยพาณิช",
                     "อื่นๆ"
                 ]
+            },
+            dates: {
+                show_date: "",
+                input_date: ""
             },
             error_message: ""
 
@@ -323,13 +348,26 @@ export default {
                 }
             }
         },
+        temp_paid_amount: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                if (newValue >= this.custom_order.deposit_total_amount) {
+                    this.custom_order.cash.paid_amount = newValue
+                    this.custom_order.cash.change_amount = this.custom_order.cash.paid_amount - this.custom_order.deposit_total_amount
+                    this.checks.valid_paid_amount = true
+                } else {
+                    this.custom_order.cash.paid_amount = -1
+                    this.checks.valid_paid_amount = false
+                }
+            }
+        },
         temp_wage: {
             immediate: true,
             deep: true,
             handler(newValue, oldValue) {
                 if (newValue >= 0 &&
                     newValue != null) {
-
                     this.custom_order.wage = newValue
                     if (this.custom_order.weight > 0) {
                         this.custom_order.full_price = Number(Math.round(((this.custom_order.gold_order_price.sell_price / 15.16 * this.custom_order.weight) + this.custom_order.wage) + 'e2') + 'e-2')
@@ -388,8 +426,9 @@ export default {
         this.custom_order.id = this.custom_order_store.getNextID()
         await this.gold_price_store.fetch()
         this.custom_order.gold_order_price = await this.gold_price_store.getLast()
-        var formattedDate = moment().format("YYYY-MM-DD")
-        this.custom_order.order_date = formattedDate
+        this.dates.show_date = moment().format("DD/MM/YYYY")
+        this.dates.input_date = moment().format("YYYY-MM-DD")
+        this.custom_order.order_date = this.dates.input_date
         await this.custom_order_worker_store.fetch()
         this.options.custom_order_workers = this.custom_order_worker_store.getCustomOrderWorkers
         await this.user_store.fetch()
@@ -414,11 +453,16 @@ export default {
                 this.error_message = 'ค่าแรงต้องไม่เป็นค่าติดลบ'
                 return
             }
-            if (this.temp_deposit_amount < 0 ||
-                this.checks.valid_deposit_amount) {
-                this.error_message = 'ค่ามัดจำต้องมีค่าระหว่าง ' +
-                    this.custom_order.min_deposit_amount + ' - ' +
-                    this.custom_order.max_deposit_amount + ' บาท'
+            if (this.custom_order.deposit_total_amount < this.custom_order.min_deposit_amount ||
+                this.custom_order.deposit_total_amount > this.custom_order.max_deposit_amount) {
+                this.checks.show_deposit_amount_error = true
+                return
+            }
+            this.checks.show_deposit_amount_error = false
+            var finish_date = new Date(this.custom_order.finish_date)
+            var today = new Date(moment()._d)
+            if (finish_date.getTime() <= today.getTime()) {
+                this.error_message = 'กรุณาเลือกวันที่เสร็จที่อยู่ในอนาคต'
                 return
             }
             if (this.checks.credit_card_check == false &&
@@ -428,12 +472,8 @@ export default {
                 return
             }
             if (this.checks.cash_check == true) {
-                if (this.custom_order.cash.paid_amount < 0) {
+                if (this.temp_paid_amount < 0) {
                     this.error_message = 'ค่าเงินที่ลูกค้าจ่ายต้องไม่เป็นค่าติดลบ'
-                    return
-                }
-                if (this.custom_order.cash.change_amount < 0) {
-                    this.error_message = 'ค่าเงินทอนต้องไม่เป็นค่าติดลบ'
                     return
                 }
             }
@@ -450,15 +490,56 @@ export default {
             }
 
             // create custom order
-            var custom_order = {
+            var custom_order_obj = {
                 name: this.custom_order.name,
                 type: this.custom_order.type,
                 weight: this.custom_order.weight,
                 wage: this.custom_order.wage,
-                full_price: this.custom_order.full_price
+                gold_order_price_id: this.custom_order.gold_order_price.id,
+                full_price: this.custom_order.full_price,
+                deposit_total_amount: this.custom_order.deposit_total_amount,
+                difference_amount: this.custom_order.difference_amount,
+                finish_date: finish_date.getFullYear() + '-' +
+                             finish_date.getMonth() + '-'  +
+                             finish_date.getDate(),
+                order_date: this.dates.input_date,
+                custom_order_worker_id: this.custom_order_worker_store.findByName(this.custom_order.custom_order_worker.name),
+                deposit_payment_method: null,
+                deposit_credit_card_type: null,
+                deposit_bank_name: null,
+                deposit_paid_amount: null,
+                deposit_change_amount: null,
+                deposit_slip_image: null,
+                user_id: this.custom_order.user.id,
+                employee_id: this.user.employee.id
             }
-
-            await this.auth_store.isAuthen
+            if (this.checks.credit_card_check == true) {
+                custom_order_obj.deposit_payment_method = "credit card"
+                if (this.custom_order.credit_card.type == "อื่นๆ") {
+                    custom_order_obj.deposit_credit_card_type = this.custom_order.credit_card.custom_type
+                } else {
+                    custom_order_obj.deposit_credit_card_type = this.custom_order.credit_card.type
+                }
+                if (this.custom_order.credit_card.bank_name == "อื่นๆ") {
+                    custom_order_obj.deposit_bank_name = this.custom_order.credit_card.custom_bank_name
+                } else {
+                    custom_order_obj.deposit_bank_name = this.custom_order.credit_card.bank_name
+                }
+            } else if (this.checks.cash_check == true) {
+                custom_order_obj.deposit_payment_method = "cash"
+                custom_order_obj.deposit_paid_amount = this.custom_order.cash.paid_amount
+                custom_order_obj.deposit_change_amount = this.custom_order.cash.change_amount
+            } else if (this.checks.transfer_check == true) {
+                custom_order_obj.deposit_slip_image = this.custom_order.transfer.slip_image
+            }
+            try {
+                await this.custom_order_store.add(custom_order_obj)
+                this.$router.push("/custom_order/view");
+            } catch(error) {
+                this.error = error
+                console.error(error)
+            }
+            
         },
         onFileChange(e) {
             const reader = new FileReader()

@@ -41,12 +41,12 @@
             </select>
             <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.gold_type == false">กรุณาเลือกลายทอง</label>
         </div>
+        <label class="mx-3 my-3 font-medium text-red-500" v-if="checks.error_message == 'กรุณาเลือกว่าเป็นทองของร้านหรือเป็นทองจากที่อื่น'"> {{checks.error_message}}</label>
         <div class="mx-3 my-3">
             <input v-model="checked_brand.inside" id="ทางร้าน" :disabled="checked_brand.outside == true" type="checkbox" value="ทางร้าน" class="brand">
             <label class="mx-3">ทองของทางร้าน</label>
         </div>
         <div class="mx-3 my-3">
-            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'กรุณาเลือกว่าเป็นทองของร้านหรือเป็นทองจากที่อื่น'"> {{checks.error_message}}</label>
             <input v-model="checked_brand.outside" id="ร้านอื่น" :disabled="checked_brand.inside == true" type="checkbox" value="ร้านอื่น" class="brand">
             <label class="mx-3">ทองของร้านอื่น</label>
             <div v-if="checked_brand.outside == true" class="inline">
@@ -76,7 +76,7 @@
         </div>
         <div class="mx-3 my-3">
             <label class="ml-3">นามสกุล: </label>
-            <label class="inline" v-if="redemption.user.first_name != null">{{redemption.user.first_name}}</label>
+            <label class="inline" v-if="redemption.user.last_name != null">{{redemption.user.last_name}}</label>
             <label class="inline" v-else>-</label>
         </div>
         <div class="mx-3 my-3">
@@ -298,7 +298,7 @@ export default {
                 this.checks.error_message = "น้ำหนักทองต้องมีค่ามากกว่า 0"
                 return;
             }
-            if (this.checked_brand.inside == false ||
+            if (this.checked_brand.inside == false &&
                 this.checked_brand.outside == false) {
                 this.checks.error_message = "กรุณาเลือกว่าเป็นทองของร้านหรือเป็นทองจากที่อื่น"
                 return;
@@ -316,7 +316,7 @@ export default {
                 this.checks.error_message = "ที่อยู่ไม่ถูกต้อง"
                 return;
             }
-            if (this.redemption.user.id_card_image == null) {
+            if (this.redemption.id_card_image == null) {
                 this.checks.error_message = "กรุณาใส่รูปบัตรประชาชน"
                 return;
             }

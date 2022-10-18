@@ -184,7 +184,7 @@ export const onsiteSaleAPI = {
   async saveNew (onsite_sale) {
     const response = await axiosInstance.post('/onsite_sales', onsite_sale)
     if (response.status == 201) {
-      return response.data.data
+      return response.data
     }
     return {
       success: false
@@ -204,7 +204,7 @@ export const onlineSaleAPI = {
   async saveNew (online_sale) {
     const response = await axiosInstance.post('/online_sales', online_sale)
     if (response.status == 201) {
-      return response.data.data
+      return response.data
     }
     return {
       success: false
@@ -223,7 +223,7 @@ export const customOrderAPI = {
   async saveNew (custom_order) {
     const response = await axiosInstance.post('/custom_orders', custom_order)
     if (response.status == 201) {
-      return response.data.data
+      return response.data
     }
     return {
       success: false
