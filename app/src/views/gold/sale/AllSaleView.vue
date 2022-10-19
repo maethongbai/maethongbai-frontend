@@ -2,6 +2,20 @@
     <br>
     <br>
     <h1 class="text-3xl">รายการขายหน้าร้าน</h1>
+    <br>
+    <div>
+        <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+    </div>
+    <br>
     <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
@@ -75,6 +89,20 @@
     <br>
     <br>
     <h1 class="text-3xl">รายการขายออนไลน์</h1>
+    <br>
+    <div>
+        <form @submit.prevent="onlineSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input class="mx-3" type="text" v-model="online_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+    </div>
+    <br>
     <p>รายการขายออนไลน์ส่งมอบให้ลูกค้าไม่สำเร็จ</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
@@ -82,6 +110,8 @@
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> ชื่อลูกค้า </th>
                 <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> สถานะคำสั่งซื้อ </th>
+                <th class="border border-green-700"> สถานะสินค้า </th>
                 <th class="border border-green-700"> พนักงาน </th>
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
@@ -91,7 +121,10 @@
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onlineSale.gold.name}}</td>
-                <td class="border border-green-700">{{onlineSale.tracking_id_employee}}</td>
+                <td class="border border-green-700">{{onlineSale.transfer_status}}</td>
+                <td class="border border-green-700">{{onlineSale.delivery_status}}</td>
+                <td class="border border-green-700" v-if="onlineSale.tracking_id_employee != null">{{onlineSale.tracking_id_employee.nickname}}</td>
+                <td class="border border-green-700" v-else>-</td>
                 <td class="border border-green-700">{{onlineSale.transfer_note}}</td>
             </tr>
         </tbody>
@@ -103,6 +136,7 @@
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> ชื่อลูกค้า </th>
                 <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> สถานะคำสั่งซื้อ </th>
                 <th class="border border-green-700"> พนักงาน </th>
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
@@ -112,7 +146,9 @@
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onlineSale.gold.name}}</td>
-                <td class="border border-green-700">{{onlineSale.tracking_id_employee}}</td>
+                <td class="border border-green-700">{{onlineSale.transfer_status}}</td>
+                <td class="border border-green-700" v-if="onlineSale.tracking_id_employee != null">{{onlineSale.tracking_id_employee.nickname}}</td>
+                <td class="border border-green-700" v-else>-</td>
                 <td class="border border-green-700">{{onlineSale.transfer_note}}</td>
             </tr>
         </tbody>
@@ -146,15 +182,18 @@ export default {
             user: null,
             onsiteSales: null,
             onlineSales: null,
-            onsiteSales_search: null,
+            onsiteSale_search: null,
             onsiteSales_checking: null,
             onsiteSales_problem: null,
             onsiteSales_confirm: null,
-            onlineSales_search: null,
+            onlineSale_search: null,
             onlineSales_delivery: null,
             onlineSales_not_delivery: null,
             tracking_employee: null,
             error: null,
+            disabledSearchButton: false,
+            onsite_SearchID: null,
+            online_SearchID: null
         }
     },
     watch: {
@@ -194,13 +233,57 @@ export default {
         this.onlineSales_not_delivery = this.onlineSale_store.filterNotDelivery
 
     },
-    // methods: {
-    //     async searchID() {
-    //         this.error = null
-    //         this.disabledSearchButton = true
-    //         if (this.)
-    //     }
-    // }
+    methods: {
+        async onsiteSearchID() {
+            console.log("opallers")
+            this.error = null
+            this.disabledSearchButton = true
+            if (this.onsite_SearchID == null ||
+                this.onsite_SearchID == "") {
+                    this.onsiteSale_search = null
+                    this.$router.go(0)
+            }
+            try {
+                console.log("opaller")
+                this.onsiteSale_search = await this.onsiteSale_store.getID(this.onsite_SearchID)
+                console.log("opaller")
+                this.onsiteSales_checking = this.onsiteSale_store.filterChecking
+                console.log("opaller")
+                this.onsiteSales_problem = this.onsiteSale_store.filterProblem
+                this.onsiteSales_confirm = this.onsiteSale_store.filterConfirm
+                this.onsiteSales_checking = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_checking, this.onsite_SearchID)
+                this.onsiteSales_problem = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_problem, this.onsite_SearchID)
+                this.onsiteSales_confirm = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_confirm, this.onsite_SearchID)
+            } catch (error) {
+                this.error = error.message
+                this.disabledSearchButton = false
+               
+            }
+        },
+        async onlineSearchID() {
+            console.log("opallers")
+            this.error = null
+            this.disabledSearchButton = true
+            if (this.online_SearchID == null ||
+                this.online_SearchID == "") {
+                    this.onlineSale_search = null
+                    this.$router.go(0)
+            }
+            try {
+                console.log("opaller_line")
+                this.onlineSale_search = await this.onlineSale_store.getID(this.online_SearchID)
+                console.log("opaller_line2")
+                this.onlineSales_delivery = this.onlineSale_store.filterDelivery
+                this.onlineSales_not_delivery = this.onlineSale_store.filterNotDelivery
+                this.onlineSales_delivery = this.onlineSale_store.filterOnlineByID(this.onlineSales_delivery, this.online_SearchID)
+                this.onlineSales_not_delivery = this.onlineSale_store.filterOnlineByID(this.onlineSales_not_delivery, this.online_SearchID)
+            } catch (error) {
+                this.error = error.message
+                this.disabledSearchButton = false
+               
+            }
+        }
+    }
 }
 </script>
 

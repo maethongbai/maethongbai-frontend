@@ -205,8 +205,15 @@ export const onsiteSaleAPI = {
     return {
       success: false
     }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/onsite_sales/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
   }
-
 }
 
 export const onlineSaleAPI = {
@@ -226,6 +233,14 @@ export const onlineSaleAPI = {
       success: false
     }
   },
+  async getID (id) {
+    const response = await axiosInstance.get(`/online_sales/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  }
 }
 
 export const customOrderAPI = {
