@@ -183,18 +183,35 @@ user.role == "manager"'>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
                 วันที่สั่ง: {{custom_order_searched.order_date}}
             </p>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                วันที่ส่งมอบ: {{custom_order_searched.delivery_date}}
-            </p>
+            <div class="mx-1 mb-3 font-normal text-gray-700">
+                <p class="inline">
+                    วันที่ส่งมอบ:
+                </p>
+                <p class="inline" v-if="custom_order_searched.delivery_date != null">
+                    {{custom_order_searched.delivery_date}}
+                </p>
+                <p class="inline" v-else>
+                    -
+                </p>
+            </div>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
                 ช่างที่ผลิต: {{custom_order_searched.custom_order_worker.name}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
                 ช่องทางการชำระเงินมัดจำ: {{custom_order_searched.deposit_payment_method}}
             </p>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ช่องทางการชำระเงินส่วนต่าง: {{custom_order_searched.difference_paymeny_method}}
-            </p>
+
+            <div class="mx-1 mb-3 font-normal text-gray-700">
+                <p class="inline">
+                    ช่องทางการชำระเงินส่วนต่าง:
+                </p>
+                <p class="inline" v-if="custom_order_searched.difference_paymeny_method != null">
+                    {{custom_order_searched.difference_paymeny_method}}
+                </p>
+                <p class="inline" v-else>
+                    -
+                </p>
+            </div>
             <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
                 ข้อมูลลูกค้า
             </h5>
@@ -238,9 +255,18 @@ user.role == "manager"'>
                 </p>
             </div>
 
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
+            <div class="mx-1 mb-3 font-normal text-gray-700">
+                <p class="inline">
                 พนักงานที่รับผิดชอบ: {{custom_order_searched.employee.nickname}}
-            </p>
+                </p>
+                <p class="inline" v-if="custom_order_searched.employee != null">
+                    {{custom_order_searched.employee.nickname}}
+                </p>
+                <p class="inline" v-else>
+                    -
+                </p>
+            </div>
+            
             <div v-if="user.role == 'manager'"
             class="py-3">
                 <a v-bind:href="'/custom_order/edit/'+custom_order_searched.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
@@ -260,7 +286,7 @@ user.role == "manager"'>
                     </svg>
                 </a>
             </div>
-            <div class="py-3">
+            <div class="py-3" v-if="custom_order_searched.delivery_date == null">
                 <a v-bind:href="'/custom_order/edit_customer/'+custom_order_searched.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                     ลูกค้ามารับสินค้า
                     <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

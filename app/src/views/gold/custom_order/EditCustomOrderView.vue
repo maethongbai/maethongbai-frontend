@@ -84,10 +84,9 @@ user.role == "manager"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนมัดจำ</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="deposit_status">
                 <option disabled value="">กรุณาเลือกสถานะโอนมัดจำ</option>
-                <option value="รับเรื่อง">รับเรื่อง</option>
-                <option value="กำลังผลิต">กำลังผลิต</option>
-                <option value="เสร็จสิ้น">เสร็จสิ้น</option>
-                <option value="ยกเลิก">ยกเลิก</option>
+                <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
+                <option value="ผ่านการตรวจสอบ">ผ่านการตรวจสอบ</option>
+                <option value="ไม่ผ่านการตรวจสอบ">ไม่ผ่านการตรวจสอบ</option>
             </select>
         </div>
         <div v-if="custom_order.deposit_payment_method == 'credit card'">
@@ -116,10 +115,9 @@ user.role == "manager"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนส่วนต่าง</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="difference_status">
                 <option disabled value="">กรุณาเลือกสถานะโอนส่วนต่าง</option>
-                <option value="รับเรื่อง">รับเรื่อง</option>
-                <option value="กำลังผลิต">กำลังผลิต</option>
-                <option value="เสร็จสิ้น">เสร็จสิ้น</option>
-                <option value="ยกเลิก">ยกเลิก</option>
+                <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
+                <option value="ผ่านการตรวจสอบ">ผ่านการตรวจสอบ</option>
+                <option value="ไม่ผ่านการตรวจสอบ">ไม่ผ่านการตรวจสอบ</option>
             </select>
         </div>
         <div v-if="custom_order.difference_payment_method == 'credit card'">

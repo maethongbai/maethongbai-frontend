@@ -73,5 +73,26 @@ export const useCustomOrderStore = defineStore("custom_orders", {
       const response = await customOrderAPI.saveEdit(id, obj)
       this.custom_orders = await customOrderAPI.getAll()
     },
+    async editDifferenceValues (id, difference_values) {
+      const obj = {
+        id,
+        difference_payment_method: difference_values.difference_payment_method,
+        difference_paid_amount: difference_values.difference_paid_amount,
+        difference_change_amount: difference_values.difference_change_amount,
+        difference_credit_card_type: difference_values.difference_credit_card_type,
+        difference_bank_name: difference_values.difference_bank_name,
+        difference_slip_image: difference_values.difference_slip_image
+      }
+      const response = await customOrderAPI.saveEdit(id, obj)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
+    async editDeliveryDate (id, delivery_date) {
+      const obj = {
+        id,
+        delivery_date
+      }
+      const response = await customOrderAPI.saveEdit(id, obj)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
   }
 })

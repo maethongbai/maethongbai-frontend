@@ -116,7 +116,7 @@
             </div>
             <div>
                 <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
-                <input class="mx-3 my-3" type="text" :required="checks.cash_check != true" v-model="temp_paid_amount" autocomplete="off">
+                <input class="mx-3 my-3" type="text" :required="checks.cash_check == true" v-model="temp_paid_amount" autocomplete="off">
                 <label class="mx-3 my-3">บาท</label>
                 <label class="mx-3 font-medium text-red-500" v-if="error_message == 'ค่าเงินที่ลูกค้าจ่ายต้องไม่เป็นค่าติดลบ'"> {{error_message}}</label>
             </div>
@@ -503,7 +503,7 @@ export default {
                              finish_date.getMonth() + '-'  +
                              finish_date.getDate(),
                 order_date: this.dates.input_date,
-                custom_order_worker_id: this.custom_order_worker_store.findByName(this.custom_order.custom_order_worker.name),
+                custom_order_worker_id: this.custom_order_worker_store.findByName(this.custom_order.custom_order_worker.name).id,
                 deposit_payment_method: null,
                 deposit_credit_card_type: null,
                 deposit_bank_name: null,
