@@ -9,7 +9,7 @@
       <form @submit.prevent="onFormSubmit()">
         <div>
           <label>Phone</label>
-          <input type="phone" v-model="phone" required autocomplete="off">
+          <input type="text" v-model="phone" required autocomplete="off">
         </div>
   
         <div>
@@ -48,10 +48,15 @@
         this.disabledButton = true
         try {
           if (await this.auth_store.login(this.phone, this.password)) {
+            // if (this.auth_store.isAuthen) {
+            //   // this.$router.push('/')
+            // }
             this.$router.push('/')
+            
           } else {
             this.disabledButton = false
           }
+          
         } catch (error) {
           this.error = error.message
           this.disabledButton = false

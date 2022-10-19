@@ -37,11 +37,57 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
 	  },
     {
-    path: '/logout',
-    name: 'logout',
-    component: () => import('@/views/LogoutView.vue')
-    }
+      path: '/logout',
+      name: 'logout',
+      component: () => import('@/views/LogoutView.vue')
+    },
+    {
+      path: '/redemption/view',
+      name: 'redemption.view',
+      component: () => import('@/views/gold/redemption/AllRedemptionsView.vue')
+    },
+    {
+      path: '/redemption/edit/:id',
+      name: 'redemption.edit',
+      component: () => import('@/views/gold/redemption/EditRedemptionView.vue')
+    },
+    {
+      path: '/stock/view',
+      name: 'stock.view',
+      component: () => import('@/views/gold/stock/AllStockView.vue')
+    },
+    {
+      path: '/redemption/create',
+      name: 'redemption.create',
+      component: () => import('@/views/gold/redemption/CreateRedemptionView.vue'),
+    },
+    {
+      path: '/sale/view',
+      name: 'sale.view',
+      component: () => import('@/views/gold/sale/AllSaleView.vue'),
+    },
+    {
+      path: '/custom_order/view',
+      name: 'custom_order.view',
+      component: () => import('@/views/gold/custom_order/AllCustomOrdersView.vue'),
+    },
+    {
+      path: '/custom_order/create',
+      name: 'custom_order.create',
+      component: () => import('@/views/gold/custom_order/CreateCustomOrderView.vue'),
+    },
+    {
+      path: '/custom_order/edit/:id',
+      name: 'custom_order.edit',
+      component: () => import('@/views/gold/custom_order/EditCustomOrderView.vue')
+    },
+    {
+      path: '/custom_order/edit_customer/:id',
+      name: 'custom_order.edit_customer',
+      component: () => import('@/views/gold/custom_order/EditCustomOrderCustomerView.vue')
+    },
   ]
 })
+
 
 export default router
