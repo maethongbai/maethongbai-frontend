@@ -66,7 +66,15 @@ export const goldAPI = {
     return {
       success: false
     }
-  }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/golds/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  },
 }
 
 export const redemptionAPI = {
