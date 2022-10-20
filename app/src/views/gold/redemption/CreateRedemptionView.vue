@@ -31,6 +31,7 @@
             <label for="gold.weight" class="mx-3">น้ำหนัก</label>
             <input class="mx-3" type="number" v-model="temp_weight" autocomplete="off" required>
             <label for="gold.weight" class="mx-3">กรัม</label>
+            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'น้ำหนักทองต้องมีค่ามากกว่า 0'"> {{checks.error_message}}</label>
         </div>
         <div class="mx-3 my-3">
             <label for="gold.type" class="mx-3">ลายทอง</label>
@@ -40,6 +41,7 @@
             </select>
             <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.gold_type == false">กรุณาเลือกลายทอง</label>
         </div>
+        <label class="mx-3 my-3 font-medium text-red-500" v-if="checks.error_message == 'กรุณาเลือกว่าเป็นทองของร้านหรือเป็นทองจากที่อื่น'"> {{checks.error_message}}</label>
         <div class="mx-3 my-3">
             <input v-model="checked_brand.inside" id="ทางร้าน" :disabled="checked_brand.outside == true" type="checkbox" value="ทางร้าน" class="brand">
             <label class="mx-3">ทองของทางร้าน</label>
@@ -53,32 +55,39 @@
             </div>
         </div>
         <div class="mx-3 my-3">
-            <label class="mx-3">วันที่รับซื้อ: {{redemption.redemption_date}}</label>
+            <label class="mx-3">วันที่รับซื้อ: {{showDate}}</label>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">ราคาทองตอนรับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
         </div>
-        <div class="mx-3 my-3" v-if="redemption.gold.weight != null">
-            <label class="mx-3">ราคาที่รับซื้อ: {{redemption.redemption_price}} บาท</label>
+        <div class="mx-3 my-3">
+            <label class="inline ml-3">ราคาที่รับซื้อ: </label>
+            <label class="inline" v-if="redemption.gold.weight != null">{{redemption.redemption_price}} บาท</label>
+            <label class="inline" v-else>-</label>
         </div>
         <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
             ข้อมูลลูกค้า
         </h5>
         <div class="mx-3 my-3">
-            <label class="mx-3">ชื่อ</label>
-            <input class="mx-3" type="text" v-model="redemption.user.first_name" autocomplete="off" required>
+            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'กรุณาค้นหาลูกค้าด้วยเบอร์โทร'"> {{checks.error_message}}</label>
+            <label class="ml-3">ชื่อ: </label>
+            <label class="inline" v-if="redemption.user.first_name != null">{{redemption.user.first_name}}</label>
+            <label class="inline" v-else>-</label>
         </div>
         <div class="mx-3 my-3">
-            <label class="mx-3">นามสกุล</label>
-            <input class="mx-3" type="text" v-model="redemption.user.last_name" autocomplete="off" required>
+            <label class="ml-3">นามสกุล: </label>
+            <label class="inline" v-if="redemption.user.last_name != null">{{redemption.user.last_name}}</label>
+            <label class="inline" v-else>-</label>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">เลขบัตรประชาชน</label>
             <input class="mx-3" type="text" v-model="redemption.user.id_card_number" autocomplete="off" required>
+            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'เลขบัตรประชาชนไม่ถูกต้อง'"> {{checks.error_message}}</label>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">ที่อยู่</label>
             <input class="mx-3" type="text" v-model="redemption.user.address" autocomplete="off" required>
+            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'ที่อยู่ไม่ถูกต้อง'"> {{checks.error_message}}</label>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">เบอร์โทร</label>
@@ -87,11 +96,20 @@
                 ค้นหา
             </button>
             <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.phone_user == false">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
+            <a v-bind:href="'/register'"
+            v-if="checks.phone_user == false"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                ลงทะเบียน
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
         </div>
         <div class="mx-3 my-3">
             <label class="mx-3">รูปบัตรประชาชน</label>
             <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
             <img :src="`${redemption.id_card_image}`" width="200">
+            <label class="mx-3 font-medium text-red-500" v-if="checks.error_message == 'กรุณาใส่รูปบัตรประชาชน'"> {{checks.error_message}}</label>
         </div>
 
         <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
@@ -165,6 +183,10 @@ export default {
                     sell_price: -1
                 },
                 redemption_price: -1,
+                search_user: {
+                    id_card_number: null,
+                    address: null,
+                },
                 user: {
                     id: null,
                     first_name: null,
@@ -181,9 +203,10 @@ export default {
                 gold_pattern: true,
                 phone_user: true,
                 create_user: false,
-                user_change_id_card_number: false,
-                user_change_address: false
+                error_message: "",
+                user_found: false
             },
+            showDate: "",
             gold_types: [],
             gold_patterns: [],
             disabledButton: false,
@@ -206,10 +229,11 @@ export default {
             immediate: true,
             deep: true,
             handler(newValue, oldValue) {
+                if (this.redemption.user.first_name != null) {
+                }
                 if (newValue > 0) {
                     this.redemption.gold.weight = newValue
-                    this.redemption.redemption_price = this.redemption.gold_redemption_price.buy_price * 90 / 100 * 0.0656 * this.redemption.gold.weight
-                    // console.log(this.redemption.gold.weight)
+                    this.redemption.redemption_price = Number(Math.round((this.redemption.gold_redemption_price.buy_price * 90 / 100 * 0.0656 * this.redemption.gold.weight)+'e2')+'e-2')
                 } else {
                     this.redemption.gold.weight = null
                 }
@@ -233,11 +257,13 @@ export default {
             this.user = null
             this.$router.push("/login")
         }
-        this.redemption.id = await this.redemption_store.getNextID()
+        await this.redemption_store.fetch()
+        this.redemption.id = this.redemption_store.getNextID()
         await this.gold_type_store.fetch()
         this.gold_types = this.gold_type_store.getGoldTypes
         await this.gold_pattern_store.fetch()
         this.gold_patterns = this.gold_pattern_store.getGoldPatterns
+        this.showDate = moment().format("DD/MM/YYYY")
         var formattedDate = moment().format("YYYY-MM-DD")
         this.redemption.redemption_date = formattedDate
         this.redemption.gold_redemption_price = await this.gold_price_store.getLast()
@@ -246,6 +272,8 @@ export default {
     },
     methods: {
         async createRedemption() {
+            
+            // validation (select)
             if (this.redemption.gold.percentage == null ||
                 this.redemption.gold.percentage == "") {
                 this.checks.gold_percentage = false
@@ -264,9 +292,39 @@ export default {
                 return
             }
             this.checks.gold_pattern = true
+            
+            // validation (input & checkbox)
+            if (this.temp_weight <= 0) {
+                this.checks.error_message = "น้ำหนักทองต้องมีค่ามากกว่า 0"
+                return;
+            }
+            if (this.checked_brand.inside == false &&
+                this.checked_brand.outside == false) {
+                this.checks.error_message = "กรุณาเลือกว่าเป็นทองของร้านหรือเป็นทองจากที่อื่น"
+                return;
+            }
+            if (this.redemption.user.id == null) {
+                this.checks.error_message = "กรุณาค้นหาลูกค้าด้วยเบอร์โทร"
+                return;
+            }
+            if (this.redemption.user.id_card_number.length != 13) {
+                this.checks.error_message = "เลขบัตรประชาชนไม่ถูกต้อง"
+                return;
+            }
+            if (this.redemption.user.address == null ||
+                this.redemption.user.address == "") {
+                this.checks.error_message = "ที่อยู่ไม่ถูกต้อง"
+                return;
+            }
+            if (this.redemption.id_card_image == null) {
+                this.checks.error_message = "กรุณาใส่รูปบัตรประชาชน"
+                return;
+            }
+            this.checks.error_message = ''
+
+            // create stuff
             var gold_id = null
             var user_id = this.redemption.user.id
-            var redemption_id = null
 
             try {
                 var gold = {
@@ -282,22 +340,11 @@ export default {
                 gold_id = await this.gold_store.add(gold)
                 // console.log("added gold:"+gold_id)
 
-                if (this.checks.create_user == true) {
-                    var user = {
-                        first_name: this.redemption.user.first_name,
-                        last_name: this.redemption.user.last_name,
-                        id_card_number: this.redemption.user.id_card_number,
-                        address: this.redemption.user.address,
-                        phone: this.redemption.user.phone
-                    }
-                    user_id = await this.user_store.add(user)
-                } else {
-                    if (this.checks.user_change_id_card_number) {
-                        await this.user_store.editIDCardNumber(user_id, this.redemption.user.id_card_number)
-                    }
-                    if (this.checks.user_change_address) {
-                        await this.user_store.editAddress(user_id, this.redemption.user.address)
-                    }
+                if (this.redemption.search_user.id_card_number != this.redemption.user.id_card_number) {
+                    this.user_store.editIDCardNumber(this.redemption.user.id, this.redemption.user.id_card_number)
+                }
+                if (this.redemption.search_user.address != this.redemption.user.address) {
+                    this.user_store.editAddress(this.redemption.user.id, this.redemption.user.address)
                 }
 
                 var redemption = {
@@ -309,8 +356,8 @@ export default {
                     id_card_image: this.redemption.id_card_image,
                     employee_id: this.user.employee.id
                 }
-                // console.log(redemption)
-                redemption_id = await this.redemption_store.add(redemption)
+
+                await this.redemption_store.add(redemption)
 
                 this.$router.push("/redemption/view");
             } catch (error) {
@@ -327,8 +374,9 @@ export default {
                 // console.log(this.image)
             }
         },
-        findUser() {
+        findUser(e) {
             var temp_user = this.user_store.findByPhone(this.redemption.user.phone)
+            this.search_user = temp_user
             if (temp_user == undefined ||
                 temp_user == null) {
                 this.redemption.user.id = null
@@ -336,21 +384,19 @@ export default {
                 this.redemption.user.last_name = null
                 this.redemption.user.id_card_number = null
                 this.redemption.user.address = null
+                this.checks.phone_user = false
                 this.checks.create_user = true
+                e.preventDefault();
                 return
             }
             this.redemption.user.id = temp_user.id
             this.redemption.user.first_name = temp_user.first_name
             this.redemption.user.last_name = temp_user.last_name
-            if (temp_user.id_card_number == null) {
-                this.checks.user_change_id_card_number = true
-            }
             this.redemption.user.id_card_number = temp_user.id_card_number
-            if (temp_user.address == null) {
-                this.checks.user_change_address = true
-            }
             this.redemption.user.address = temp_user.address
             this.checks.create_user = false
+            this.checks.phone_user = true
+            e.preventDefault();
         }
     }
 }

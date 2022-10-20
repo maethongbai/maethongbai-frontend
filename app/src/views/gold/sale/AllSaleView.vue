@@ -1,46 +1,122 @@
 <template>
-    <p>รายการขายหน้าร้าน</p>
-    <div class="text-black-500" v-for="onsiteSale in onsiteSales">
-        {{onsiteSale.id}}
-        {{onsiteSale.user.first_name}}
-        {{onsiteSale.gold.name}}
-        {{onsiteSale.transfer_status}}
-        {{onsiteSale.employee.nickname}}
-        {{onsiteSale.transfer_note}}
-    </div>
-    <table  class="border-separate w-full text-sm text-left text-green-500 border border-green-700">
+    <br>
+    <br>
+    <h1 class="text-3xl">รายการขายหน้าร้าน</h1>
+    <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
+    <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
-            <tr class=" text-xs text-green-700 uppercase bg-green-50 ">
-                <th>ลำดับ</th>
-                <th>ชื่อลูกค้า</th>
-                <th>ชื่อสินค้า</th>
-                <th>สถานะโอน</th>
-                <th>พนักงาน</th>
-                <th>หมายเหตุ</th>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> สถานะโอน </th>
+                <th class="border border-green-700"> พนักงาน </th>
+                <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border-separate border border-green-700" v-for="onsiteSale in onsiteSales">
+        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_checking">
             <tr >
-                <td>{{onsiteSale.id}}</td>
-                <td>{{onsiteSale.user.first_name}}</td>
-                <td>{{onsiteSale.gold.name}}</td>
-                <td> {{onsiteSale.transfer_status}}</td>
-                <td>{{onsiteSale.employee.nickname}}</td>
-                <td>{{onsiteSale.transfer_note}}</td>
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700"> {{onsiteSale.transfer_status}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+                <td class="border border-green-700">{{onsiteSale.transfer_note}}</td>
             </tr>
         </tbody>
     </table>
-    <div class="text-black-500" v-for="onlineSale in onlineSales">
-        {{onlineSale.id}}
-        {{onlineSale.user.first_name}}
-        {{onlineSale.gold.name}}
-        {{onlineSales.tracking_id_employee}}
-        <p  v-for="index in onlineSales.tracking_id_employee">
-            opsl
-            {{index}}
-        </p>
-        {{onlineSale.transfer_note}}
-    </div>
+    <p>รายการขายหน้าร้านที่ยืนยันการโอน</p>
+    <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> สถานะโอน </th>
+                <th class="border border-green-700"> พนักงาน </th>
+                <th class="border border-green-700"> หมายเหตุ </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_confirm">
+            <tr >
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700"> {{onsiteSale.transfer_status}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+                <td class="border border-green-700">{{onsiteSale.transfer_note}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>รายการขายหน้าร้านที่การโอนมีปัญหา</p>
+    <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> สถานะโอน </th>
+                <th class="border border-green-700"> พนักงาน </th>
+                <th class="border border-green-700"> หมายเหตุ </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_problem">
+            <tr >
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700"> {{onsiteSale.transfer_status}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+                <td class="border border-green-700">{{onsiteSale.transfer_note}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <h1 class="text-3xl">รายการขายออนไลน์</h1>
+    <p>รายการขายออนไลน์ส่งมอบให้ลูกค้าไม่สำเร็จ</p>
+    <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+                <th class="border border-green-700"> หมายเหตุ </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700" v-for="onlineSale in onlineSales_not_delivery">
+            <tr >
+                <td class="border border-green-700">{{onlineSale.id}}</td>
+                <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onlineSale.gold.name}}</td>
+                <td class="border border-green-700">{{onlineSale.tracking_id_employee}}</td>
+                <td class="border border-green-700">{{onlineSale.transfer_note}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>รายการขายออนไลน์มอบให้ลูกค้าสำเร็จ</p>
+    <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+                <th class="border border-green-700"> หมายเหตุ </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700" v-for="onlineSale in onlineSales_delivery">
+            <tr >
+                <td class="border border-green-700">{{onlineSale.id}}</td>
+                <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onlineSale.gold.name}}</td>
+                <td class="border border-green-700">{{onlineSale.tracking_id_employee}}</td>
+                <td class="border border-green-700">{{onlineSale.transfer_note}}</td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script>
@@ -70,6 +146,13 @@ export default {
             user: null,
             onsiteSales: null,
             onlineSales: null,
+            onsiteSales_search: null,
+            onsiteSales_checking: null,
+            onsiteSales_problem: null,
+            onsiteSales_confirm: null,
+            onlineSales_search: null,
+            onlineSales_delivery: null,
+            onlineSales_not_delivery: null,
             tracking_employee: null,
             error: null,
         }
@@ -102,11 +185,22 @@ export default {
         }
         await this.onsiteSale_store.fetch()
         this.onsiteSales = this.onsiteSale_store.getOnsiteSales
+        this.onsiteSales_checking = this.onsiteSale_store.filterChecking
+        this.onsiteSales_problem = this.onsiteSale_store.filterProbleum
+        this.onsiteSales_confirm = this.onsiteSale_store.filterConfirm
         await this.onlineSale_store.fetch()
         this.onlineSales = this.onlineSale_store.getOnlineSales
-        this.tracking_employee = this.onlineSale_store.getTrackingEmployee
+        this.onlineSales_delivery = this.onlineSale_store.filterDelivery
+        this.onlineSales_not_delivery = this.onlineSale_store.filterNotDelivery
 
     },
+    // methods: {
+    //     async searchID() {
+    //         this.error = null
+    //         this.disabledSearchButton = true
+    //         if (this.)
+    //     }
+    // }
 }
 </script>
 
