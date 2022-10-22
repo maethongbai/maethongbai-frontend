@@ -7,7 +7,7 @@
         <form  @submit.prevent="onsiteSearchID()">
            <div class="inline">
             <label>ID</label>
-            <input class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
            </div>
 
            <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
@@ -28,7 +28,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_checking">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id)">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -51,7 +51,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_confirm">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_confirm" @click="setSearched(onsiteSale.id)">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -74,7 +74,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700" v-for="onsiteSale in onsiteSales_problem">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id)">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -94,7 +94,7 @@
         <form @submit.prevent="onlineSearchID()">
            <div class="inline">
             <label>ID</label>
-            <input class="mx-3" type="text" v-model="online_SearchID" autocomplete="off">
+            <input id="online_SearchID" class="mx-3" type="text" v-model="online_SearchID" autocomplete="off">
            </div>
 
            <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
@@ -106,7 +106,7 @@
     <p>รายการขายออนไลน์ส่งมอบให้ลูกค้าไม่สำเร็จ</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
-            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700 ">
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> ชื่อลูกค้า </th>
                 <th class="border border-green-700"> ชื่อสินค้า </th>
@@ -116,7 +116,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700" v-for="onlineSale in onlineSales_not_delivery">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_not_delivery" @click="setSearched(onlineSale.id)">
             <tr >
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
@@ -141,7 +141,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700" v-for="onlineSale in onlineSales_delivery">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_delivery" @click="setSearched(onlineSale.id)">
             <tr >
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
@@ -153,6 +153,69 @@
             </tr>
         </tbody>
     </table>
+    <br>
+    <br>
+    <br>
+    <div v-if="sale_search != null" class="py-5" >
+        <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
+            <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                รายละเอียด
+            </h5>
+
+            <div v-if="onsite_SearchID != null || onsiteSale_search != null">
+                การขายหน้าร้าน
+                <p> เลขที่บิลขายหน้าร้าน : {{sale_search.id}}</p>
+                <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
+                <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
+                <p> วันที่ขาย : {{sale_search.sale_date}}</p>
+                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price}}</p>
+                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.gold_price}}</p>
+                <p> ช่องทางการชำระเงิน : {{sale_search.payment_method}} </p>
+                
+                <div v-if="sale_search.payment_method == 'credit_card'">
+                    <p> ประเภทบัตรเครดิต : {{sale_search.credit_card_type}}</p>
+                    <p> ธนาคาร : {{sale_search.bank_name}}</p>
+                </div>
+
+                <div v-if="sale_search.payment_method == 'transfer'">
+                    <p> รูปสลิป : {{sale_search.slip_image}}</p>
+                    <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
+                    <p> หมายเหตุการโอน : {{sale_search.transfer_note}}</p>
+                </div>
+
+                <div v-if="sale_search.payment_method == 'cash'">
+                    <p> ยอดเงินที่ลูกค้าชำระ : {{sale_search.paid_amount}}</p>
+                    <p> ยอดเงินทอน : {{sale_search.paid_change}}</p>
+                </div>
+
+                <p v-if="is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
+                <div v-if="is_switch_gold == true"> 
+                    <p> เป็นทองที่เปลี่ยน </p>
+                    <p> เลขที่บิลรับซื้อ : {{sale_search.redemption.id}} </p>
+                </div>
+                <p> พนักงานที่ทำรายการ : {{sale_search.employee.nickname}}</p>
+                <p> ลูกค้า : {{sale_search.user.username}}</p>
+            </div>
+
+            <div v-if="online_SearchID != null || onlineSale_search != null">
+                การขายออนไลน์
+                <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
+                <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
+                <p> วันที่ขาย : {{sale_search.sale_date}}</p>
+                <p> รูปสลิป : {{sale_search.slip_image}}</p>
+                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price}}</p>
+                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.amount}}</p>
+                <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
+                <p> หมายเหตุการโอน : {{sale_search.transfer_note}}</p>
+                <p> สถานะส่งของ : {{sale_search.delivery_status}}</p>
+                <p> เลข tracking : {{sale_search.tracking_number}}</p>
+                <p> พนักงานส่งของ : {{sale_search.tracking_id_employee.nickname}}</p>
+                <p> พนักงานเปลี่ยนสถานะจัดส่ง : {{sale_search.delivery_status_employee.nickname}}</p>
+                <p> note(ภายในร้าน) : {{sale_search.note}}</p>
+                <p> ลูกค้าที่ทำรายการ : {{sale_search.user.username}}</p>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -193,7 +256,9 @@ export default {
             error: null,
             disabledSearchButton: false,
             onsite_SearchID: null,
-            online_SearchID: null
+            online_SearchID: null,
+            sale_search: null
+           
         }
     },
     watch: {
@@ -235,7 +300,6 @@ export default {
     },
     methods: {
         async onsiteSearchID() {
-            console.log("opallers")
             this.error = null
             this.disabledSearchButton = true
             if (this.onsite_SearchID == null ||
@@ -244,16 +308,16 @@ export default {
                     this.$router.go(0)
             }
             try {
-                console.log("opaller")
                 this.onsiteSale_search = await this.onsiteSale_store.getID(this.onsite_SearchID)
-                console.log("opaller")
                 this.onsiteSales_checking = this.onsiteSale_store.filterChecking
-                console.log("opaller")
                 this.onsiteSales_problem = this.onsiteSale_store.filterProblem
                 this.onsiteSales_confirm = this.onsiteSale_store.filterConfirm
                 this.onsiteSales_checking = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_checking, this.onsite_SearchID)
                 this.onsiteSales_problem = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_problem, this.onsite_SearchID)
                 this.onsiteSales_confirm = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_confirm, this.onsite_SearchID)
+                this.sale_search = this.onsiteSale_search
+                this.online_SearchID = null
+                
             } catch (error) {
                 this.error = error.message
                 this.disabledSearchButton = false
@@ -261,7 +325,6 @@ export default {
             }
         },
         async onlineSearchID() {
-            console.log("opallers")
             this.error = null
             this.disabledSearchButton = true
             if (this.online_SearchID == null ||
@@ -270,19 +333,37 @@ export default {
                     this.$router.go(0)
             }
             try {
-                console.log("opaller_line")
                 this.onlineSale_search = await this.onlineSale_store.getID(this.online_SearchID)
-                console.log("opaller_line2")
                 this.onlineSales_delivery = this.onlineSale_store.filterDelivery
                 this.onlineSales_not_delivery = this.onlineSale_store.filterNotDelivery
                 this.onlineSales_delivery = this.onlineSale_store.filterOnlineByID(this.onlineSales_delivery, this.online_SearchID)
                 this.onlineSales_not_delivery = this.onlineSale_store.filterOnlineByID(this.onlineSales_not_delivery, this.online_SearchID)
+                this.sale_search = this.onlineSale_search
+                this.onsite_SearchID = null
             } catch (error) {
                 this.error = error.message
                 this.disabledSearchButton = false
                
             }
+        },
+        async setSearched(sale_id) {
+            this.error = null
+            try { 
+                console.log(this.onsiteSale_store.getID(sale_id))
+                this.onsiteSale_search = await this.onsiteSale_store.getID(sale_id)
+                if (this.onsiteSale_search == null) {
+                    this.onlineSale_search = await this.onlineSale_store.getID(sale_id)
+                    this.sale_search = this.onlineSale_search
+                }
+                else {
+                    this.sale_search = this.onsiteSale_search
+                }
+            } catch (error) {
+                this.error = error.message
+                this.disabledSearchButton = false
+            }
         }
+        
     }
 }
 </script>
