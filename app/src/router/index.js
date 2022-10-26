@@ -91,6 +91,11 @@ const router = createRouter({
       name: 'user.history',
       component: () => import('@/views/gold/user/HistoryView.vue')
     },
+    {
+      path: '/user/sale_status',
+      name: 'user.sale_status',
+      component: () => import('@/views/gold/user/UserSaleStatusView.vue')
+    },
   ]
 })
 

@@ -380,12 +380,12 @@ export default {
     },
     async mounted() {
         if (this.auth_store.isAuthen) {
-            this.auth = this.auth_store.getAuth
-            this.user = JSON.parse(this.auth_store.getUser)
+            this.auth = this.auths_store.getAuth
+            this.auth_user = JSON.parse(this.auth_store.getUser)
             console.log("authorized " + document.URL);
         } else {
             this.auth = null
-            this.user = null
+            this.auth_user = null
             this.$router.push("/login")
         }
         await this.history_store.fetch()
