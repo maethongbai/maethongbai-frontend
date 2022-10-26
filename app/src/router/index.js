@@ -86,6 +86,11 @@ const router = createRouter({
       name: 'custom_order.edit_customer',
       component: () => import('@/views/gold/custom_order/EditCustomOrderCustomerView.vue')
     },
+    {
+      path: '/user/:id/history',
+      name: 'user.history',
+      component: () => import('@/views/gold/user/HistoryView.vue')
+    },
   ]
 })
 
