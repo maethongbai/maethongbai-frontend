@@ -28,7 +28,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id)">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id,'onsite')">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -51,7 +51,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_confirm" @click="setSearched(onsiteSale.id)">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_confirm" @click="setSearched(onsiteSale.id,'onsite')">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -74,7 +74,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id)">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id,'onsite')">
             <tr >
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
@@ -116,7 +116,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_not_delivery" @click="setSearched(onlineSale.id)">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_not_delivery" @click="setSearched(onlineSale.id,'online')">
             <tr >
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
@@ -141,7 +141,7 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_delivery" @click="setSearched(onlineSale.id)">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onlineSale in onlineSales_delivery" @click="setSearched(onlineSale.id,'online')">
             <tr >
                 <td class="border border-green-700">{{onlineSale.id}}</td>
                 <td class="border border-green-700">{{onlineSale.user.first_name}}</td>
@@ -197,8 +197,9 @@
                 <p> ลูกค้า : {{sale_search.user.username}}</p>
             </div>
 
-            <div v-if="online_SearchID != null || onlineSale_search != null">
+            <div v-else>
                 การขายออนไลน์
+                <p> เลขที่บิลขายออนไลน์ : {{sale_search.id}}</p>
                 <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
                 <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
                 <p> วันที่ขาย : {{sale_search.sale_date}}</p>
@@ -207,11 +208,16 @@
                 <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.amount}}</p>
                 <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
                 <p> หมายเหตุการโอน : {{sale_search.transfer_note}}</p>
-                <p> สถานะส่งของ : {{sale_search.delivery_status}}</p>
-                <p> เลข tracking : {{sale_search.tracking_number}}</p>
-                <p> พนักงานส่งของ : {{sale_search.tracking_id_employee.nickname}}</p>
-                <p> พนักงานเปลี่ยนสถานะจัดส่ง : {{sale_search.delivery_status_employee.nickname}}</p>
-                <p> note(ภายในร้าน) : {{sale_search.note}}</p>
+                <p v-if="sale_search.delivery_status != null"> สถานะส่งของ : {{sale_search.delivery_status}}</p>
+                <p v-else> สถานะส่งของ : - </p>
+                <p v-if="sale_search.tracking_number != null"> เลข tracking : {{sale_search.tracking_number}}</p>
+                <p v-else> เลข tracking : - </p>
+                <p v-if="sale_search.tracking_id_employee != null"> พนักงานส่งของ : {{sale_search.tracking_id_employee.nickname}}</p>
+                <p v-else> พนักงานส่งของ : - </p>
+                <p v-if="sale_search.delivery_status_employee != null"> พนักงานเปลี่ยนสถานะจัดส่ง : {{sale_search.delivery_status_employee.nickname}}</p>
+                <p v-else> พนักงานเปลี่ยนสถานะจัดส่ง : - </p>
+                <p v-if="sale_search.note != null"> note(ภายในร้าน) : {{sale_search.note}}</p>
+                <p v-else> note(ภายในร้าน) : - </p>
                 <p> ลูกค้าที่ทำรายการ : {{sale_search.user.username}}</p>
             </div>
         </div>
@@ -317,6 +323,7 @@ export default {
                 this.onsiteSales_confirm = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_confirm, this.onsite_SearchID)
                 this.sale_search = this.onsiteSale_search
                 this.online_SearchID = null
+                this.onlineSale_search = null
                 
             } catch (error) {
                 this.error = error.message
@@ -340,23 +347,29 @@ export default {
                 this.onlineSales_not_delivery = this.onlineSale_store.filterOnlineByID(this.onlineSales_not_delivery, this.online_SearchID)
                 this.sale_search = this.onlineSale_search
                 this.onsite_SearchID = null
+                this.onsiteSale_search = null
             } catch (error) {
                 this.error = error.message
                 this.disabledSearchButton = false
                
             }
         },
-        async setSearched(sale_id) {
+        async setSearched(sale_id,check) {
             this.error = null
             try { 
                 console.log(this.onsiteSale_store.getID(sale_id))
-                this.onsiteSale_search = await this.onsiteSale_store.getID(sale_id)
-                if (this.onsiteSale_search == null) {
+
+                if (check == 'online') {
+                    console.log('online')
                     this.onlineSale_search = await this.onlineSale_store.getID(sale_id)
                     this.sale_search = this.onlineSale_search
+                    this.onsiteSale_search = null
                 }
                 else {
+                    console.log('onsite')
+                    this.onsiteSale_search = await this.onsiteSale_store.getID(sale_id)
                     this.sale_search = this.onsiteSale_search
+                    this.onlineSale_search = null
                 }
             } catch (error) {
                 this.error = error.message
