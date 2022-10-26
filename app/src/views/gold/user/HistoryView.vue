@@ -31,17 +31,16 @@
                         {{val.id}}
                     </th>
 
-                    <th v-if="val.type == 'ซื้อทอง' || 
+                    <th v-if="val.type == 'ซื้อทองหน้าร้าน' || 
+                                   val.type == 'ซื้อทองออนไลน์' || 
                                    val.type == 'ขายทอง' ||
-                                   val.type == 'เปลี่ยน'"
-                    scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                   val.type == 'เปลี่ยน'" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{val.item.gold.name}}
                     </th>
-                    <th v-else-if="val.type == 'งานสั่ง'"
-                    scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <th v-else-if="val.type == 'งานสั่ง'" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{val.item.name}}
                     </th>
-                    
+
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{val.type}}
                     </th>
@@ -51,73 +50,153 @@
     </div>
 
     <div>
-        <div v-if="searched_item != null" class="py-5">
-            <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
-                <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                    รายละเอียด
-                </h5>
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    เลขบิล: {{redemption_searched.id}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    เปอร์เซนต์ทอง: {{redemption_searched.gold.percentage}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ประเภท: {{redemption_searched.gold.gold_type.name}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700" v-if="redemption_searched.gold.weight != null">
-                    น้ำหนัก: {{redemption_searched.gold.weight}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700" v-else>
-                    น้ำหนัก: {{redemption_searched.gold.custom_weight}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ลาย: {{redemption_searched.gold.gold_pattern.name}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ยี่ห้อทอง: {{redemption_searched.gold.brand}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    วันที่รับซื้อ: {{redemption_searched.redemption_date}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ราคาทองตอนรับซื้อ: {{redemption_searched.gold_redemption_price.buy_price}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ราคาที่รับซื้อ: {{redemption_searched.redemption_price}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    สถานะตรวจสอบ: {{redemption_searched.check_status}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    พนักงาน: {{redemption_searched.employee.nickname}}
-                </p>
-                <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
-                    ข้อมูลลูกค้า
-                </h5>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    รหัสสมาชิก: {{redemption_searched.user.id}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ชื่อ: {{redemption_searched.user.first_name}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    นามสกุล: {{redemption_searched.user.last_name}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    เลขบัตรประชาชน: {{redemption_searched.user.id_card_number}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    เบอร์โทร: {{redemption_searched.user.phone}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ที่อยู่: {{redemption_searched.user.address}}
-                </p>
-                <div>
-                    <p class="mx-1 mb-3 font-normal text-gray-700">
-                        รูปบัตรประชาชน
-                        <img :src="`${redemption_searched.id_card_image}`" alt="ไม่พบรูปบัตรประชาชน" width="200">
+        <div v-if="searched_obj != null">
+            <div v-if="searched_obj.type == 'ขายทอง'" class="py-5">
+                <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
+                    <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                        รายละเอียด
+                    </h5>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        เลขบิล: {{searched_obj.item.id}}
                     </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        เปอร์เซนต์ทอง: {{searched_obj.item.gold.percentage}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        ประเภท: {{searched_obj.item.gold.gold_type.name}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700" v-if="redemption_searched.gold.weight != null">
+                        น้ำหนัก: {{searched_obj.item.gold.weight}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700" v-else>
+                        น้ำหนัก: {{searched_obj.item.gold.custom_weight}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        ลาย: {{searched_obj.item.gold.gold_pattern.name}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        ยี่ห้อทอง: {{searched_obj.item.gold.brand}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        วันที่รับซื้อ: {{searched_obj.item.redemption_date}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        ราคาทองตอนรับซื้อ: {{searched_obj.item.gold_redemption_price.buy_price}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        ราคาที่รับซื้อ: {{searched_obj.item.redemption_price}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        สถานะตรวจสอบ: {{searched_obj.item.check_status}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700">
+                        พนักงาน: {{searched_obj.item.employee.nickname}}
+                    </p>
+                </div>
+            </div>
+            <div v-else-if="searched_obj.type == 'งานสั่ง'" class="py-5">
+                <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
+                    <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                        รายละเอียด
+                    </h5>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        เลขที่งานสั่ง: {{searched_obj.item.id}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ชื่องานสั่ง: {{searched_obj.item.name}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ประเภท/ลักษณะ: {{searched_obj.item.type}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        น้ำหนัก: {{searched_obj.item.weight}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ค่าแรง: {{searched_obj.item.wage}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ราคาเต็ม: {{searched_obj.item.full_price}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        มัดจำ: {{searched_obj.item.deposit_total_amount}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ส่วนต่าง: {{searched_obj.item.difference_amount}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        วันที่เสร็จ: {{searched_obj.item.finish_date}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        วันที่สั่ง: {{searched_obj.item.order_date}}
+                    </p>
+                    <div class="mx-1 mb-3 font-normal text-gray-700">
+                        <p class="inline">
+                            วันที่ส่งมอบ:
+                        </p>
+                        <p class="inline" v-if="searched_obj.item.delivery_date != null">
+                            {{searched_obj.item.delivery_date}}
+                        </p>
+                        <p class="inline" v-else>
+                            -
+                        </p>
+                    </div>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ช่างที่ผลิต: {{searched_obj.item.custom_order_worker.name}}
+                    </p>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        ช่องทางการชำระเงินมัดจำ: {{searched_obj.item.deposit_payment_method}}
+                    </p>
+
+                    <div class="mx-1 mb-3 font-normal text-gray-700">
+                        <p class="inline">
+                            ช่องทางการชำระเงินส่วนต่าง:
+                        </p>
+                        <p class="inline" v-if="searched_obj.item.difference_paymeny_method != null">
+                            {{searched_obj.item.difference_paymeny_method}}
+                        </p>
+                        <p class="inline" v-else>
+                            -
+                        </p>
+                    </div>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                        สถานะงานสั่ง: {{searched_obj.item.custom_order_status}}
+                    </p>
+                    <div v-if="searched_obj.item.deposit_payment_method == 'transfer'">
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            สถานะโอนมัดจำ: {{searched_obj.item.deposit_status}}
+                        </p>
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            สถานะโอนส่วนต่าง: {{searched_obj.item.difference_status}}
+                        </p>
+                    </div>
+                    <div v-else-if="searched_obj.item.deposit_payment_method == 'cash'">
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            เงินที่ลูกค้าจ่าย: {{searched_obj.item.deposit_paid_amount}}
+                        </p>
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            เงินทอน: {{searched_obj.item.depoosit_change_amount}}
+                        </p>
+                    </div>
+                    <div v-else-if="searched_obj.item.deposit_payment_method == 'credit card'">
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            ประเภทบัตรเครดิต: {{searched_obj.item.deposit_credit_card_type}}
+                        </p>
+                        <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                            ธนาคาร: {{searched_obj.item.depoosit_bank_name}}
+                        </p>
+                    </div>
+
+                    <div class="mx-1 mb-3 font-normal text-gray-700">
+                        <p class="inline">
+                            พนักงานที่รับผิดชอบ: {{searched_obj.item.employee.nickname}}
+                        </p>
+                        <p class="inline" v-if="searched_obj.item.employee != null">
+                            {{searched_obj.item.employee.nickname}}
+                        </p>
+                        <p class="inline" v-else>
+                            -
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,7 +283,7 @@ export default {
         }
         await this.history_store.fetch()
         this.histories = this.history_store.filterByUser(this.user)
-        console.log(this.histories)
+
     },
     methods: {
         setSearched(obj) {

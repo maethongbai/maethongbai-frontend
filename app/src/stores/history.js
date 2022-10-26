@@ -41,7 +41,7 @@ export const useHistoryStore = defineStore("histories", {
         online_sales.forEach(obj => {
           var history_object = {
             id: null,
-            type: "ซื้อทอง",
+            type: "ซื้อทองออนไลน์",
             item: null
           }
           history_object.id = counter
@@ -53,7 +53,7 @@ export const useHistoryStore = defineStore("histories", {
         onsite_sales.forEach(obj => {
           var history_object = {
             id: null,
-            type: "ทอง",
+            type: "ซื้อทองหน้าร้าน",
             item: null
           }
           history_object.id = counter
@@ -77,7 +77,6 @@ export const useHistoryStore = defineStore("histories", {
           this.histories.push(history_object)
         });
 
-        console.log(this.histories)
     },
     filterByUser(user) {
       var filtered = [...this.histories]
