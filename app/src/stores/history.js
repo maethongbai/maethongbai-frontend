@@ -81,6 +81,23 @@ export const useHistoryStore = defineStore("histories", {
     filterByUser(user) {
       var filtered = [...this.histories]
       return filtered.filter(element => element.item.user.id == user.id)
+    },
+    filterBySale() { // user ซื้อทอง
+      var filtered = [...this.histories]
+      return filtered.filter(element => element.type == 'ซื้อทองออนไลน์' ||
+                                        element.type == 'ซื้อทองหน้าร้าน')
+    },
+    filterByRedemption() { // user ขายทอง
+      var filtered = [...this.histories]
+      return filtered.filter(element => element.type == 'ขายทอง')
+    },
+    filterByCustomOrder() { // user ขายทอง
+      var filtered = [...this.histories]
+      return filtered.filter(element => element.type == 'งานสั่ง')
+    },
+    filterBySwitchGold() { // user เปลี่ยนทอง
+      var filtered = [...this.histories]
+      return filtered.filter(element => element.type == 'เปลี่ยน')
     }
   }
 })
