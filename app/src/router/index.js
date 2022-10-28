@@ -86,6 +86,11 @@ const router = createRouter({
       name: 'custom_order.edit_customer',
       component: () => import('@/views/gold/custom_order/EditCustomOrderCustomerView.vue')
     },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
+    },
   ]
 })
 
