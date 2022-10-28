@@ -35,7 +35,7 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white">
                 รายชื่อพนักงานทั้งหมดในร้าน
-                <router-link to="/" class="mx-5 px-5 py-2 bg-blue-200 rounded-xl">เพิ่มพนักงานใหม่</router-link>
+                <router-link to="/employee/view/create" class="mx-5 px-5 py-2 bg-blue-200 rounded-xl">เพิ่มพนักงานใหม่</router-link>
             </caption>
             
             
