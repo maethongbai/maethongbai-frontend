@@ -11,7 +11,11 @@ export const useUserStore = defineStore("users", {
   getters: {
     getUsers (state) {
       return state.users
-    }
+    },
+    filterEmployee (state) {
+      var filtered = [...state.users]
+      return filtered.filter((user) => (user.role == "employee") || (user.role == "account") || (user.role == "manager"))
+    },
   },
 
   actions: {
@@ -35,6 +39,10 @@ export const useUserStore = defineStore("users", {
     findByPhone(phone) {
       var filtered = [...this.users]
       return filtered.find(element => element.phone == phone)
+    },
+    findById(id) {
+      var filtered = [...this.users]
+      return filtered.find(element => element.id == id)
     },
     async editIDCardNumber (id, id_card_number) {
       const obj = {
