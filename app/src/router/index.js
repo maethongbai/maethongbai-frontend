@@ -101,6 +101,11 @@ const router = createRouter({
       name: 'user.sale_status',
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
     },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
+    },
   ]
 })
 
