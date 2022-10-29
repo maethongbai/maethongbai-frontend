@@ -67,6 +67,11 @@ const router = createRouter({
       component: () => import('@/views/gold/sale/AllSaleView.vue'),
     },
     {
+      path: '/onsitesale/create',
+      name: 'onsitesale.create',
+      component: () => import('@/views/gold/sale/CreateOnsiteSaleView.vue'),
+    },
+    {
       path: '/custom_order/view',
       name: 'custom_order.view',
       component: () => import('@/views/gold/custom_order/AllCustomOrdersView.vue'),
@@ -85,6 +90,16 @@ const router = createRouter({
       path: '/custom_order/edit_customer/:id',
       name: 'custom_order.edit_customer',
       component: () => import('@/views/gold/custom_order/EditCustomOrderCustomerView.vue')
+    },
+    {
+      path: '/user/:id/history',
+      name: 'user.history',
+      component: () => import('@/views/gold/user/HistoryView.vue')
+    },
+    {
+      path: '/user/sale_status',
+      name: 'user.sale_status',
+      component: () => import('@/views/gold/user/UserSaleStatusView.vue')
     },
     {
       path: '/register',
