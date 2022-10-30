@@ -14,9 +14,18 @@
                 Search
             </button>
         </form>
-    </div>
-    <br>
-    <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
+        <div>
+            ประเภทในการชำระเงินของลูกค้า
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale_payment_method">
+                        <option disabled value="">กรุณาเลือกประเภทการชำระเงินของลูกค้า</option>
+                        <option value="โอน">โอน</option>
+                        <option value="เงินสด">เงินสด</option>
+                        <option value="บัตรเครดิต">บัตรเครดิต</option>
+            </select>
+        </div>
+
+        <div v-if="onsiteSale_payment_method == 'โอน'">
+            <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
@@ -29,7 +38,7 @@
             </tr>
         </thead>
         <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+            <tr v-if="onsiteSale.payment_method == 'transfer'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -52,7 +61,7 @@
             </tr>
         </thead>
         <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_confirm" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+            <tr v-if="onsiteSale.payment_method == 'transfer'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -75,7 +84,7 @@
             </tr>
         </thead>
         <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+            <tr v-if="onsiteSale.payment_method == 'transfer'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -85,6 +94,57 @@
             </tr>
         </tbody>
     </table>
+
+        </div>
+    </div>
+
+    <div v-if="onsiteSale_payment_method == 'เงินสด'">
+        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> ราคาสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'cash'">
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold_price}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+            </tr>
+        </tbody>
+    </table>
+        
+    </div>
+
+    <div v-if="onsiteSale_payment_method == 'บัตรเครดิต'">
+        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> ราคาสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'credit_card'">
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold_price}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+            </tr>
+        </tbody>
+    </table>
+        
+    </div>
     <br>
     <br>
     <br>
@@ -251,6 +311,7 @@ export default {
             user: null,
             onsiteSales: null,
             onlineSales: null,
+            onsiteSale_payment_method: null,
             onsiteSale_search: null,
             onsiteSales_checking: null,
             onsiteSales_problem: null,
