@@ -190,7 +190,7 @@ user.role == "manager"'>
             <p class="mx-1 mb-3 font-normal text-gray-700" v-if="redemption_searched.gold.weight != null">
                 น้ำหนัก: {{redemption_searched.gold.weight}}
             </p>
-            <p class="mx-1 mb-3 font-normal text-gray-700" v-else>
+            <p class="mx-1 mb-3 font-normal text-grv  ay-700" v-else>
                 น้ำหนัก: {{redemption_searched.gold.custom_weight}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700">

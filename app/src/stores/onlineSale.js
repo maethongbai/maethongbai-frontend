@@ -47,13 +47,17 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       const onlineSale = await onlineSaleAPI.getID(id)
       return onlineSale
     },
-    filterRedemptionsByID(onlineSales, id) {
+    filterOnlineByID(onlineSales, id) {
       var filtered = [...onlineSales]
       return filtered.filter((onlineSale) => onlineSale.id == id)
     },
     async getNextID() {
       const nextID = await onlineSaleAPI.getNextID()
       return nextID
-    }
+    },
+    filterByUser(user) {
+      var filtered = [...this.onlineSales]
+      return filtered.filter((online_sale) => online_sale.user.id == user.id)
+    },
   }
 })

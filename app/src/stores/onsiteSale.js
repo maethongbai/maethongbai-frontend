@@ -17,7 +17,7 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
       var filtered = [...state.onsiteSales]
       return filtered.filter((onsiteSale) => onsiteSale.transfer_status == "ยังไม่ได้ตรวจสอบ")
     },
-    filterProbleum (state) {
+    filterProblem (state) {
       var filtered = [...state.onsiteSales]
       return filtered.filter((onsiteSale) => onsiteSale.transfer_status == "มีปัญหา")
     },
@@ -31,16 +31,6 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
     async fetch () {
         this.onsiteSales = await onsiteSaleAPI.getAll()
     },
-    async add (onsiteSale) {
-        const response = await onsiteSaleAPI.saveNew(onsiteSale)
-        if (response.success) {
-          this.onsiteSales.push({
-            ...onsiteSale
-          })
-          return response.onsiteSale_id
-        }
-	    return false
-    },
     delete (id) {
       this.onsiteSales = this.onsiteSales.filter(onsiteSale => onsiteSale.id != id)
     },
@@ -48,7 +38,7 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
       const onsiteSale = await onsiteSaleAPI.getID(id)
       return onsiteSale
     },
-    filterRedemptionsByID(onsiteSales, id) {
+    filterOnsiteByID(onsiteSales, id) {
       var filtered = [...onsiteSales]
       return filtered.filter((onsiteSale) => onsiteSale.id == id)
     },
