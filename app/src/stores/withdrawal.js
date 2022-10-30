@@ -16,9 +16,10 @@ export const useWithdrawalStore = defineStore("withdrawals", {
     async fetch () {
         this.withdrawals = await withdrawalAPI.getAll()
     },
-    // findById(id) {
-    //   var filtered = [...this.incomes]
-    //   return filtered.find(element => element.id == id)
-    // }
+    filterBySelectedDate(date) {
+      var filtered = [...this.withdrawals]
+      return filtered.filter(element => element.withdrawal_date == date)
+    },
+
   }
 })

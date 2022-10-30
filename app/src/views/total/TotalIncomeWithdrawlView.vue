@@ -2,9 +2,7 @@
     <div class="block my-5">
         <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
     </div>
-    <h5 class="mx-6 text-2xl font-bold tracking-tight text-gray-900">
-                รายละเอียดข้อมูล
-            </h5>
+    <h5 class="mx-6 text-2xl font-bold tracking-tight text-gray-900">รายละเอียดข้อมูล</h5>
     <div v-if="selected_income != null" class="py-5 grid grid-cols-2">
         <div class="mx-3 p-5 bg-white border border-gray-200 rounded-lg shadow-md">
             <div class="mx-5">
@@ -22,12 +20,21 @@
             </div>
         </div>
     </div>
-    <div v-else class="grid grid-cols-2">
+    <div v-else class="py-5 grid grid-cols-2">
         <div class="mx-3 mt-5 p-5 bg-white border border-gray-200 rounded-lg shadow-md grid grid-cols-2">
             <p>ยังไม่ได้เลือกรายการ</p>
         </div>
     </div>
-    <div class="grid grid-cols-2 mt-5">
+
+    <hr>
+
+    <div v-if="role == 'manager'" class="mt-5">
+        <label>เลือกวันที่ต้องการดู</label>
+        <Datepicker v-model="date" :format="date_format"></Datepicker>
+        <button @click="seeAll()">ดูทั้งหมด</button>
+    </div>
+
+    <div class="grid grid-cols-2 mt-2">
         <div>
             <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white">
                 รายรับ
@@ -133,6 +140,13 @@
             </table>
         </div>
     </div>
+
+    <hr>
+
+    <div class="py-5 grid grid-cols-2">
+        <h5 class="mx-6 text-2xl font-bold tracking-tight text-gray-900">สรุปรายรับ-รายจ่าย</h5>
+            
+    </div>
 </template>
 
 <script>
@@ -141,22 +155,39 @@ import { useAuthStore } from '@/stores/auth.js'
 import { useIncomeStore } from '@/stores/income.js'
 import { useWithdrawalStore } from '@/stores/withdrawal.js'
 
+import moment from 'moment'
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import { DOMDirectiveTransforms } from '@vue/compiler-dom';
+
 export default {
       setup() {
         const auth_store = useAuthStore()
         const employee_store = useEmployeeStore()
         const income_store = useIncomeStore()
         const withdrawal_store = useWithdrawalStore()
-        return { employee_store, auth_store, income_store, withdrawal_store }
+        const date_format = (date) => {
+            const day = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+        return { employee_store, auth_store, income_store, withdrawal_store, date_format }
       },
       data() {
         return {
             auth: null,
+            user: null,
+            role: null,
             incomes: null,
             withdrawals: null,
             selected_income: null,
             selected_withdrawal: null,
+            date: null,
+            date_str: null,
             error: null,
+            date_t: null
         }
       },
       async mounted() {
@@ -177,12 +208,26 @@ export default {
         
         await this.income_store.fetch()
         this.incomes = this.income_store.getIncomes
-        console.table(this.incomes)
 
         await this.withdrawal_store.fetch()
         this.withdrawals = this.withdrawal_store.getWithdrawals
-        console.table(this.withdrawals)
-        
+
+        console.log(this.user.role)
+        this.role = this.user.role
+
+        const current = new Date();
+        this.date_t = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      },
+      components: {
+        Datepicker
+      },
+      watch: {
+        async date () {
+            this.date_str = this.date.getFullYear() + '-' + this.date.getMonth() + '-' + this.date.getDate()
+            console.log(this.date_str)
+            this.incomes = await this.income_store.filterBySelectedDate(this.date_str)
+            this.withdrawals = await this.withdrawal_store.filterBySelectedDate(this.date_str)
+        }
       },
       methods: {
         async setSelectedIncome(id) {
@@ -192,7 +237,10 @@ export default {
             } catch (error) {
                 console.log(error.message)
             }
-            
+        },
+        async seeAll(){
+            this.incomes = this.income_store.getIncomes
+            this.withdrawals = this.withdrawal_store.getWithdrawals
         }
       }
     }

@@ -106,7 +106,7 @@
     import moment from 'moment'
     import Datepicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css'
-import { DOMDirectiveTransforms } from '@vue/compiler-dom';
+    import { DOMDirectiveTransforms } from '@vue/compiler-dom';
     export default {
       setup() {
         const auth_store = useAuthStore()

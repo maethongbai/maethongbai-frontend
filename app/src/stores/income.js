@@ -10,7 +10,7 @@ export const useIncomeStore = defineStore("incomes", {
   getters: {
     getIncomes (state) {
       return state.incomes
-    }
+    },
   },
   actions: {
     async fetch () {
@@ -19,6 +19,11 @@ export const useIncomeStore = defineStore("incomes", {
     findById(id) {
       var filtered = [...this.incomes]
       return filtered.find(element => element.id == id)
-    }
+    },
+    filterBySelectedDate(date) {
+      var filtered = [...this.incomes]
+      return filtered.filter(element => element.transaction_date == date)
+    },
+
   }
 })
