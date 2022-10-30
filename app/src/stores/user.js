@@ -33,6 +33,17 @@ export const useUserStore = defineStore("users", {
         }
 	      return false
     },
+    async edit (id, user) {
+      const response = await userAPI.saveEdit(id, user)
+      if (response.success) {
+        // this.users.push({
+        //   ...user
+        // })
+        this.users = await userAPI.getAll()
+        return response.user_id
+      }
+      return false
+  },
     delete (id) {
       this.users = this.users.filter(user => user.id != id)
     },
