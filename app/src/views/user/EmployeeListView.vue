@@ -8,13 +8,14 @@
     <div v-if="selected != null" class="py-5">
         <div class="mx-3 p-5 bg-white border border-gray-200 rounded-lg shadow-md grid grid-cols-2">
             <div class="mx-5">
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">รหัสพนักงาน: {{ selected.id }}</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">รหัสพนักงาน: {{ selected.employee.id }}</p>
                 <div class="grid grid-cols-3">
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">ชื่อ: {{ selected.first_name }}</p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">นามสกุล: {{ selected.last_name }}</p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">ชื่อเล่น: {{ selected.employee.nickname }}</p>
                 </div>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">เบอร์โทรศัพท์: {{ selected.phone }}</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">อีเมล: {{ selected.email }}</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันเกิด: {{ selected.employee.birth_date }}</p>
             </div>
             <div>
@@ -22,6 +23,7 @@
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่เริ่มทำงาน: {{ selected.employee.work_start_date }}</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">เงินเดือน: {{ selected.employee.salary }} บาท</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่แก้ไขล่าสุด: {{ selected.employee.updated_at }}</p>
+                <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">แก้ไขข้อมูล</router-link>
             </div>
         </div>
     </div>
@@ -66,7 +68,7 @@
                     :key="user.id"
                     @click="setSelected(user.id)">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ user.id }}
+                        {{ user.employee.id }}
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ user.first_name }}
