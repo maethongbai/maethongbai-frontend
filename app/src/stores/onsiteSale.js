@@ -31,6 +31,14 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
     async fetch () {
         this.onsiteSales = await onsiteSaleAPI.getAll()
     },
+    async add (onsiteSale) {
+      const response = await onsiteSaleAPI.saveNew(onsiteSale)
+      if (response.success) {
+        this.onsiteSales = await onsiteSaleAPI.getAll()
+        return response.onsiteSale_id
+      }
+      return false
+    },
     delete (id) {
       this.onsiteSales = this.onsiteSales.filter(onsiteSale => onsiteSale.id != id)
     },
@@ -42,9 +50,13 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
       var filtered = [...onsiteSales]
       return filtered.filter((onsiteSale) => onsiteSale.id == id)
     },
-    async getNextID() {
-      const nextID = await onsiteSaleAPI.getNextID()
-      return nextID
+    getNextID() {
+      console.log("in")
+      var id = 1
+      this.onsiteSales.forEach(element => {
+        id = id + 1
+      });
+      return id
     }
   }
 })

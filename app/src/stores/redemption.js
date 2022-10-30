@@ -63,6 +63,10 @@ export const useRedemptionStore = defineStore("redemptions", {
         id = id + 1
       });
       return id
-    }
+    },
+    findByID(id) {
+      var filtered = [...this.redemptions]
+      return filtered.find(element => element.id == id)
+    },
   },
 })
