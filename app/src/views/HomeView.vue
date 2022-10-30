@@ -13,6 +13,9 @@ import TheWelcome from '@/components/TheWelcome.vue'
     <router-link to="/employee/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">
         View All Employee
     </router-link>
+    <router-link to="/total" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">
+        หน้าสรุปรายรับ-รายจ่าย
+    </router-link>
 </div>
 
 <main>

@@ -16,9 +16,9 @@ export const useIncomeStore = defineStore("incomes", {
     async fetch () {
         this.incomes = await incomeAPI.getAll()
     },
-    // findById(id) {
-    //   var filtered = [...this.incomes]
-    //   return filtered.find(element => element.id == id)
-    // }
+    findById(id) {
+      var filtered = [...this.incomes]
+      return filtered.find(element => element.id == id)
+    }
   }
 })
