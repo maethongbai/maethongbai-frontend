@@ -69,14 +69,14 @@
             </div>
             <div>
                 <label>ช่องทางการชำระเงิน</label>
-                <input v-model="onsiteSale.sale_payment_method.payment_method" id="เงินสด" type="radio" value="เงินสด">
-                <label for="เงินสด"> เงินสด </label>
-                <input v-model="onsiteSale.sale_payment_method.payment_method" id="โอน" type="radio" value="โอน">
-                <label for="โอน"> โอน </label>
-                <input v-model="onsiteSale.sale_payment_method.payment_method" id="บัตรเครดิต" type="radio" value="บัตรเครดิต">
-                <label for="บัตรเครดิต"> บัตรเครดิต </label>
+                <input v-model="onsiteSale.sale_payment_method.payment_method" id="cash" type="radio" value="cash">
+                <label for="cash"> เงินสด </label>
+                <input v-model="onsiteSale.sale_payment_method.payment_method" id="transfer" type="radio" value="transfer">
+                <label for="transfer"> โอน </label>
+                <input v-model="onsiteSale.sale_payment_method.payment_method" id="credit_card" type="radio" value="credit_card">
+                <label for="credit_card"> บัตรเครดิต </label>
             
-                <p v-if="onsiteSale.sale_payment_method.payment_method == 'เงินสด' ">
+                <p v-if="onsiteSale.sale_payment_method.payment_method == 'cash' ">
                     <label>ราคาสุทธิ: {{onsiteSale.gold_price}}</label>
                     <p>เงินที่ลูกค้าชำระ: </p>
                     <input class="mx-3" type="number" v-model="change" autocomplete="off" required>
@@ -84,13 +84,13 @@
                     <label> {{ onsiteSale.sale_payment_method.paid_change}}</label>
                 </p>
 
-                <p v-if="onsiteSale.sale_payment_method.payment_method == 'โอน' ">
+                <p v-if="onsiteSale.sale_payment_method.payment_method == 'transfer' ">
                     <label class="mx-3">รูปสลิป</label>
                     <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
                     <img :src="`${onsiteSale.sale_payment_method.slip_image}`" width="200">
                 </p>
 
-                <p v-if="onsiteSale.sale_payment_method.payment_method == 'บัตรเครดิต' ">
+                <p v-if="onsiteSale.sale_payment_method.payment_method == 'credit_card' ">
                     <label class="mx-3 my-3">ประเภทบัตรเครดิต</label>
                     <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.sale_payment_method.credit_card_type">
                         <option disabled value="">กรุณาเลือกประเภทบัตรเครดิต</option>
@@ -281,12 +281,12 @@ export default {
                 user_id: this.onsiteSale.user.id,
                 redemption_id: this.redemption.id
             }
-            if (this.onsiteSale.sale_payment_method.payment_method == 'โอน') {
+            if (this.onsiteSale.sale_payment_method.payment_method == 'transfer') {
                 onsiteSale.slip_image = this.onsiteSale.sale_payment_method.slip_image
-            } else if (this.onsiteSale.sale_payment_method.payment_method == 'บัตรเครดิต') {
+            } else if (this.onsiteSale.sale_payment_method.payment_method == 'credit_card') {
                 onsiteSale.credit_card_type = this.onsiteSale.sale_payment_method.credit_card_type
                 onsiteSale.bank_name = this.onsiteSale.sale_payment_method.bank_name
-             } else if (this.onsiteSale.sale_payment_method.payment_method == 'เงินสด') {
+             } else if (this.onsiteSale.sale_payment_method.payment_method == 'cash') {
                 onsiteSale.paid_amount = this.onsiteSale.sale_payment_method.paid_amount
                 onsiteSale.paid_change = this.onsiteSale.sale_payment_method.paid_change
             }

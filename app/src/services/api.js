@@ -205,7 +205,16 @@ export const onsiteSaleAPI = {
       return response.data.data
     }
     return []
-  }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/onsite_sales/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const onlineSaleAPI = {
