@@ -39,6 +39,14 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
       }
       return false
     },
+    async edit (id,onsiteSale) {
+      const response = await onsiteSaleAPI.saveEdit(id,onsiteSale)
+      if (response.success) {
+        this.onsiteSales = await onsiteSaleAPI.getAll()
+        return response.onsiteSale_id
+      }
+      return false
+    },
     delete (id) {
       this.onsiteSales = this.onsiteSales.filter(onsiteSale => onsiteSale.id != id)
     },
@@ -57,6 +65,6 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
         id = id + 1
       });
       return id
-    }
+    },
   }
 })

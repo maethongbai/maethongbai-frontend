@@ -83,8 +83,8 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr v-if="onsiteSale.payment_method == 'transfer'">
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'transfer' && onsiteSale.transfer_status == 'มีปัญหา'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -142,9 +142,10 @@
                 <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
             </tr>
         </tbody>
-    </table>
-        
+       </table>
     </div>
+    <br>
+    <br>
     <br>
     <br>
     <br>
