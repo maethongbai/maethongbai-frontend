@@ -77,6 +77,11 @@ const router = createRouter({
       component: () => import('@/views/gold/sale/EditOnsiteSaleView.vue')
     },
     {
+      path: '/onlinesale/edit/:id',
+      name: 'onlinesale.edit',
+      component: () => import('@/views/gold/sale/EditOnlineSaleView.vue')
+    },
+    {
       path: '/custom_order/view',
       name: 'custom_order.view',
       component: () => import('@/views/gold/custom_order/AllCustomOrdersView.vue'),

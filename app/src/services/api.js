@@ -241,7 +241,16 @@ export const onlineSaleAPI = {
       return response.data.data
     }
     return []
-  }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/online_sales/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const customOrderAPI = {
