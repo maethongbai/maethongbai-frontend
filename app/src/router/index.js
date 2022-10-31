@@ -52,8 +52,8 @@ const router = createRouter({
       component: () => import('@/views/gold/redemption/EditRedemptionView.vue')
     },
     {
-      path: '/stock/view',
-      name: 'stock.view',
+      path: '/allstock/view',
+      name: 'allstock.view',
       component: () => import('@/views/gold/stock/AllStockView.vue')
     },
     {
@@ -90,6 +90,21 @@ const router = createRouter({
       path: '/user/:id/history',
       name: 'user.history',
       component: () => import('@/views/gold/user/HistoryView.vue')
+    },
+    {
+      path: '/stock/create',
+      name: 'stock.create',
+      component: () => import('@/views/gold/stock/CreateStockView.vue')
+    },
+    {
+      path: '/stock/edit/:id',
+      name: 'stock.edit',
+      component: () => import('@/views/gold/stock/EditStockView.vue')
+    },
+    {
+      path: '/stock/view',
+      name: 'stock.view',
+      component: () => import('@/views/gold/stock/StockView.vue')
     },
   ]
 })

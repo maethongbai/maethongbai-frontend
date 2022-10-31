@@ -1,20 +1,8 @@
 <template>
-    <div v-if='user.role == "employee" ||
+   <div v-if='user.role == "employee" ||
                user.role == "account" ||
                user.role == "manager"'>
-    <div class="inline">
-        <div class="text-3xl">สต็อกสินค้าทั้งหมด</div>
-        <form @submit.prevent="searchID()">
-            <div class="inline">
-                <label>ID</label>
-                <input class="mx-3" type="text" v-model="stockSearchID" autocomplete="off">
-            </div>
-
-            <button type="submit" class="inline p-2 bg-green-400 border rounded-lg">
-                Search
-            </button>
-        </form>
-    </div>
+    <div class="text-3xl">รายการสินค้าที่ถูกเพิ่มลงสต็อก</div>
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
         <thead class="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
@@ -26,31 +14,30 @@
                     ชื่อสินค้า
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    จำนวนคงเหลือ
+                    พนักงานที่ทำรายการ
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    พนักงานเจ้าของ
+                    สถานะอนุมัติสินค้า
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in list" class="bg-yellow-700 border-b border-blue-400 hover:bg-yellow-500"
-             @click="setSearched(item)">
+            <tr v-for="item in list" class="bg-yellow-700 border-b border-blue-400 hover:bg-yellow-500">
                 <th scope="row" class="py-4 px-6 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                     {{ item.id }}
                 </th>
                 <td class="px-6 py-4">
                     {{ item.gold.name }}
                 </td>
-                <td class="px-6 py-4">
-                    {{ item.count}}
-                </td>
                 <td class="py-4 px-6" v-if="item.gold.employee_add_stock != null">{{item.gold.employee_add_stock.nickname}}</td>
                 <td class="py-4 px-6" v-else>-</td>
+                <td class="px-6 py-4">
+                    {{ item.gold.stock_approval_status}}
+                </td>
             </tr>
         </tbody>
     </table>
-    <div v-if="stock_searched != null" class="py-5">
+    <!-- <div v-if="stock_searched != null" class="py-5">
         <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
             <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 รายละเอียด
@@ -61,14 +48,11 @@
             <p class="mx-1 mb-3 font-normal text-gray-700">
                 ชื่อสินค้า: {{stock_searched.gold.name}}
             </p>
-            <p class="mx-1 mb-3 font-normal text-gray-700">
-                จำนวนคงเหลือ: {{ stock_searched.count }}
-            </p>
             <p class="mx-1 mb-3 font-normal text-gray-700" v-if="stock_searched.employee_add_stock != null">
-                พนักงานเจ้าของ: {{stock_searched.gold.employee_add_stock.nickname}}
+                พนักงานที่ทำรายการ: {{stock_searched.gold.employee_add_stock.nickname}}
             </p>
         </div>
-    </div>
+    </div> -->
 </div>
 </div>
 </template>
@@ -87,12 +71,8 @@ export default {
         return {
             auth: null,
             user: null,
-            golds: null,
-            stock_searched: null,
-            stockSearchID: null,
-            error: null,
-            list: null
-
+            list: null,
+            error: null
         }
     },
     watch: {
@@ -122,36 +102,14 @@ export default {
             this.user = null
             this.$router.push("/login")
         }
-        
+
         await this.gold_store.fetch()
-        console.log("golf")
-        this.gold_store.fetchLeftover()
-        this.list = this.gold_store.countLeftover()
-        console.log(this.list)
-        
+        this.list = this.gold_store.countUnsellable()
+
     },
     methods: {
-        async searchID() {
-            this.error = null
-            if (this.stockSearchID == null || this.stockSearchID == "")  {
-                this.stock_searched = null
-                this.$router.go(0)
-            }
-            try {
-                this.stock_searched = await this.gold_store.getCountID(this.stockSearchID)
-                // this.golds = this.gold_store.getGolds
-                // this.golds = this.gold_store.filterStockByID(this.golds,this.stockSearchID)
-                // console.log(this.stock_searched)
-            } catch (error) {
-                this.error = error.message
-            }
-    },
-    async setSearched(item) {
-            this.stock_searched = item
-    }
-   
-}
 
+    }
 }
 
 </script>
