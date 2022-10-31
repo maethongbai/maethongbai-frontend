@@ -269,15 +269,14 @@ export default {
             console.log(user)
             if (user == undefined ||
                 user == null) {
-                    this.new_onsiteSale.user.id = null
-                    this.new_onsiteSale.user.username = null
+                    this.onsiteSale.user.id = null
+                    this.onsiteSale.user.username = null
                     this.checks.phone_user = false
                     e.preventDefault();
                     return
             }
-            this.new_onsiteSale.user.id = user.id
-            this.new_onsiteSale.user.username = user.username
-            this.onsiteSale.user.username = this.new_onsiteSale.user.username
+            this.onsiteSale.user.id = user.id
+            this.onsiteSale.user.username = user.username
             e.preventDefault();
         },
         findGold(e) {
