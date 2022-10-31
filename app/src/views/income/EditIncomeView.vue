@@ -11,7 +11,7 @@
             <input type="text" v-model="income.name">
             
             <p>จำนวนเงิน: </p>
-            <input type="text" v-model="income.amount">
+            <p>{{income.amount}}</p>
 
             <p>หมายเหตุ: </p>
             <input type="text" v-model="income.note">
