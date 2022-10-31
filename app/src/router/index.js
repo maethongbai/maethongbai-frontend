@@ -131,6 +131,11 @@ const router = createRouter({
       name: 'income.create',
       component: () => import('@/views/income/CreateIncomeView.vue')
     },
+    {
+      path: '/income/edit/:id',
+      name: 'income.edit',
+      component: () => import('@/views/income/EditIncomeView.vue')
+    },
   ]
 })
 

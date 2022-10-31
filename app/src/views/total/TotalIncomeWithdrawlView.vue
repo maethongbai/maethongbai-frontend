@@ -19,8 +19,43 @@
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่ทำรายการ: {{ selected_income.transaction_date }}</p>
             </div>
         </div>
+        <div v-if="user.role == 'manager'">
+                <a v-bind:href="'/income/edit/'+ selected_income.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    แก้ไข
+                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+        </div>
+
     </div>
-    <div v-else class="py-5 grid grid-cols-2">
+    <div v-if="selected_withdrawal != null" class="py-5 grid grid-cols-2">
+        <div class="mx-3 p-5 bg-white border border-gray-200 rounded-lg shadow-md">
+            <div class="mx-5">
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">ชื่อรายการ: {{ selected_withdrawal.name }}</p>
+                <div v-if="selected_withdrawal.note != null">
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">รายละเอียด: {{ selected_withdrawal.note }}</p>
+                </div>
+                <div v-else>
+                    <p class="mx-1 mb-3 font-normal text-gray-700 ">รายละเอียด: (ไม่มีรายละเอียดเพิ่มเติม)</p>
+                </div>
+                
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">จำนวนเงิน: {{ selected_withdrawal.amount }} บาท</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">พนักงานที่รับผิดชอบ: {{ selected_withdrawal.employee.nickname }}</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่ทำรายการ: {{ selected_withdrawal.transaction_date }}</p>
+            </div>
+        </div>
+        <!-- <div v-if="user.role == 'manager'">
+                <a v-bind:href="'/withdrawal/edit/'+ selected_withdrawal.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    แก้ไข
+                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+        </div> -->
+
+    </div>
+    <div v-if="selected_withdrawal == null && selected_income == null" class="py-5 grid grid-cols-2">
         <div class="mx-3 mt-5 p-5 bg-white border border-gray-200 rounded-lg shadow-md grid grid-cols-2">
             <p>ยังไม่ได้เลือกรายการ</p>
         </div>
@@ -115,7 +150,7 @@
 
                 <tbody>
                     <tr v-for="withdrawal in withdrawals"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" 
-                        :key="withdrawal.id" >
+                        :key="withdrawal.id"  @click="setSelectedWithdrawal(withdrawal.id)">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ withdrawal.id }}
                         </th>
@@ -234,6 +269,16 @@ export default {
             this.error = null
             try {
                 this.selected_income = await this.income_store.findById(id)
+                this.selected_withdrawal = null
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
+        async setSelectedWithdrawal(id) {
+            this.error = null
+            try {
+                this.selected_withdrawal = await this.withdrawal_store.findById(id)
+                this.selected_income = null
             } catch (error) {
                 console.log(error.message)
             }

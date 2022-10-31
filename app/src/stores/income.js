@@ -42,7 +42,15 @@ export const useIncomeStore = defineStore("incomes", {
         return response.income_id
       }
       return false
-  },
+    },
+    async edit(id, income) {
+      const response = await incomeAPI.saveEdit(id,income)
+      if (response.success) {
+        this.incomes = await incomeAPI.getAll()
+        return response.income_id
+      }
+      return false
+    },
 
   }
 })

@@ -323,6 +323,15 @@ export const incomeAPI = {
     }
     return []
   },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/incomes/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const withdrawalAPI = {
