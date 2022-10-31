@@ -37,5 +37,9 @@ export const useGoldStore = defineStore("golds", {
       var filtered = [...golds]
       return filtered.filter((gold) => gold.id == id)
     },
+    async edit(gold) {
+      const response = await goldAPI.saveEdit(gold.id, gold)
+      this.golds = await goldAPI.getAll()
+    }
   },
 })

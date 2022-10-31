@@ -61,5 +61,9 @@ export const useRedemptionStore = defineStore("redemptions", {
       const nextID = await redemptionAPI.getNextID()
       return nextID
     },
+    async edit(redemption) {
+      const response = await redemptionAPI.saveEdit(redemption.id, redemption)
+      this.redemptions = await redemptionAPI.getAll()
+    }
   }
 })

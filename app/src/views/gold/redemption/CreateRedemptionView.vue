@@ -29,7 +29,7 @@
         </div>
         <div class="mx-3 my-3">
             <label for="gold.weight" class="mx-3">น้ำหนัก</label>
-            <input class="mx-3" type="number" v-model="temp_weight" autocomplete="off" required>
+            <input class="mx-3" type="number" v-model="temp_weight" step=".01" autocomplete="off" required>
             <label for="gold.weight" class="mx-3">กรัม</label>
         </div>
         <div class="mx-3 my-3">
@@ -276,7 +276,8 @@ export default {
                     gold_pattern_id: this.gold_pattern_store.findByName(this.redemption.gold.gold_pattern).id,
                     brand: this.redemption.gold.brand,
                     import_date: this.redemption.redemption_date,
-                    employee_add_stock_id: this.user.employee.id
+                    employee_add_stock_id: this.user.employee.id,
+                    is_redemption: true
                 }
                 // console.log(gold)
                 gold_id = await this.gold_store.add(gold)
