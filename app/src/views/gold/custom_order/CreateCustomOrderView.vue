@@ -91,7 +91,7 @@
             </div>
             <div>
                 <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
-                <input class="mx-3 my-3" type="text" :required="select.payment_method == 'บัตรเครดิต'" v-model="custom_order.cash.paid_amount" autocomplete="off">
+                <input class="mx-3 my-3" type="text" :required="select.payment_method == 'เงินสด'" v-model="custom_order.cash.paid_amount" autocomplete="off">
                 <label class="mx-3 my-3">บาท</label>
             </div>
             <div>
@@ -271,6 +271,12 @@ export default {
                     }
                 } else {
                     this.custom_order.full_price = "-"
+                }
+
+                if (newValue.cash.paid_amount >= newValue.deposit_total_amount) {
+                    this.custom_order.cash.change_amount = Number(Math.round((this.custom_order.cash.paid_amount - this.custom_order.deposit_total_amount) + 'e2') + 'e-2')
+                } else {
+                    this.custom_order.cash.change_amount = "-"
                 }
             }
         }
