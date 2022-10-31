@@ -100,9 +100,47 @@
                             </div>
                         </div>
 
+                        <div v-if="onlineSale.delivery_status !=  old_onlineSale.delivery_status">
+                            พนักงานเปลี่ยนสถานะจัดส่ง: 
+                            <div>
+                                {{onlineSale.delivery_status_employee.nickname = user.employee.nickname}}
+                            </div>
+
+                        </div>
+
+                        <div v-if="onlineSale.delivery_status != null && onlineSale.delivery_status ==  old_onlineSale.delivery_status">
+                            พนักงานเปลี่ยนสถานะจัดส่ง: 
+                            <div>
+                                {{onlineSale.delivery_status_employee.nickname}}
+                            </div>
+
+                        </div>
+
+                        <div v-if="onlineSale.tracking_number !=  old_onlineSale.tracking_number">
+                            พนักงานเปลี่ยนสถานะจัดส่ง: 
+                            <div>
+                                {{onlineSale.tracking_id_employee.nickname = user.employee.nickname}}
+                            </div>
+
+                        </div>
+
+                        <div v-if="onlineSale.tracking_number != null && onlineSale.tracking_number ==  old_onlineSale.tracking_number">
+                            พนักงานเพิ่มเลข track: 
+                            <div>
+                                {{onlineSale.tracking_id_employee.nickname}}
+                            </div>
+
+                        </div>
+
                         <p>note(ภายในร้าน)</p>
                         <input type="text" v-model="onlineSale.note">
                     
+                        <br>
+                        <br>
+                        <br>
+                        <button @click="saveOnlineSale()" class="px-4 py-2 rounded-lg bg-lime-400">
+                            ยืนยันการเปลี่ยนแปลง
+                        </button>
                     </p>
                 </div>
     </div>
@@ -142,7 +180,11 @@ export default {
             error: null,
             onlineSale: null,
             onlineSale_id: null,
-            edit_gold: false
+            edit_gold: false,
+            old_onlineSale: {
+                delivery_status: null,
+                tracking_number: null
+            }
         }
     },
     watch: {
@@ -190,6 +232,8 @@ export default {
             this.$router.push("/login")
         }
         await this.user_store.fetch()
+        this.old_onlineSale.delivery_status = this.onlineSale.delivery_status
+        this.old_onlineSale.tracking_number = this.onlineSale.tracking_number
         await this.onlineSale_store.fetch()
         await this.gold_store.fetch()
         
@@ -224,6 +268,20 @@ export default {
                 console.log(this.image)
             }
         },
+        async saveOnlineSale(e) {
+            try {
+                await this.onlineSale_store.edit(this.onlineSale.id,this.onlineSale)
+                this.$router.push("/sale/view");
+                
+            } catch (error) {
+                console.log(onlineSale)
+                this.error = error.message
+                console.error(error.response.data)    
+                
+            }
+
+
+        }
 
     }
 }
