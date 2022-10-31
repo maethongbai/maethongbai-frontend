@@ -315,7 +315,14 @@ export const incomeAPI = {
     return {
       success: false
     }
-  }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/incomes/${id}`)
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
 }
 
 export const withdrawalAPI = {

@@ -24,6 +24,25 @@ export const useIncomeStore = defineStore("incomes", {
       var filtered = [...this.incomes]
       return filtered.filter(element => element.transaction_date == date)
     },
+    getNextID() {
+      var id = 1
+      this.incomes.forEach(element => {
+        id = id + 1
+      });
+      return id
+    },
+    async getID(id) {
+      const income = await incomeAPI.getID(id)
+      return income
+    },
+    async add (income) {
+      const response = await incomeAPI.saveNew(income)
+      if (response.success) {
+        this.incomes = await incomeAPI.getAll()
+        return response.income_id
+      }
+      return false
+  },
 
   }
 })
