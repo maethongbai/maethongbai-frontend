@@ -113,7 +113,7 @@ export default {
                 await this.income_store.add(income)
                 console.log(income)
 
-                this.$router.push("/total");
+                this.$router.push("/income/view");
             } catch (error) {
                 console.log(income)
 

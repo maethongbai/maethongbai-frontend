@@ -51,6 +51,9 @@ export const useIncomeStore = defineStore("incomes", {
       }
       return false
     },
-
+    filterIncomeByID(incomes, id) {
+      var filtered = [...incomes]
+      return filtered.filter((income) => income.id == id)
+    },
   }
 })

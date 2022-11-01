@@ -103,7 +103,7 @@ export default {
             try {
                 console.log(this.income)
                 await this.income_store.edit(this.income.id,this.income)
-                this.$router.push("/total");
+                this.$router.push("/income/view");
                 
             } catch (error) {
                 this.error = error.message
