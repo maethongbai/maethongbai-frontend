@@ -42,6 +42,7 @@ export const useGoldStore = defineStore("golds", {
       var filtered = [...golds];
       return filtered.filter((gold) => gold.id == id);
     },
+
     filterUnsellable() {
       var filtered = [...this.golds];
 
