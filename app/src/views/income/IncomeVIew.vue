@@ -134,13 +134,10 @@ export default {
                     this.income_search = null
                     this.$router.go(0)
             }
-            console.log("inee")
             try {
-                console.log("in")
                 this.income_search = await this.income_store.getID(this.income_SearchID)
                 this.incomes = this.income_store.getIncomes
                 this.incomes = this.income_store.filterIncomeByID(this.incomes,this.income_SearchID)
-                console.log("opal")
                 this.income_search = this.income_search
             } catch (error) {
                 this.error = error.message
