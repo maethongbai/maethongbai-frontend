@@ -47,7 +47,6 @@
                             <p> {{onlineSale.additional_note}} </p>
                             
                             <p>รูปสลิป: </p>
-                            <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
                             <img :src="`${onlineSale.slip_image}`" width="200">
 
                             <p>สถานะคำสั่งซื้อ: </p>
@@ -55,9 +54,10 @@
                                 <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
                                 <option value="มีปัญหา">มีปัญหา</option>
                                 <option value="ยืนยัน">ยืนยัน</option>
+                                <option value="ยกเลิกรายการ">ยกเลิกรายการ</option>
                             </select>
-                            <p> {{onlineSale.transfer_status}}</p>
-                            <div v-if="onlineSale.transfer_status == 'มีปัญหา'">
+
+                            <div v-if="onlineSale.transfer_status == 'มีปัญหา' || onlineSale.transfer_status == 'ยกเลิกรายการ'">
                                 <p>หมายเหตุ: </p>
                                 <input type="text" v-model="onlineSale.transfer_note" >
                             </div>

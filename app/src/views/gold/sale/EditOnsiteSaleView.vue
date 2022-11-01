@@ -96,6 +96,12 @@
                             <input type="text" v-model="onsiteSale.transfer_note">
                         </div>
                 </p>
+
+                <label class="mx-3 my-3">สถานะยกเลิกรายการ</label>
+                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.is_cancel_bill">
+                        <option value="0">ไม่เป็นรายการที่ถูกยกเลิก</option>
+                        <option value="1">ยกเลิกรายการ</option>
+                </select>
             </p>
             <button @click="saveOnsiteSale()" class="px-4 py-2 rounded-lg bg-lime-400">
             ยืนยันการเปลี่ยนแปลง
