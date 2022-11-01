@@ -152,7 +152,7 @@ const router = createRouter({
       component: () => import('@/views/gold/custom_order_worker/AddCustomOrderWorkerView.vue')
     },
     {
-      path: '/custom_order/edit_worker/:id',
+      path: '/custom_order_worker/edit/:id',
       name: 'custom_order_worker.edit',
       component: () => import('@/views/gold/custom_order_worker/EditCustomOrderWorkerView.vue')
     },

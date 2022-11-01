@@ -24,6 +24,7 @@ import Profile from './components/profile/Profile.vue'
         <RouterLink to="/stock/view">Stock</RouterLink>
         <RouterLink to="/withdrawal/view">Withdrawal</RouterLink>
         <RouterLink to="/income/view">Income</RouterLink>
+        <RouterLink to="/custom_order_worker/view">Custom Order Worker</RouterLink>
       </nav>
     </div>
   </header>
