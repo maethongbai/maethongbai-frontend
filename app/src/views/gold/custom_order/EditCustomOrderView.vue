@@ -237,6 +237,12 @@ user.role == "manager"'>
         <button @click="saveCustomOrder()" class="px-4 py-2 rounded-lg bg-lime-400">
             ยืนยันการเปลี่ยนแปลง
         </button>
+        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+            ยืนยันการเปลี่ยนแปลงไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        </label>
+        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+            - {{error}}
+        </label>
     </div>
 </div>
 </template>
@@ -281,6 +287,10 @@ export default {
             disableButton: false,
             select: {
                 custom_order_workers: []
+            },
+            input_check: {
+                errors: [],
+                is_valid: true
             }
         }
     },
@@ -360,6 +370,31 @@ export default {
     },
     methods: {
         async saveCustomOrder() {
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+            // validate
+            if (this.custom_order.weight < 0) {
+                this.input_check.errors.push("น้ำหนักต้องมีค่าเป็นบวก")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.delivery_date != null) {
+                if (new Date(this.custom_order.delivery_date) < moment()) {
+                    // if finish date is before today
+                    this.input_check.errors.push("วันที่ส่งมอบต้องไม่อยู่ในอดีต")
+                    this.input_check.is_valid = false
+                }
+            } else {
+                this.input_check.errors.push("กรุณาใส่วันที่ส่งมอบ")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.user == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลลูกค้าที่สั่ง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                return
+            }
 
             var custom_order = {
                 name: this.custom_order.name,
