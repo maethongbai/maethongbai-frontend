@@ -30,24 +30,28 @@ user.role == "manager"'>
                 <label class="mx-3">กรัม</label>
             </div>
             <div class="mx-3 my-3">
-                <label class="mx-3">ค่าแรง</label>
-                <input class="mx-3" step=".01" type="number" v-model="custom_order.wage" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    ค่าแรง: {{custom_order.wage}} บาท
+                </p>
             </div>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ราคาเต็ม: {{custom_order.full_price}} บาท
-            </p>
             <div class="mx-3 my-3">
-                <label class="mx-3">มัดจำ</label>
-                <input class="mx-3" step=".01" type="number" v-model="custom_order.deposit_total_amount" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    ราคาเต็ม: {{custom_order.full_price}} บาท
+                </p>
+            </div>
+            <div class="mx-3 my-3">
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    มัดจำ: {{custom_order.deposit_total_amount}} บาท
+                </p>
             </div>
             <div class="mx-3 my-3">
                 <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount}} บาท</label>
             </div>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                วันที่สั่ง: {{custom_order.order_date}}
-            </p>
+            <div class="mx-3 my-3">
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    วันที่สั่ง: {{custom_order.order_date}}
+                </p>
+            </div>
             <div class="mx-3 my-3">
                 <label class="mx-3">วันที่เสร็จ</label>
                 <Datepicker v-model="custom_order.finish_date"></Datepicker>

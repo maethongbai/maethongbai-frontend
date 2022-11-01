@@ -52,9 +52,7 @@
                 <label class="mx-3">ราคาทองตอนรับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
             </div>
             <div class="mx-3 my-3">
-                <label class="mx-3">ราคาที่รับซื้อ</label>
-                <input class="mx-3" type="number" v-model="redemption.redemption_price" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <label class="mx-3">ราคาที่รับซื้อ: {{redemption.redemption_price}} บาท</label>
             </div>
             <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
                 ข้อมูลลูกค้า
