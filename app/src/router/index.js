@@ -131,6 +131,41 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue')
     },
+    {
+      path: '/total',
+      name: 'total',
+      component: () => import('@/views/total/TotalIncomeWithdrawlView.vue')
+    },
+    {
+      path: '/income/create',
+      name: 'income.create',
+      component: () => import('@/views/income/CreateIncomeView.vue')
+    },
+    {
+      path: '/income/view',
+      name: 'income.view',
+      component: () => import('@/views/income/IncomeView.vue')
+    },
+    {
+      path: '/income/edit/:id',
+      name: 'income.edit',
+      component: () => import('@/views/income/EditIncomeView.vue')
+    },
+    {
+      path: '/withdrawal/create',
+      name: 'withdrawal.create',
+      component: () => import('@/views/withdrawal/CreateWithdrawalView.vue')
+    },
+    {
+      path: '/withdrawal/view',
+      name: 'withdrawal.view',
+      component: () => import('@/views/withdrawal/WithdrawalView.vue')
+    },
+    {
+      path: '/withdrawal/edit/:id',
+      name: 'withdrawal.edit',
+      component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
+    },
   ]
 })
 
