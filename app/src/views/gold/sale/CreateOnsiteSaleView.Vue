@@ -2,6 +2,10 @@
 <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
+            <div class="block my-5">
+        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        <!-- {{user.employee.id}} -->
+    </div>
     </div>
         <form @submit.prevent="createOnsiteSale()">
             <div class="mx-3 my-3">
