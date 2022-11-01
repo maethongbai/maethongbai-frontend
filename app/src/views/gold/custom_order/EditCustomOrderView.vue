@@ -212,7 +212,7 @@ user.role == "manager"'>
             <option value="เสร็จสิ้น">เสร็จสิ้น</option>
             <option value="ยกเลิก">ยกเลิก</option>
         </select>
-        <div v-if='user.role == "manager"'>
+        <div v-if='user.role == "manager" && custom_order.deposit_payment_method == "transfer"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนมัดจำ</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.deposit_status">
                 <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
@@ -221,7 +221,7 @@ user.role == "manager"'>
             </select>
         </div>
 
-        <div v-if='user.role == "manager"'>
+        <div v-if='user.role == "manager" && custom_order.difference_payment_method == "transfer"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนส่วนต่าง</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.difference_status">
                 <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>

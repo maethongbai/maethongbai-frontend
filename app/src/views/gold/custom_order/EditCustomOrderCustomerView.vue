@@ -50,7 +50,7 @@
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
                 ช่องทางการชำระเงินมัดจำ: {{custom_order.deposit_payment_method}}
             </p>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
+            <p v-if="custom_order.deposit_payment_method == 'transfer'" class="mx-1 mb-3 font-normal text-gray-700 ">
                 สถานะโอนมัดจำ: {{custom_order.deposit_status}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
