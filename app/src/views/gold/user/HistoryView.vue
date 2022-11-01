@@ -66,7 +66,7 @@
                     <p class="mx-1 mb-3 font-normal text-gray-700">
                         ประเภท: {{searched_obj.item.gold.gold_type.name}}
                     </p>
-                    <p class="mx-1 mb-3 font-normal text-gray-700" v-if="redemption_searched.gold.weight != null">
+                    <p class="mx-1 mb-3 font-normal text-gray-700" v-if="searched_obj.item.gold.weight != null">
                         น้ำหนัก: {{searched_obj.item.gold.weight}}
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700" v-else>
@@ -172,8 +172,8 @@
                         <p> หมายเหตุการโอน : {{searched_obj.item.transfer_note}}</p>
                         <p> สถานะส่งของ : {{searched_obj.item.delivery_status}}</p>
                         <p> เลข tracking : {{searched_obj.item.tracking_number}}</p>
-                        <p> พนักงานส่งของ : {{searched_obj.item.tracking_id_employee.nickname}}</p>
-                        <p> พนักงานเปลี่ยนสถานะจัดส่ง : {{searched_obj.item.delivery_status_employee.nickname}}</p>
+                        <p v-if="searched_obj.item.tracking_id_employee != null"> พนักงานส่งของ : {{searched_obj.item.tracking_id_employee.nickname}}</p>
+                        <p v-if="searched_obj.item.delivery_status_employee != null"> พนักงานเปลี่ยนสถานะจัดส่ง : {{searched_obj.item.delivery_status_employee.nickname}}</p>
                         <p> note(ภายในร้าน) : {{searched_obj.item.note}}</p>
                         <p> ลูกค้าที่ทำรายการ : {{searched_obj.item.user.username}}</p>
                     </div>
@@ -380,7 +380,7 @@ export default {
     },
     async mounted() {
         if (this.auth_store.isAuthen) {
-            this.auth = this.auths_store.getAuth
+            this.auth = this.auth_store.getAuth
             this.auth_user = JSON.parse(this.auth_store.getUser)
             console.log("authorized " + document.URL);
         } else {
