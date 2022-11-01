@@ -362,7 +362,6 @@ export default {
                 } 
             }
         }
-
     },
     async created() {
         const id = this.$route.params.id
@@ -391,7 +390,6 @@ export default {
         await this.history_store.fetch()
         this.histories = this.history_store.getHistories
         // this.histories = this.history_store.filterByUser(this.user)
-
     },
     methods: {
         setSearched(obj) {

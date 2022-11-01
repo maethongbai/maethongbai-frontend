@@ -52,11 +52,6 @@ const router = createRouter({
       component: () => import('@/views/gold/redemption/EditRedemptionView.vue')
     },
     {
-      path: '/stock/view',
-      name: 'stock.view',
-      component: () => import('@/views/gold/stock/AllStockView.vue')
-    },
-    {
       path: '/redemption/create',
       name: 'redemption.create',
       component: () => import('@/views/gold/redemption/CreateRedemptionView.vue'),
@@ -125,6 +120,26 @@ const router = createRouter({
       path: '/user/sale_status',
       name: 'user.sale_status',
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
+    },
+    {
+      path: '/allstock/view',
+      name: 'allstock.view',
+      component: () => import('@/views/gold/stock/AllStockView.vue')
+    },
+    {
+      path: '/stock/create',
+      name: 'stock.create',
+      component: () => import('@/views/gold/stock/CreateStockView.vue')
+    },
+    {
+      path: '/stock/edit/:id',
+      name: 'stock.edit',
+      component: () => import('@/views/gold/stock/EditStockView.vue')
+    },
+    {
+      path: '/stock/view',
+      name: 'stock.view',
+      component: () => import('@/views/gold/stock/StockView.vue')
     },
     {
       path: '/register',

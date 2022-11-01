@@ -57,7 +57,7 @@ export const goldAPI = {
     return []
   },
   async saveNew (gold) {
-    console.log(gold)
+    // console.log(gold)
     const response = await axiosInstance.post('/golds', gold)
     if (response.status == 201) {
       return response.data
@@ -84,6 +84,16 @@ export const goldAPI = {
     }
     return []
   },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/golds/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+
 }
 
 export const redemptionAPI = {
@@ -305,6 +315,16 @@ export const customOrderWorkerAPI = {
     }
     return []
   },
+}
+
+export const wholesaleAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/wholesales')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  }
 }
 
 export const employeeAPI = {
