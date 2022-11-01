@@ -187,8 +187,6 @@ export default {
         async createGold() {
             try {
                 var gold = {
-                    // name: this.gold_type + this.gold_pattern + this.gold_size,
-                    name: null,
                     gold_type_id: this.gold_type_store.findByName(this.gold.gold_type).id,
                     weight: this.gold.gold_weight,
                     custom_weight: this.gold.gold_custom_weight,
@@ -196,7 +194,6 @@ export default {
                     gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern).id,
                     size: this.gold.gold_size,
                     pension_per_piece: this.gold.goldsmith_charge,
-                    // amount: this.gold.amount,
                     import_date: this.gold.import_date,
                     is_sold: this.gold.is_sold,
                     wholesale_id: this.wholesale_store.findByName(this.gold.wholesale).id,

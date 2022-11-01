@@ -206,7 +206,6 @@ export default {
     methods: {
         async saveGold() {
             var gold = {
-                    // name: this.gold_type + this.gold_pattern + this.gold_size,
                     id: this.gold.id,
                     name: null,
                     gold_type_id: this.gold_type_store.findByName(this.gold.gold_type.name).id,
@@ -215,7 +214,6 @@ export default {
                     pattern_type: this.gold.pattern_type,
                     gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern.name).id,
                     size: this.gold.size,
-                    // amount: this.gold.amount,
                     stock_approval_status: this.gold.stock_approval_status,
                     wholesale_id: this.wholesale_store.findByName(this.gold.wholesale.name).id,
                   

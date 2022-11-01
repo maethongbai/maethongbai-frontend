@@ -106,6 +106,66 @@ const router = createRouter({
       name: 'stock.view',
       component: () => import('@/views/gold/stock/StockView.vue')
     },
+    {
+      path: '/custom_order_worker/view',
+      name: 'custom_order_worker.view',
+      component: () => import('@/views/gold/custom_order_worker/CustomOrderWorkerView.vue')
+    },
+    {
+      path: '/custom_order_worker/create',
+      name: 'custom_order_worker.create',
+      component: () => import('@/views/gold/custom_order_worker/AddCustomOrderWorkerView.vue')
+    },
+    {
+      path: '/custom_order/edit_worker/:id',
+      name: 'custom_order_worker.edit',
+      component: () => import('@/views/gold/custom_order_worker/EditCustomOrderWorkerView.vue')
+    },
+    {
+      path: '/gold_pattern/view',
+      name: 'gold_pattern.view',
+      component: () => import('@/views/gold/pattern/GoldPatternView.vue')
+    },
+    {
+      path: '/gold_pattern/create',
+      name: 'gold_pattern.create',
+      component: () => import('@/views/gold/pattern/AddGoldPatternView.vue')
+    },
+    {
+      path: '/gold_pattern/edit/:id',
+      name: 'gold_pattern.edit',
+      component: () => import('@/views/gold/pattern/EditGoldPatternView.vue')
+    },
+    {
+      path: '/gold_type/view',
+      name: 'gold_type.view',
+      component: () => import('@/views/gold/type/GoldTypeView.vue')
+    },
+    {
+      path: '/gold_type/create',
+      name: 'gold_type.create',
+      component: () => import('@/views/gold/type/AddGoldTypeView.vue')
+    },
+    {
+      path: '/gold_type/edit/:id',
+      name: 'gold_type.edit',
+      component: () => import('@/views/gold/type/EditGoldTypeView.vue')
+    },
+    {
+      path: '/wholesale/view',
+      name: 'wholesale.view',
+      component: () => import('@/views/gold/wholesale/WholesaleView.vue')
+    },
+    {
+      path: '/wholesale/create',
+      name: 'wholesale.create',
+      component: () => import('@/views/gold/wholesale/AddWholesaleView.vue')
+    },
+    {
+      path: '/wholesale/edit/:id',
+      name: 'wholesale.edit',
+      component: () => import('@/views/gold/wholesale/EditWholesaleView.vue')
+    },
   ]
 })
 
