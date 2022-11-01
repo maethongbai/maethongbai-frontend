@@ -350,5 +350,22 @@ export const withdrawalAPI = {
     return {
       success: false
     }
-  }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/withdrawals/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/withdrawals/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }

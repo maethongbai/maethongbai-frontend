@@ -10,6 +10,18 @@ export const useWithdrawalStore = defineStore("withdrawals", {
   getters: {
     getWithdrawals (state) {
       return state.withdrawals
+    },
+    filterChecking (state) {
+      var filtered = [...state.withdrawals]
+      return filtered.filter((withdrawal) => withdrawal.withdrawal_status == "รออนุมัติ")
+    },
+    filterProblem (state) {
+      var filtered = [...state.withdrawals]
+      return filtered.filter((withdrawal) =>  withdrawal.withdrawal_status == "ไม่อนุมัติ")
+    },
+    filterConfirm (state) {
+      var filtered = [...state.withdrawals]
+      return filtered.filter((withdrawal) => withdrawal.withdrawal_status == "อนุมัติ")
     }
   },
   actions: {
@@ -42,6 +54,14 @@ export const useWithdrawalStore = defineStore("withdrawals", {
         return response.withdrawal_id
       }
       return false
+  },
+  async edit(id, withdrawal) {
+    const response = await withdrawalAPI.saveEdit(id,withdrawal)
+    if (response.success) {
+      this.incomes = await withdrawalAPI.getAll()
+      return response.withdrawal_id
+    }
+    return false
   },
 
   }
