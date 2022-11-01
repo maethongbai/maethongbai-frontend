@@ -57,11 +57,20 @@ export const goldAPI = {
     return []
   },
   async saveNew (gold) {
-    console.log(gold)
+    // console.log(gold)
     const response = await axiosInstance.post('/golds', gold)
     if (response.status == 201) {
       return response.data
       // return response.data.data
+    }
+    return {
+      success: false
+    }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/golds/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
     }
     return {
       success: false
@@ -266,7 +275,16 @@ export const onsiteSaleAPI = {
       return response.data.data
     }
     return []
-  }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/onsite_sales/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const onlineSaleAPI = {
@@ -293,7 +311,16 @@ export const onlineSaleAPI = {
       return response.data.data
     }
     return []
-  }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/online_sales/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
 
 export const customOrderAPI = {
@@ -399,4 +426,94 @@ export const wholesaleAPI = {
       success: false
     }
   }
+}
+
+export const employeeAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/employees')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+  async saveNew (user) {
+    const response = await axiosInstance.post('/employees', user)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  }
+}
+
+export const incomeAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/incomes')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (income) {
+    const response = await axiosInstance.post('/incomes', income)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/incomes/${id}`)
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/incomes/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+}
+
+export const withdrawalAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/withdrawals')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (withdrawal) {
+    const response = await axiosInstance.post('/withdrawals', withdrawal)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/withdrawals/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/withdrawals/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
 }
