@@ -2,10 +2,10 @@
 <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
+    <div class="block my-5">
+        <router-link to="/stock/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
     <form @submit.prevent="createGold()">
-        <div class="mx-3 my-3">
-            <!-- <label for="nextID" class="mx-3">รหัสทอง: {{ gold.id }}</label> -->
-        </div>
         <div class="mx-3 my-3">
             <label for="gold.type" class="mx-3">ประเภททอง</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.gold_type">
@@ -178,7 +178,7 @@ export default {
                 console.log("authorized " + document.URL);
 
             } else {
-                this.$router.push("/");
+                this.$router.push("/stock/view");
             }
         } else {
             this.auth = null
@@ -227,7 +227,7 @@ export default {
                     console.log(gold)
                     await this.gold_store.add(gold)
                 }
-
+                this.$router.push("/stock/view")
             } catch (error) {
                 this.error = error.message
                 console.error(error.response.data)
