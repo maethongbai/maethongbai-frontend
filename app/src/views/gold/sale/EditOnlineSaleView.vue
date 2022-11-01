@@ -31,7 +31,8 @@
 
                         <p> ชื่อสินค้า: {{onlineSale.gold.name}}</p>
                         <p> ประเภทสินค้า: {{onlineSale.gold.gold_type.name}}</p>
-                        <p> นำ้หนัก: {{onlineSale.gold.weight}}</p>
+                        <p v-if="onlineSale.gold.custom_weight == null"> นำ้หนัก: {{onlineSale.gold.weight}}</p>
+                        <p v-if="onlineSale.gold.weight == null"> นำ้หนัก: {{onlineSale.gold.custom_weight}}</p>
                         <p> ลาย: {{onlineSale.gold.gold_pattern.name}}</p>
                         <p> ไซส์: {{onlineSale.gold.size}}</p>
                         <p> ราคาสินค้า:</p>

@@ -40,7 +40,8 @@
 
                 <p> ชื่อสินค้า: {{onsiteSale.gold.name}}</p>
                 <p> ประเภทสินค้า: {{onsiteSale.gold.gold_type.name}}</p>
-                <p> นำ้หนัก: {{onsiteSale.gold.weight}}</p>
+                <p v-if="onsiteSale.gold.custom_weight == null"> นำ้หนัก: {{onsiteSale.gold.weight}}</p>
+                <p v-if="onsiteSale.gold.weight == null"> นำ้หนัก: {{onsiteSale.gold.custom_weight}}</p>
                 <p> ลาย: {{onsiteSale.gold.gold_pattern.name}}</p>
                 <p> วันที่ขาย: {{onsiteSale.sale_date}}</p>
                 <label class="mx-3 my-3">ประเภททองเปลี่ยน</label>

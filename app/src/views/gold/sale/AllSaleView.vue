@@ -1,19 +1,12 @@
 <template>
+    <div v-if='user.role == "employee" ||
+user.role == "account" ||
+user.role == "manager"'>
     <br>
     <br>
     <h1 class="text-3xl">รายการขายหน้าร้าน</h1>
     <br>
     <div>
-        <form  @submit.prevent="onsiteSearchID()">
-           <div class="inline">
-            <label>ID</label>
-            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
-           </div>
-
-           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
-                Search
-            </button>
-        </form>
         <div>
             ประเภทในการชำระเงินของลูกค้า
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale_payment_method">
@@ -23,8 +16,19 @@
                         <option value="บัตรเครดิต">บัตรเครดิต</option>
             </select>
         </div>
-
+        <br>
         <div v-if="onsiteSale_payment_method == 'โอน'">
+            <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+        <br>
             <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
@@ -99,6 +103,17 @@
     </div>
 
     <div v-if="onsiteSale_payment_method == 'เงินสด'">
+        <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+        <br>
         <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
@@ -123,6 +138,17 @@
     </div>
 
     <div v-if="onsiteSale_payment_method == 'บัตรเครดิต'">
+        <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+        <br>
         <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
@@ -249,8 +275,8 @@
                     <p> ยอดเงินทอน : {{sale_search.paid_change}}</p>
                 </div>
 
-                <p v-if="is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
-                <div v-if="is_switch_gold == true"> 
+                <p v-if="sale_search.is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
+                <div v-if="sale_search.is_switch_gold == true"> 
                     <p> เป็นทองที่เปลี่ยน </p>
                     <p> เลขที่บิลรับซื้อ : {{sale_search.redemption.id}} </p>
                 </div>
@@ -299,6 +325,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -393,9 +420,11 @@ export default {
             }
             try {
                 this.onsiteSale_search = await this.onsiteSale_store.getID(this.onsite_SearchID)
+                this.onsiteSales = this.onsiteSale_store.getOnsiteSales
                 this.onsiteSales_checking = this.onsiteSale_store.filterChecking
                 this.onsiteSales_problem = this.onsiteSale_store.filterProblem
                 this.onsiteSales_confirm = this.onsiteSale_store.filterConfirm
+                this.onsiteSales = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales,this.onsite_SearchID)
                 this.onsiteSales_checking = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_checking, this.onsite_SearchID)
                 this.onsiteSales_problem = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_problem, this.onsite_SearchID)
                 this.onsiteSales_confirm = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_confirm, this.onsite_SearchID)
