@@ -94,5 +94,9 @@ export const useCustomOrderStore = defineStore("custom_orders", {
       const response = await customOrderAPI.saveEdit(id, obj)
       this.custom_orders = await customOrderAPI.getAll()
     },
+    async edit(id,custom_order) {
+      const response = await customOrderAPI.saveEdit(id, custom_order)
+      this.custom_orders = await customOrderAPI.getAll()
+    },
   }
 })

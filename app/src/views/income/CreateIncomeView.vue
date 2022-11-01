@@ -2,7 +2,9 @@
     <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
-
+         <div class="block my-5">
+               <router-link to="/income/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        </div>
         <form @submit.prevent="createIncome()">
             <div class="mx-3 my-3">
             <label for="nextID" class="mx-3">เลขบิล: {{income.id}} </label>
@@ -113,7 +115,7 @@ export default {
                 await this.income_store.add(income)
                 console.log(income)
 
-                this.$router.push("/total");
+                this.$router.push("/income/view");
             } catch (error) {
                 console.log(income)
 

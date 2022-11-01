@@ -72,6 +72,16 @@ const router = createRouter({
       component: () => import('@/views/gold/sale/CreateOnsiteSaleView.vue'),
     },
     {
+      path: '/onsitesale/edit/:id',
+      name: 'onsitesale.edit',
+      component: () => import('@/views/gold/sale/EditOnsiteSaleView.vue')
+    },
+    {
+      path: '/onlinesale/edit/:id',
+      name: 'onlinesale.edit',
+      component: () => import('@/views/gold/sale/EditOnlineSaleView.vue')
+    },
+    {
       path: '/custom_order/view',
       name: 'custom_order.view',
       component: () => import('@/views/gold/custom_order/AllCustomOrdersView.vue'),
@@ -130,6 +140,11 @@ const router = createRouter({
       path: '/income/create',
       name: 'income.create',
       component: () => import('@/views/income/CreateIncomeView.vue')
+    },
+    {
+      path: '/income/view',
+      name: 'income.view',
+      component: () => import('@/views/income/IncomeView.vue')
     },
     {
       path: '/income/edit/:id',
