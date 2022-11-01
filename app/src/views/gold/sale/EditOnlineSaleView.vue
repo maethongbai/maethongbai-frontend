@@ -34,18 +34,9 @@
                         <p> นำ้หนัก: {{onlineSale.gold.weight}}</p>
                         <p> ลาย: {{onlineSale.gold.gold_pattern.name}}</p>
                         <p> ไซส์: {{onlineSale.gold.size}}</p>
-                        
-                        <div v-if='user.role == "manager"'>
-                            <p> ราคาสินค้า:</p>
-                            <input type="text" v-model="onlineSale.gold_price" >
-                            <p> {{onlineSale.gold_price}} </p>
-                        </div>
-
-                        <div v-if=' user.role == "account" ||
-                                    user.role == "employee"'>
-                            <p> ราคาสินค้า:</p>
-                            <p> {{onlineSale.gold_price}} </p>
-                        </div>
+                        <p> ราคาสินค้า:</p>
+                        <p> {{onlineSale.gold_price}} </p>
+                    
                     
                         <p> วันที่ขาย: {{onlineSale.sale_date}}</p>
                         <p> ราคาทอง ณ เวลาขาย: {{onlineSale.gold_sell_price.sell_price}}</p>

@@ -48,7 +48,7 @@
                         <option value="0">ไม่เป็นทองเปลี่ยน</option>
                         <option value="1">เป็นทองเปลี่ยน</option>
                 </select>
-                <p> {{onsiteSale.is_switch_gold}}</p>
+                
 
                 <p v-if="onsiteSale.is_switch_gold == 1 && onsiteSale.redemption == null"> 
                     เลขที่บิลรับซื้อ: 
@@ -69,34 +69,22 @@
 
                 <p>ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}}</p>
                 <p>ราคาสินค้าที่ขาย:</p>
-                <input type="text" v-model="onsiteSale.gold_price" >
                 <p> {{onsiteSale.gold_price}} </p>
 
                 <p>ช่องทางการชำระเงิน: </p>
-                <input v-model="onsiteSale.payment_method" id="cash" type="radio" value="cash">
-                <label for="cash"> เงินสด </label>
-                <input v-model="onsiteSale.payment_method" id="transfer" type="radio" value="transfer">
-                <label for="transfer"> โอน </label>
-                <input v-model="onsiteSale.payment_method" id="credit_card" type="radio" value="credit_card">
-                <label for="credit_card"> บัตรเครดิต </label>
-
                 <p>{{onsiteSale.payment_method}}</p>
 
                 <p v-if="onsiteSale.payment_method == 'cash'">
                     <div >
                         <p>เงินที่ลูกค้าชำระ: </p>
-                        <input type="text" v-model="onsiteSale.paid_amount">
-                        <div v-if="onsiteSale.paid_amount - onsiteSale.gold_price > 0">
-                            เงินทอน: {{onsiteSale.paid_change = onsiteSale.paid_amount - onsiteSale.gold_price}}
-                        </div>
-                        <p>{{onsiteSale.paid_change}}</p>
-                        <p>{{onsiteSale.payment_method}}</p>
+                        <p> {{onsiteSale.paid_amount}}</p>
+                        <p> เงินทอน: </p>
+                        <p> {{onsiteSale.paid_change}}</p>
                     </div>
                 </p>
 
                 <p v-if="onsiteSale.payment_method == 'transfer'">
                         <p>รูปสลิป: </p>
-                        <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
                         <img :src="`${onsiteSale.slip_image}`" width="200">
                         <p>สถานะโอน: </p>
                         <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.transfer_status">
@@ -104,36 +92,9 @@
                         <option value="มีปัญหา">มีปัญหา</option>
                         <option value="ยืนยัน">ยืนยัน</option>
                         </select>
-                        {{onsiteSale.transfer_status}}
                         <div v-if="onsiteSale.transfer_status == 'มีปัญหา'"> 
                             <input type="text" v-model="onsiteSale.transfer_note">
                         </div>
-                </p>
-
-                <p v-if="onsiteSale.payment_method == 'credit_card'">
-                    <div>
-                        <label class="mx-3 my-3">ประเภทบัตรเครดิต</label>
-                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.credit_card_type">
-                        <option disabled value="">กรุณาเลือกประเภทบัตรเครดิต</option>
-                        <option value="Mastercard">Mastercard</option>
-                        <option value="VISA">VISA</option>
-                        <option value="Union Pay">Union Pay</option>
-                        <option value="American Express">American Express</option>
-                        <option value="อื่นๆ">อื่นๆ</option>
-                    </select>
-                   
-                    <label class="mx-3 my-3">ธนาคาร</label>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.bank_name">
-                        <option disabled value="">กรุณาเลือกธนาคาร</option>
-                        <option value="กสิกร">กสิกร</option>
-                        <option value="กรุงเทพ">กรุงเทพ</option>
-                        <option value="กรุงไทย">กรุงไทย</option>
-                        <option value="กรุงศรี">กรุงศรี</option>
-                        <option value="ออมสิน">ออมสิน</option>
-                        <option value="ไทยพาณิช">ไทยพาณิช</option>
-                        <option value="อื่นๆ">อื่นๆ</option>
-                    </select>
-                    </div>
                 </p>
             </p>
             <button @click="saveOnsiteSale()" class="px-4 py-2 rounded-lg bg-lime-400">
@@ -325,14 +286,6 @@ export default {
             this.onsiteSale.is_switch_gold = 1
             this.onsiteSale.redemption = redemption
             e.preventDefault();
-        },
-        onFileChange(e) {
-            const reader = new FileReader()
-            reader.readAsDataURL(e.target.files[0])
-            reader.onload = e => {
-                this.onsiteSale.slip_image = e.target.result
-                console.log(this.image)
-            }
         },
         async saveOnsiteSale(e) {
             try {
