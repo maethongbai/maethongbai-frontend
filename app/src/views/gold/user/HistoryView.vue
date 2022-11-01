@@ -95,7 +95,8 @@
                     </p>
                 </div>
             </div>
-            <div v-else-if="searched_obj.type == 'ซื้อทองหน้าร้าน'" class="py-5" >
+            <div v-else-if="searched_obj.type == 'ซื้อทองหน้าร้าน' ||
+                            searched_obj.type == 'เปลี่ยน'" class="py-5" >
                 <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
                     <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
                         รายละเอียด
