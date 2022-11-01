@@ -187,9 +187,9 @@ export default {
                 this.withdrawals_checking = this.withdrawal_store.filterChecking
                 this.withdrawals_problem = this.withdrawal_store.filterProblem
                 this.withdrawals_confirm = this.withdrawal_store.filterConfirm
-                this.withdrawals_checking = this.withdrawal_store.findByID(this.withdrawals_checking, this.withdrawal_SearchID)
-                this.withdrawals_problem = this.withdrawal_store.findByID(this.withdrawals_problem, this.withdrawal_SearchID)
-                this.withdrawals_confirm = this.withdrawal_store.findByID(this.withdrawals_confirm, this.withdrawal_SearchID)
+                this.withdrawals_checking = this.withdrawal_store.filterWithdrawalyID(this.withdrawals_checking, this.withdrawal_SearchID)
+                this.withdrawals_problem = this.withdrawal_store.filterWithdrawalyID(this.withdrawals_problem, this.withdrawal_SearchID)
+                this.withdrawals_confirm = this.withdrawal_store.filterWithdrawalyID(this.withdrawals_confirm, this.withdrawal_SearchID)
                 this.withdrawal_search = this.withdrawal_search
                 this.withdrawal_SearchID = null
                 this.withdrawal_search = null

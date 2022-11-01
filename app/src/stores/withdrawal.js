@@ -63,6 +63,10 @@ export const useWithdrawalStore = defineStore("withdrawals", {
     }
     return false
   },
+  filterWithdrawalyID(withdrawals, id) {
+    var filtered = [...withdrawals]
+    return filtered.filter((withdrawal) => withdrawal.id == id)
+  },
 
   }
 })
