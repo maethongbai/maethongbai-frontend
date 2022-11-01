@@ -94,8 +94,7 @@
                 </div>
             </div>
             <div class="mx-3 my-3">
-                <input v-model="checks.credit_card_check"
-                :disabled="checks.cash_check == true ||
+                <input v-model="checks.credit_card_check" :disabled="checks.cash_check == true ||
                     checks.transfer_check == true" type="checkbox">
                 <label class="mx-3 my-3">บัตรเครดิต</label>
                 <div v-if="checks.credit_card_check == true">
@@ -104,8 +103,7 @@
                         <option disabled value="">กรุณาเลือกประเภทบัตรเครดิต</option>
                         <option v-for="card in options.credit_card_type" :value="card">{{ card }}</option>
                     </select>
-                    <label class="inline-block mx-1 mb-2 font-medium text-red-500"
-                    v-if="difference_values.credit_card.type == ''">กรุณาเลือกประเภทบัตรเครดิต</label>
+                    <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="difference_values.credit_card.type == ''">กรุณาเลือกประเภทบัตรเครดิต</label>
                     <div class="mb-3" v-if="difference_values.credit_card.type == 'อื่นๆ'">
                         <label class="ml-3">ระบุประเภทบัตรเครดิต </label>
                         <input class="mx-3 my-3" type="text" :required="difference_values.credit_card.type == 'อื่นๆ'" v-model="difference_values.credit_card.custom_type" autocomplete="off">
@@ -124,8 +122,7 @@
                 </div>
             </div>
             <div class="mx-3 my-3">
-                <input v-model="checks.transfer_check"
-                :disabled="checks.credit_card_check == true ||
+                <input v-model="checks.transfer_check" :disabled="checks.credit_card_check == true ||
                            checks.cash_check == true" type="checkbox">
                 <label class="mx-3 my-3">โอน</label>
                 <div v-if="checks.transfer_check == true">
@@ -138,6 +135,12 @@
             <button type="submit" :disabled="disableButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
                 ยืนยันการเปลี่ยนแปลง
             </button>
+            <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                ยืนยันการเปลี่ยนแปลงไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+            </label>
+            <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                - {{error}}
+            </label>
         </div>
     </form>
 </div>
@@ -208,7 +211,11 @@ export default {
                     "อื่นๆ"
                 ]
             },
-            temp_paid_amount: null
+            temp_paid_amount: null,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
     },
     watch: {
@@ -273,6 +280,54 @@ export default {
     methods: {
         async editCustomOrder() {
             this.disableButton = true
+            // validate
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            if (this.checks.credit_card_check == true) {
+                if (this.difference_values.credit_card.type == "อื่นๆ") {
+                    // check custom type
+                    if (this.difference_values.credit_card.custom_type == null) {
+                        this.input_check.errors.push("กรุณาใส่ประเภทบัตรเครดิต")
+                        this.input_check.is_valid = false
+                    }
+                } else if (this.difference_values.credit_card.type == null) {
+                    // check type
+                    this.input_check.errors.push("กรุณาเลือกประเภทบัตรเครดิต")
+                    this.input_check.is_valid = false
+                }
+                if (this.difference_values.credit_card.bank_name == "อื่นๆ") {
+                    // check custom bank name
+                    if (this.difference_values.credit_card.custom_bank_name == null) {
+                        this.input_check.errors.push("กรุณาใส่ชื่อธนาคาร")
+                        this.input_check.is_valid = false
+                    }
+                } else if (this.difference_values.credit_card.bank_name == null) {
+                    // check bank name
+                    this.input_check.errors.push("กรุณาเลือกชื่อธนาคาร")
+                    this.input_check.is_valid = false
+                }
+            } else if (this.checks.cash_check == true) {
+                if (this.difference_values.cash.change_amount == null) {
+                    this.input_check.errors.push("เงินที่ลูกค้าจ่ายต้องมีค่ามากกว่าหรือเท่ากับราคาสุทธิ")
+                    this.input_check.is_valid = false
+                }
+
+            } else if (this.checks.transfer_check == true) {
+                if (this.difference_values.transfer.slip_mage == null) {
+                    this.input_check.errors.push("กรุณาอัพโหลดรูปสลิป")
+                    this.input_check.is_valid = false
+                }
+            } else {
+                this.input_check.errors.push("กรุณาเลือกช่องทางการชำระเงินส่วนต่าง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disableButton = false
+                return
+            }
+
             var difference_values = {
                 difference_payment_method: null,
                 difference_paid_amount: null,
