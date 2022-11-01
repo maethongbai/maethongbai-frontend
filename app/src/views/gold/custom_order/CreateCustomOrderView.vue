@@ -317,6 +317,7 @@ export default {
     },
     methods: {
         async createCustomOrder() {
+            this.disableButton = true
             // validation
             this.input_check.errors = []
             this.input_check.is_valid = true
@@ -411,6 +412,7 @@ export default {
             }
 
             if (this.input_check.is_valid == false) {
+                this.disableButton = false
                 return
             }
 

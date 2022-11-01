@@ -37,9 +37,9 @@
             </div>
             <div class="mx-3 my-3">
                 <input v-model="select.brand_status" id="ทองของทางร้าน" type="radio" value="ทองของทางร้าน">
-                <label class="mx-3">ทางของทางร้าน</label>
+                <label class="mx-3">ทองของทางร้าน</label>
                 <input v-model="select.brand_status" id="ทองของร้านอื่น" type="radio" value="ทองของร้านอื่น">
-                <label class="mx-3">ทางของร้านอื่น</label>
+                <label class="mx-3">ทองของร้านอื่น</label>
             </div>
             <div v-if="select.brand_status == 'ทองของร้านอื่น'" class="mx-3 my-3">
                 <label class="mx-3">ระบุร้าน</label>
