@@ -1,10 +1,24 @@
 <template>
+    <div v-if='user.role == "employee" ||
+user.role == "account" ||
+user.role == "manager"'>
     <br>
     <br>
     <h1 class="text-3xl">รายการขายหน้าร้าน</h1>
     <br>
     <div>
-        <form  @submit.prevent="onsiteSearchID()">
+        <div>
+            ประเภทในการชำระเงินของลูกค้า
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale_payment_method">
+                        <option disabled value="">กรุณาเลือกประเภทการชำระเงินของลูกค้า</option>
+                        <option value="โอน">โอน</option>
+                        <option value="เงินสด">เงินสด</option>
+                        <option value="บัตรเครดิต">บัตรเครดิต</option>
+            </select>
+        </div>
+        <br>
+        <div v-if="onsiteSale_payment_method == 'โอน'">
+            <form  @submit.prevent="onsiteSearchID()">
            <div class="inline">
             <label>ID</label>
             <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
@@ -14,9 +28,8 @@
                 Search
             </button>
         </form>
-    </div>
-    <br>
-    <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
+        <br>
+            <p>รายการขายหน้าร้านที่รอตรวจสอบการโอน</p>
     <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
         <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
@@ -29,7 +42,7 @@
             </tr>
         </thead>
         <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_checking" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+            <tr v-if="onsiteSale.payment_method == 'transfer'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -52,7 +65,7 @@
             </tr>
         </thead>
         <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_confirm" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+            <tr v-if="onsiteSale.payment_method == 'transfer'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -74,8 +87,8 @@
                 <th class="border border-green-700"> หมายเหตุ </th>
             </tr>
         </thead>
-        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales_problem" @click="setSearched(onsiteSale.id,'onsite')">
-            <tr >
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'transfer' && onsiteSale.transfer_status == 'มีปัญหา'">
                 <td class="border border-green-700">{{onsiteSale.id}}</td>
                 <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
                 <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
@@ -85,6 +98,80 @@
             </tr>
         </tbody>
     </table>
+
+        </div>
+    </div>
+
+    <div v-if="onsiteSale_payment_method == 'เงินสด'">
+        <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+        <br>
+        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> ราคาสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'cash'">
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold_price}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+            </tr>
+        </tbody>
+    </table>
+        
+    </div>
+
+    <div v-if="onsiteSale_payment_method == 'บัตรเครดิต'">
+        <form  @submit.prevent="onsiteSearchID()">
+           <div class="inline">
+            <label>ID</label>
+            <input id="onsite_SearchID" class="mx-3" type="text" v-model="onsite_SearchID" autocomplete="off">
+           </div>
+
+           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+                Search
+            </button>
+        </form>
+        <br>
+        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
+            <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
+                <th class="border border-green-700"> ลำดับ </th>
+                <th class="border border-green-700"> ชื่อลูกค้า </th>
+                <th class="border border-green-700"> ชื่อสินค้า </th>
+                <th class="border border-green-700"> ราคาสินค้า </th>
+                <th class="border border-green-700"> พนักงาน </th>
+            </tr>
+        </thead>
+        <tbody class="border border-green-700 dark:bg-gray-800 dark:border-gray-700  hover:bg-green-100 dark:hover:bg-gray-600" v-for="onsiteSale in onsiteSales" @click="setSearched(onsiteSale.id,'onsite')">
+            <tr v-if="onsiteSale.payment_method == 'credit_card'">
+                <td class="border border-green-700">{{onsiteSale.id}}</td>
+                <td class="border border-green-700">{{onsiteSale.user.first_name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold.name}}</td>
+                <td class="border border-green-700">{{onsiteSale.gold_price}}</td>
+                <td class="border border-green-700">{{onsiteSale.employee.nickname}}</td>
+            </tr>
+        </tbody>
+       </table>
+    </div>
+    <br>
+    <br>
     <br>
     <br>
     <br>
@@ -188,13 +275,21 @@
                     <p> ยอดเงินทอน : {{sale_search.paid_change}}</p>
                 </div>
 
-                <p v-if="is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
-                <div v-if="is_switch_gold == true"> 
+                <p v-if="sale_search.is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
+                <div v-if="sale_search.is_switch_gold == true"> 
                     <p> เป็นทองที่เปลี่ยน </p>
                     <p> เลขที่บิลรับซื้อ : {{sale_search.redemption.id}} </p>
                 </div>
                 <p> พนักงานที่ทำรายการ : {{sale_search.employee.nickname}}</p>
                 <p> ลูกค้า : {{sale_search.user.username}}</p>
+                <div v-if="user.role == 'manager' ">
+                <a v-bind:href="'/onsitesale/edit/'+ onsiteSale_search.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    แก้ไข
+                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+                </div>
             </div>
 
             <div v-else>
@@ -219,9 +314,18 @@
                 <p v-if="sale_search.note != null"> note(ภายในร้าน) : {{sale_search.note}}</p>
                 <p v-else> note(ภายในร้าน) : - </p>
                 <p> ลูกค้าที่ทำรายการ : {{sale_search.user.username}}</p>
+                <div v-if="user.role == 'manager'|| user.role == 'employee' || user.role == 'account'">
+                <a v-bind:href="'/onlinesale/edit/'+ onlineSale_search.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    แก้ไข
+                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -251,6 +355,7 @@ export default {
             user: null,
             onsiteSales: null,
             onlineSales: null,
+            onsiteSale_payment_method: null,
             onsiteSale_search: null,
             onsiteSales_checking: null,
             onsiteSales_problem: null,
@@ -315,9 +420,11 @@ export default {
             }
             try {
                 this.onsiteSale_search = await this.onsiteSale_store.getID(this.onsite_SearchID)
+                this.onsiteSales = this.onsiteSale_store.getOnsiteSales
                 this.onsiteSales_checking = this.onsiteSale_store.filterChecking
                 this.onsiteSales_problem = this.onsiteSale_store.filterProblem
                 this.onsiteSales_confirm = this.onsiteSale_store.filterConfirm
+                this.onsiteSales = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales,this.onsite_SearchID)
                 this.onsiteSales_checking = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_checking, this.onsite_SearchID)
                 this.onsiteSales_problem = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_problem, this.onsite_SearchID)
                 this.onsiteSales_confirm = this.onsiteSale_store.filterOnsiteByID(this.onsiteSales_confirm, this.onsite_SearchID)
