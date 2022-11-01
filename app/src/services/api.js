@@ -57,7 +57,7 @@ export const goldAPI = {
     return []
   },
   async saveNew (gold) {
-    console.log(gold)
+    // console.log(gold)
     const response = await axiosInstance.post('/golds', gold)
     if (response.status == 201) {
       return response.data

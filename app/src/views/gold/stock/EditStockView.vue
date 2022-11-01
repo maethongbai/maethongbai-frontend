@@ -1,11 +1,11 @@
 <template>
-    <div v-if='user.role == "employee" ||
+<div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
     <div v-if=" gold != null" class="mx-3 my-3">
         <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
             รายละเอียดทอง
-            </h5>
+        </h5>
         <label for="goldID" class="mx-3">รหัสทอง: {{ gold.id }}</label>
     </div>
     <div class="mx-3 my-3">
@@ -15,8 +15,7 @@
             <option v-for="gold_type in gold_types" :value="gold_type.name">{{ gold_type.name }}</option>
         </select>
         <label for="gold.weight" class="mx-3">น้ำหนักทอง</label>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                v-model="gold.weight">
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.weight">
             <option disabled value="">กรุณาเลือกน้ำหนักทอง</option>
             <option value="ครึ่งสลึง">ครึ่งสลึง</option>
             <option value="1 สลึง">1 สลึง</option>
@@ -37,10 +36,10 @@
             <option value="20 บาท">20 บาท</option>
             <option value="ตามชั่ง">น้ำหนักตามชั่ง</option>
         </select>
-        <div class=" my-3" v-if=" gold.weight == 'ตามชั่ง'"  >
+        <div class=" my-3" v-if=" gold.weight == 'ตามชั่ง'">
             <label for="gold.custom_weight" class="mx-3">น้ำหนักทองตามชั่ง</label>
-            <input class="mx-3" type="text" v-model="gold.custom_weight">
-            <label for="gold.custom_weight" class="mx-3">กรัม</label> 
+            <input class="mx-3" type="number" step=".01" v-model="gold.custom_weight">
+            <label for="gold.custom_weight" class="mx-3">กรัม</label>
         </div>
         <div class="my-3">
             <label class="mx-3">ประเภทลายทอง</label>
@@ -55,12 +54,12 @@
             <option v-for="gold_pattern in gold_patterns" :value="gold_pattern.name">{{ gold_pattern.name }}</option>
         </select>
         <div class="my-3">
-        <label for="gold.size" class="mx-3">ขนาด</label>
-        <input class="mx-3" type="text" v-model="gold.size">
-        <label for="gold.size" class="mx-3" v-if="gold.gold_type != 'แหวน'">เซนติเมตร</label>
+            <label for="gold.size" class="mx-3">ขนาด</label>
+            <input class="mx-3" type="number" step=".01" v-model="gold.size">
+            <label for="gold.size" class="mx-3" v-if="gold.gold_type != 'แหวน'">เซนติเมตร</label>
         </div>
         <div class="my-3">
-        <label for="gold.goldsmith_charge" class="mx-3">ค่ากำเหน็จต่อชิ้น {{ gold.pension_per_piece }} บาท</label>
+            <label for="gold.goldsmith_charge" class="mx-3">ค่ากำเหน็จต่อชิ้น {{ gold.pension_per_piece }} บาท</label>
         </div>
         <!-- <div class="my-3">
         <label for="gold.amount" class="mx-3">จำนวน</label>
@@ -68,26 +67,25 @@
         <label for="gold.amount" class="mx-3">ชิ้น</label>
         </div> -->
         <div class="my-3">
-        <label for="gold.import_date" class="mx-3">วันที่นำทองเข้า: {{ gold.import_date }}</label>
+            <label for="gold.import_date" class="mx-3">วันที่นำทองเข้า: {{ gold.import_date }}</label>
         </div>
         <div class="my-3">
-        <label for="gold.wholesale" class="mx-3">ร้านขายส่ง</label>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.wholesale.name">
-            <option disabled value="">กรุณาเลือกร้านขายส่ง</option>
-            <option v-for="wholesale in wholesales" :value="wholesale.name">{{ wholesale.name }}</option>
-        </select>
+            <label for="gold.wholesale" class="mx-3">ร้านขายส่ง</label>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.wholesale.name">
+                <option disabled value="">กรุณาเลือกร้านขายส่ง</option>
+                <option v-for="wholesale in wholesales" :value="wholesale.name">{{ wholesale.name }}</option>
+            </select>
         </div>
         <div class="my-3">
-        <label for="gold.gold_buy_price_wholesale" class="mx-3">ราคาทองตอนซื้อจากร้านขายส่ง {{ gold.gold_buy_price_wholesale }} บาท</label>
+            <label for="gold.gold_buy_price_wholesale" class="mx-3">ราคาทองตอนซื้อจากร้านขายส่ง {{ gold.gold_buy_price_wholesale }} บาท</label>
         </div>
         <div class="my-3">
             <label for="gold.stock_approval_status" class="mx-3">สถานะอนุมัติสินค้าลง stock</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                v-model="gold.stock_approval_status">
-            <option disabled value="">กรุณาเลือกสถานะ</option>
-            <option value="รออนุมัติ">รออนุมัติ</option>
-            <option value="อนุมัติ">อนุมัติ</option>
-            <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.stock_approval_status">
+                <option disabled value="">กรุณาเลือกสถานะ</option>
+                <option value="รออนุมัติ">รออนุมัติ</option>
+                <option value="อนุมัติ">อนุมัติ</option>
+                <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
             </select>
         </div>
         <div>
@@ -95,17 +93,27 @@
         </div>
     </div>
     <button @click="saveGold()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-    ยืนยันการเปลี่ยนแปลงรายการ
+        ยืนยันการเปลี่ยนแปลงรายการ
     </button>
 </div>
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
-import { useGoldStore } from '@/stores/gold.js'
-import { useGoldTypeStore } from '@/stores/gold_type.js'
-import { useGoldPatternStore } from '@/stores/gold_pattern.js'
-import { useWholesaleStore } from '@/stores/wholesale.js'
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useGoldStore
+} from '@/stores/gold.js'
+import {
+    useGoldTypeStore
+} from '@/stores/gold_type.js'
+import {
+    useGoldPatternStore
+} from '@/stores/gold_pattern.js'
+import {
+    useWholesaleStore
+} from '@/stores/wholesale.js'
 
 export default {
     setup() {
@@ -119,7 +127,7 @@ export default {
             gold_store,
             gold_type_store,
             gold_pattern_store,
-            wholesale_store 
+            wholesale_store
         }
     },
     data() {
@@ -198,31 +206,37 @@ export default {
         this.gold_patterns = this.gold_pattern_store.getGoldPatterns
         await this.wholesale_store.fetch()
         this.wholesales = this.wholesale_store.getWholesales
-        if ( this.gold.weight == null ) {
-            this.gold.weight = 'ตามชั่ง' 
+        if (this.gold.weight == null) {
+            this.gold.weight = 'ตามชั่ง'
         }
-        
+
     },
     methods: {
         async saveGold() {
             var gold = {
-                    // name: this.gold_type + this.gold_pattern + this.gold_size,
-                    id: this.gold.id,
-                    name: null,
-                    gold_type_id: this.gold_type_store.findByName(this.gold.gold_type.name).id,
-                    weight: this.gold.weight,
-                    custom_weight: this.gold.custom_weight,
-                    pattern_type: this.gold.pattern_type,
-                    gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern.name).id,
-                    size: this.gold.size,
-                    // amount: this.gold.amount,
-                    stock_approval_status: this.gold.stock_approval_status,
-                    wholesale_id: this.wholesale_store.findByName(this.gold.wholesale.name).id,
-                  
-                }
+                // name: this.gold_type + this.gold_pattern + this.gold_size,
+                id: this.gold.id,
+                name: null,
+                gold_type_id: this.gold_type_store.findByName(this.gold.gold_type.name).id,
+                weight: this.gold.weight,
+                custom_weight: this.gold.custom_weight,
+                pattern_type: this.gold.pattern_type,
+                gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern.name).id,
+                size: this.gold.size,
+                // amount: this.gold.amount,
+                stock_approval_status: this.gold.stock_approval_status,
+                wholesale_id: this.wholesale_store.findByName(this.gold.wholesale.name).id,
+
+            }
+            if (this.gold.weight != 'ตามชั่ง') {
+                gold.name = String(this.gold.gold_type.name) + String(this.gold.gold_pattern.name) + " " + String(this.gold.weight)
+                gold.custom_weight = null
+            } else {
+                gold.name = String(this.gold.gold_type.name) + String(this.gold.gold_pattern.name) + " " + String(this.gold.custom_weight) + " กรัม"
+                gold.weight = null            }
             try {
                 await this.gold_store.editGold(gold.id, gold)
-            } catch(error) {
+            } catch (error) {
                 this.error = error.message
                 console.error(error.response.data)
             }
@@ -231,5 +245,4 @@ export default {
     }
 
 }
-
 </script>
