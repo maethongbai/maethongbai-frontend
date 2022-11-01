@@ -67,7 +67,7 @@ export default {
                 console.log("authorized " + document.URL);
 
             } else {
-                this.$router.push("/");
+                this.$router.push("/gold_pattern/view");
             }
         } else {
             this.auth = null

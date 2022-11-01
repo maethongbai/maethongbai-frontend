@@ -26,6 +26,7 @@ import Profile from './components/profile/Profile.vue'
         <RouterLink to="/income/view">Income</RouterLink>
         <RouterLink to="/custom_order_worker/view">Custom Order Worker</RouterLink>
         <RouterLink to="/gold_pattern/view">Gold Pattern</RouterLink>
+        <RouterLink to="/wholesale/view">Wholesale</RouterLink>
       </nav>
     </div>
   </header>

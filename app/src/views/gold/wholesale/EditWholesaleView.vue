@@ -1,12 +1,13 @@
 <template>
-    <div v-if='user.role == "employee" ||
-        user.role == "account" ||
-        user.role == "manager"'>
+<div v-if='user.role == "manager"'>
+    <div class="block my-5">
+        <router-link to="/wholesale/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
     <div v-if=" wholesale != null" class="mx-3 my-3">
         <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
             รายละเอียดร้านขายส่ง
         </h5>
-        <label  class="mx-3">รหัสร้านขายส่ง: {{ wholesale.id }}</label>
+        <label class="mx-3">รหัสร้านขายส่ง: {{ wholesale.id }}</label>
     </div>
     <div class="my-3">
         <label for="wholesale.name" class="mx-3">ชื่อร้านขายส่ง</label>
@@ -21,15 +22,19 @@
         <input class="mx-3" type="text" v-model="wholesale.address">
     </div>
     <button @click="saveWholesale()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-    ยืนยันการเปลี่ยนแปลงข้อมูล
+        ยืนยันการเปลี่ยนแปลงข้อมูล
     </button>
-        
-    </div>
+
+</div>
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
-import { useWholesaleStore  } from '@/stores/wholesale.js'
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useWholesaleStore
+} from '@/stores/wholesale.js'
 
 export default {
     setup() {
@@ -69,12 +74,12 @@ export default {
 
         try {
             const response = await this.$axios.get(url)
-            
-            if (response.status === 200 ) {
+
+            if (response.status === 200) {
                 this.wholesale = response.data
-                
+
             }
-            
+
         } catch (error) {
             console.error(error)
             this.error = error.message
@@ -85,12 +90,10 @@ export default {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
             this.user = JSON.parse(this.auth_store.getUser)
-            if (this.user.role == "employee" ||
-                this.user.role == "account" ||
-                this.user.role == "manager") {
+            if (this.user.role == "manager") {
                 console.log("authorized " + document.URL);
             } else {
-                this.$router.push("/customer_order_worker/view");
+                this.$router.push("/wholesale/view");
             }
         } else {
             this.auth = null
@@ -107,16 +110,16 @@ export default {
                 name: this.wholesale.name,
                 phone: this.wholesale.phone,
                 address: this.wholesale.address
-        }
-        try {
-            await this.wholesale_store.editWholesale(wholesale.id, wholesale)
-        } catch (error) {
-            this.error = error.message
-            console.error(error.response.data)
-        }
+            }
+            try {
+                await this.wholesale_store.editWholesale(wholesale.id, wholesale)
+                this.$router.push("/wholesale/view")
+            } catch (error) {
+                this.error = error.message
+                console.error(error.response.data)
+            }
         }
     }
 
 }
-
 </script>
