@@ -1,33 +1,39 @@
 <template>
-    <div v-if='user.role == "employee" ||
-        user.role == "account" ||
-        user.role == "manager"'>
+<div v-if='user.role == "manager"'>
+    <div class="block my-5">
+        <router-link to="/gold_pattern/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
     <div v-if=" gold_pattern != null" class="mx-3 my-3">
         <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
             รายละเอียดลายทอง
         </h5>
-        <label  class="mx-3">รหัสลายทอง: {{ gold_pattern.id }}</label>
+        <label class="mx-3">รหัสลายทอง: {{ gold_pattern.id }}</label>
     </div>
     <div class="my-3">
         <label for="gold_pattern.name" class="mx-3">ชื่อลายทอง</label>
         <input class="mx-3" type="text" v-model="gold_pattern.name">
     </div>
     <button @click="saveGoldPattern()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-    ยืนยันการเปลี่ยนแปลงข้อมูล
+        ยืนยันการเปลี่ยนแปลงข้อมูล
     </button>
-    </div>
+</div>
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
-import { useGoldPatternStore  } from '@/stores/gold_pattern.js';
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useGoldPatternStore
+} from '@/stores/gold_pattern.js';
 
 export default {
     setup() {
         const auth_store = useAuthStore()
         const gold_pattern_store = useGoldPatternStore()
         return {
-            auth_store, gold_pattern_store
+            auth_store,
+            gold_pattern_store
         }
     },
     data() {
@@ -56,11 +62,11 @@ export default {
         try {
             const response = await this.$axios.get(url)
             console.log(response)
-            if (response.status === 200 ) {
+            if (response.status === 200) {
                 this.gold_pattern = response.data
-               
+
             }
-            
+
         } catch (error) {
             console.error(error)
             this.error = error.message
@@ -70,9 +76,7 @@ export default {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
             this.user = JSON.parse(this.auth_store.getUser)
-            if (this.user.role == "employee" ||
-                this.user.role == "account" ||
-                this.user.role == "manager") {
+            if (this.user.role == "manager") {
                 console.log("authorized " + document.URL);
             } else {
                 this.$router.push("/gold_pattern/view");
@@ -91,7 +95,8 @@ export default {
                 name: this.gold_pattern.name
             }
             try {
-                await this.gold_pattern_store.editGoldPattern(gold_pattern.id, gold_pattern )
+                await this.gold_pattern_store.editGoldPattern(gold_pattern.id, gold_pattern)
+                this.$router.push("/gold_pattern/view")
             } catch (error) {
                 this.error = error.message
                 console.error(error.response.data)
