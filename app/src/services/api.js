@@ -67,6 +67,15 @@ export const goldAPI = {
       success: false
     }
   },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/golds/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
   async getID (id) {
     const response = await axiosInstance.get(`/golds/${id}`)
     if (response.status == 200) {
