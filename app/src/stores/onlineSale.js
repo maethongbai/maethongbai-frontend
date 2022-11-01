@@ -13,12 +13,17 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       console.log(state.onlineSales)
       return state.onlineSales
     },
-
     getTrackingEmployee (state) {
-        console.log(state.onlineSales.)
-        return state.onlineSales.
+        return state.onlineSales
+    },
+    filterDelivery (state) {
+      var filtered = [...state.onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.delivery_status == "จัดส่งสำเร็จ")
+    },
+    filterNotDelivery (state) {
+      var filtered = [...state.onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.delivery_status != "จัดส่งสำเร็จ")
     }
-
   },
 
   actions: {
@@ -38,13 +43,21 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
     delete (id) {
       this.onlineSales = this.onlineSales.filter(onlineSale => onlineSale.id != id)
     },
-    // async getID(id) {
-    //   const redemption = await redemptionAPI.getID(id)
-    //   return redemption
-    // },
-    // filterRedemptionsByID(redemptions, id) {
-    //   var filtered = [...redemptions]
-    //   return filtered.filter((redemption) => redemption.id == id)
-    // }
+    async getID(id) {
+      const onlineSale = await onlineSaleAPI.getID(id)
+      return onlineSale
+    },
+    filterOnlineByID(onlineSales, id) {
+      var filtered = [...onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.id == id)
+    },
+    async getNextID() {
+      const nextID = await onlineSaleAPI.getNextID()
+      return nextID
+    },
+    filterByUser(user) {
+      var filtered = [...this.onlineSales]
+      return filtered.filter((online_sale) => online_sale.user.id == user.id)
+    },
   }
 })

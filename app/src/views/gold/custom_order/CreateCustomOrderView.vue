@@ -1,0 +1,395 @@
+<template>
+<div v-if='user.role == "employee" ||
+        user.role == "account" ||
+        user.role == "manager"'>
+    <div class="block my-5">
+        <router-link to="/custom_order/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
+
+    <form @submit.prevent="createCustomOrder()">
+        <div class="mx-3 my-3">
+            <label class="mx-3">เลขบิล: {{custom_order.id}}</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">ชื่องานสั่ง</label>
+            <input class="mx-3" type="text" v-model="custom_order.name" autocomplete="off" required>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">ประเภท/ลักษณะ</label>
+            <input class="mx-3" type="text" v-model="custom_order.type" autocomplete="off" required>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">น้ำหนัก</label>
+            <input class="mx-3" step=".01" type="number" v-model="custom_order.custom_weight" autocomplete="off" required>
+            <label class="mx-3">กรัม</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">ค่าแรง</label>
+            <input class="mx-3" step=".01" type="number" v-model="custom_order.wage" autocomplete="off" required>
+            <label class="mx-3">บาท</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">ราคาทองตอนสั่ง: {{custom_order.gold_order_price.sell_price}} บาท</label>
+
+        </div>
+        <div class="mx-3 my-3">
+            <label class="ml-3">ราคาเต็ม: {{custom_order.full_price}} บาท</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">มัดจำ</label>
+            <input class="mx-3" step=".01" type="number" v-model="custom_order.deposit_total_amount" autocomplete="off" required>
+            <label class="mx-3">บาท</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount}} บาท</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">วันที่เสร็จ</label>
+            <Datepicker v-model="custom_order.finish_date"></Datepicker>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">วันที่สั่ง: {{custom_order.order_date}}</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="mx-3">ช่างที่รับผลิต</label>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.custom_order_worker">
+                <option v-for="worker in select.custom_order_workers" :value="worker.name"> {{ worker.name }}</option>
+            </select>
+        </div>
+        <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
+            ช่องทางการชำระมัดจำ
+        </h5>
+        <div class="mx-3 my-3">
+            <input v-model="select.payment_method" id="บัตรเครดิต" type="radio" value="บัตรเครดิต">
+            <label class="mx-3">บัตรเครดิต</label>
+            <input v-model="select.payment_method" id="เงินสด" type="radio" value="เงินสด">
+            <label class="mx-3">เงินสด</label>
+            <input v-model="select.payment_method" id="โอน" type="radio" value="โอน">
+            <label class="mx-3">โอน</label>
+        </div>
+        <div class="mx-3 my-3" v-if="select.payment_method == 'บัตรเครดิต'">
+            <label class="mx-3 my-3">ประเภท</label>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.credit_card.type">
+                <option v-for="card in select.credit_card_type" :value="card">{{ card }}</option>
+            </select>
+            <div class="mb-3" v-if="custom_order.credit_card.type == 'อื่นๆ'">
+                <label class="ml-3">ระบุประเภทบัตรเครดิต </label>
+                <input class="mx-3 my-3" type="text" :required="custom_order.credit_card.type == 'อื่นๆ'" v-model="custom_order.credit_card.custom_type" autocomplete="off">
+            </div>
+            <label class="mx-3 my-3">ชื่อธนาคาร</label>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.credit_card.bank_name">
+                <option v-for="bank in select.credit_card_bank_name" :value="bank">{{ bank }}</option>
+            </select>
+            <div class="mb-3" v-if="custom_order.credit_card.bank_name == 'อื่นๆ'">
+                <label class="ml-3">ระบุชื่อธนาคาร </label>
+                <input class="mx-3 my-3" type="text" :required="custom_order.credit_card.bank_name == 'อื่นๆ'" v-model="custom_order.credit_card.custom_bank_name" autocomplete="off">
+            </div>
+        </div>
+        <div class="mx-3 my-3" v-if="select.payment_method == 'เงินสด'">
+            <div>
+                <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.deposit_total_amount}} บาท</label>
+            </div>
+            <div>
+                <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
+                <input class="mx-3 my-3" type="text" :required="select.payment_method == 'เงินสด'" v-model="custom_order.cash.paid_amount" autocomplete="off">
+                <label class="mx-3 my-3">บาท</label>
+            </div>
+            <div>
+                <label class="my-3 ml-3">เงินทอน: {{custom_order.cash.change_amount}} บาท</label>
+            </div>
+        </div>
+        <div class="mx-3 my-3" v-if="select.payment_method == 'โอน'">
+            <div class="mx-3 my-3">
+                <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+                <img :src="`${custom_order.transfer.slip_image}`" width="200">
+            </div>
+        </div>
+
+        <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
+            ข้อมูลลูกค้าที่สั่ง
+        </h5>
+        <div class="mx-3 my-3">
+            <label class="mx-3">เบอร์โทร</label>
+            <input class="mx-3" type="text" v-model="custom_order.user_phone_search" autocomplete="off" required>
+            <button @click="findUser" :disabled="disableButton" class="p-2 bg-green-400 border rounded-lg">
+                ค้นหา
+            </button>
+            <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="custom_order.user_phone_search == null">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
+            <a v-bind:href="'/register'" v-if="custom_order.user_phone_search == null" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                ลงทะเบียน
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="ml-3">รหัสสมาชิก: </label>
+            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.id}}</label>
+            <label class="inline" v-else>-</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="ml-3">ชื่อ: </label>
+            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.first_name}}</label>
+            <label class="inline" v-else>-</label>
+        </div>
+        <div class="mx-3 my-3">
+            <label class="ml-3">นามสกุล: </label>
+            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.last_name}}</label>
+            <label class="inline" v-else>-</label>
+        </div>
+
+        <button type="submit" :disabled="disableButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
+            ยืนยันรายการสั่ง
+        </button>
+    </form>
+</div>
+</template>
+
+<script>
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useCustomOrderStore
+} from '@/stores/custom_order.js'
+import {
+    useGoldPriceStore
+} from '@/stores/gold_price.js'
+import {
+    useCustomOrderWorkerStore
+} from '@/stores/custom_order_worker.js'
+import {
+    useUserStore
+} from '@/stores/user.js'
+import moment from 'moment'
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+export default {
+    setup() {
+        const auth_store = useAuthStore()
+        const custom_order_store = useCustomOrderStore()
+        const gold_price_store = useGoldPriceStore()
+        const custom_order_worker_store = useCustomOrderWorkerStore()
+        const user_store = useUserStore()
+
+        return {
+            auth_store,
+            custom_order_store,
+            gold_price_store,
+            custom_order_worker_store,
+            user_store,
+        }
+    },
+    data() {
+        return {
+            auth: null,
+            user: null,
+            disableButton: false,
+            custom_order: {
+                id: null,
+                name: null,
+                type: null,
+                custom_weight: null,
+                wage: null,
+                gold_order_price: {
+                    id: null,
+                    buy_price: null,
+                    sell_price: null
+                },
+                full_price: "-",
+                deposit_total_amount: "-",
+                difference_amount: "-",
+                finish_date: null,
+                order_date: null,
+                delivery_date: null,
+                custom_order_worker: {
+                    name: null
+                },
+                user_phone_search: "-",
+                user: {
+                    id: null,
+                    first_name: null,
+                    last_name: null,
+                    phone: null
+                },
+                credit_card: {
+                    type: null,
+                    custom_type: null,
+                    bank_name: null,
+                    custom_bank_name: null
+                },
+                cash: {
+                    paid_amount: null,
+                    change_amount: "-"
+                },
+                transfer: {
+                    slip_image: null
+                },
+            },
+            select: {
+                custom_order_workers: [],
+                credit_card_type: [
+                    "Mastercard",
+                    "VISA",
+                    "Union Pay",
+                    "American Express",
+                    "อื่นๆ"
+                ],
+                credit_card_bank_name: [
+                    "กสิกร",
+                    "กรุงเทพ",
+                    "กรุงไทย",
+                    "กรุงศรี",
+                    "ออมสิน",
+                    "ไทยพาณิช",
+                    "อื่นๆ"
+                ],
+                payment_method: null
+            }
+        }
+    },
+    watch: {
+        auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                this.auth = this.auth_store.getAuth
+                this.user = JSON.parse(this.auth_store.getUser)
+            }
+        },
+        custom_order: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                if (newValue.custom_weight > 0 &&
+                    newValue.wage >= 0) {
+                    this.custom_order.full_price = Number(Math.round(((this.custom_order.gold_order_price.sell_price / 15.16 * this.custom_order.custom_weight) + this.custom_order.wage) + 'e2') + 'e-2')
+                    if (newValue.deposit_total_amount >= 0 && newValue.deposit_total_amount <= newValue.full_price) {
+                        this.custom_order.difference_amount = Number(Math.round((this.custom_order.full_price - this.custom_order.deposit_total_amount) + 'e2') + 'e-2')
+                    } else {
+                        this.custom_order.difference_amount = "-"
+                    }
+                } else {
+                    this.custom_order.full_price = "-"
+                }
+
+                if (newValue.cash.paid_amount >= newValue.deposit_total_amount) {
+                    this.custom_order.cash.change_amount = Number(Math.round((this.custom_order.cash.paid_amount - this.custom_order.deposit_total_amount) + 'e2') + 'e-2')
+                } else {
+                    this.custom_order.cash.change_amount = "-"
+                }
+            }
+        }
+    },
+    components: {
+        Datepicker
+    },
+    async mounted() {
+        if (this.auth_store.isAuthen) {
+            this.auth = this.auth_store.getAuth
+            this.user = JSON.parse(this.auth_store.getUser)
+            if (this.user.role == "employee" ||
+                this.user.role == "account" ||
+                this.user.role == "manager") {
+                console.log("authorized " + document.URL);
+            } else {
+                this.$router.push("/");
+            }
+        } else {
+            this.auth = null
+            this.user = null
+            this.$router.push("/login")
+        }
+        await this.custom_order_store.fetch()
+        await this.gold_price_store.fetch()
+        await this.custom_order_worker_store.fetch()
+        await this.user_store.fetch()
+
+        this.custom_order.id = this.custom_order_store.getNextID()
+        this.custom_order.gold_order_price = await this.gold_price_store.getLast()
+        this.custom_order.order_date = moment().format("YYYY-MM-DD")
+        this.select.custom_order_workers = this.custom_order_worker_store.getCustomOrderWorkers
+    },
+    methods: {
+        async createCustomOrder() {
+            // custom order worker name -> custom order worker object
+            var custom_order = {
+                name: this.custom_order.name,
+                type: this.custom_order.type,
+                weight: this.custom_order.custom_weight,
+                wage: this.custom_order.wage,
+                gold_order_price_id: this.custom_order.gold_order_price.id,
+                full_price: this.custom_order.full_price,
+                deposit_total_amount: this.custom_order.deposit_total_amount,
+                difference_amount: this.custom_order.difference_amount,
+                finish_date: null,
+                order_date: this.custom_order.order_date,
+                custom_order_worker_id: this.custom_order_worker_store.findByName(this.custom_order.custom_order_worker).id,
+                deposit_payment_method: null,
+                deposit_credit_card_type: null,
+                deposit_bank_name: null,
+                deposit_paid_amount: null,
+                deposit_change_amount: null,
+                deposit_slip_image: null,
+                user_id: this.custom_order.user.id,
+                employee_id: this.user.employee.id
+            }
+
+            var date = new Date(this.custom_order.finish_date).toLocaleDateString().split("/")
+            var year = String(date[2]).padStart(4, '0')
+            var day = String(date[1]).padStart(2, '0')
+            var month = String(date[0]).padStart(2, '0')
+            var formatted_date = year + "-" + month + "-" + day
+            custom_order.finish_date = formatted_date
+
+            if (this.select.payment_method == 'บัตรเครดิต') {
+                custom_order.deposit_payment_method = "credit card"
+                if (this.custom_order.credit_card.type == "อื่นๆ") {
+                    custom_order.deposit_credit_card_type = this.custom_order.credit_card.custom_type
+                } else {
+                    custom_order.deposit_credit_card_type = this.custom_order.credit_card.type
+                }
+                if (this.custom_order.credit_card.bank_name == "อื่นๆ") {
+                    custom_order.deposit_bank_name = this.custom_order.credit_card.custom_bank_name
+                } else {
+                    custom_order.deposit_bank_name = this.custom_order.credit_card.bank_name
+                }
+            } else if (this.select.payment_method == 'เงินสด') {
+                custom_order.deposit_payment_method = "cash"
+                custom_order.deposit_paid_amount = this.custom_order.cash.paid_amount
+                custom_order.deposit_change_amount = this.custom_order.cash.change_amount
+            } else if (this.select.payment_method == 'โอน') {
+                custom_order.deposit_payment_method = "transfer"
+                custom_order.deposit_slip_image = this.custom_order.transfer.slip_image
+            }
+
+            try {
+                await this.custom_order_store.add(custom_order)
+                this.$router.push("/custom_order/view");
+            } catch(error) {
+                console.error(error.response.data)
+            }
+        },
+        onFileChange(e) {
+            const reader = new FileReader()
+            reader.readAsDataURL(e.target.files[0])
+            reader.onload = e => {
+                this.custom_order.transfer.slip_image = e.target.result
+            }
+            e.preventDefault()
+        },
+        findUser(e) {
+            var temp_user = this.user_store.findByPhone(this.custom_order.user_phone_search)
+            if (temp_user == undefined ||
+                temp_user == null) {
+                this.custom_order.user = null
+                this.custom_order.user_phone_search = null
+                e.preventDefault();
+                return
+            }
+            this.custom_order.user = temp_user
+            e.preventDefault();
+        }
+    }
+}
+</script>

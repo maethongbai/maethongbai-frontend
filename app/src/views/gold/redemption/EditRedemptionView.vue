@@ -1,7 +1,7 @@
 <template>
 <div v-if='user.role == "manager"'>
     <div class="block my-5">
-        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        <router-link to="/redemptions/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
     </div>
     <form @submit.prevent="saveRedemption()">
         <div v-if="redemption != null" class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">

@@ -120,22 +120,6 @@ export const redemptionAPI = {
       return response.data.data
     }
     return []
-  },
-  async getNextID() {
-    const response = await axiosInstance.get('/redemptions')
-    var redemptions = null;
-    if (response.status == 200) {
-      redemptions = response.data.data
-      // console.log(redemptions)
-    }
-    if (redemptions != null) {
-      var id = 1
-      redemptions.forEach(element => {
-        id = id + 1
-      });
-      return id
-    }
-    return null
   }
 }
 
@@ -217,13 +201,20 @@ export const onsiteSaleAPI = {
   async saveNew (onsite_sale) {
     const response = await axiosInstance.post('/onsite_sales', onsite_sale)
     if (response.status == 201) {
-      return response.data.data
+      return response.data
     }
     return {
       success: false
     }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/onsite_sales/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
   }
-
 }
 
 export const onlineSaleAPI = {
@@ -237,10 +228,82 @@ export const onlineSaleAPI = {
   async saveNew (online_sale) {
     const response = await axiosInstance.post('/online_sales', online_sale)
     if (response.status == 201) {
-      return response.data.data
+      return response.data
     }
     return {
       success: false
     }
   },
+  async getID (id) {
+    const response = await axiosInstance.get(`/online_sales/${id}`)
+    if (response.status == 200) {
+      // console.log(response.data);
+      return response.data.data
+    }
+    return []
+  }
+}
+
+export const customOrderAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/custom_orders')
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveNew (custom_order) {
+    const response = await axiosInstance.post('/custom_orders', custom_order)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+  async getID (id) {
+    const response = await axiosInstance.get(`/custom_orders/${id}`)
+    if (response.status == 200) {
+      return response.data.data
+    }
+    return []
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/custom_orders/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
+}
+
+export const customOrderWorkerAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/custom_order_workers')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+}
+
+export const employeeAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/employees')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+  async saveNew (user) {
+    const response = await axiosInstance.post('/employees', user)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  }
 }

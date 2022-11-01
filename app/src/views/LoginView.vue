@@ -24,6 +24,15 @@
         </button>
       </form>
     </div>
+
+    <div>
+      <router-link to="/register">
+        <button type="submit" :disabled="disabledButton"
+          class="p-2 bg-blue-400 border rounded-lg">
+          สร้างบัญชีใหม่
+        </button>
+      </router-link>
+    </div>
   </template>
   
   <script>
@@ -45,6 +54,7 @@
     methods: {
       async onFormSubmit() {
         this.error = null
+        
         this.disabledButton = true
         try {
           if (await this.auth_store.login(this.phone, this.password)) {
@@ -58,10 +68,11 @@
           }
           
         } catch (error) {
-          this.error = error.message
+          // this.error = error.message
+          console.error(error.response.data)
           this.disabledButton = false
         }
       }
     },
   }
-  </script>
+</script>
