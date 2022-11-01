@@ -67,6 +67,15 @@ export const goldAPI = {
       success: false
     }
   },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/golds/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  },
   async getID (id) {
     const response = await axiosInstance.get(`/golds/${id}`)
     if (response.status == 200) {
@@ -296,4 +305,23 @@ export const customOrderWorkerAPI = {
     }
     return []
   },
+}
+
+export const employeeAPI = {
+  async getAll () {
+    const response = await axiosInstance.get('/employees')
+    if (response.status == 200) {
+      return response.data
+    }
+    return []
+  },
+  async saveNew (user) {
+    const response = await axiosInstance.post('/employees', user)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
+  }
 }

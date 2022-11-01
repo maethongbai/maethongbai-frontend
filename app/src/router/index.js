@@ -102,6 +102,21 @@ const router = createRouter({
       component: () => import('@/views/gold/custom_order/EditCustomOrderCustomerView.vue')
     },
     {
+      path: '/employee/view',
+      name: 'employee.view',
+      component: () => import('@/views/user/EmployeeListView.vue')
+    },
+    {
+      path: '/employee/view/create',
+      name: 'employee.create',
+      component: () => import('@/views/user/AddEmployeeView.vue')
+    },
+    {
+      path: '/employee/view/edit/:id',
+      name: 'employee.edit',
+      component: () => import('@/views/user/EditEmployeeView.vue')
+    },
+    {
       path: '/user/:id/history',
       name: 'user.history',
       component: () => import('@/views/gold/user/HistoryView.vue')
@@ -110,6 +125,11 @@ const router = createRouter({
       path: '/user/sale_status',
       name: 'user.sale_status',
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
     },
   ]
 })
