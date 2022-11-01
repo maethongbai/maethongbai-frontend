@@ -49,6 +49,9 @@
             <p> หมายเหตุ : {{income_search.note}}</p>
             <p> พนักงานที่ลงรายการ : {{income_search.employee.nickname}}</p>
         </div>
+        <div class="block my-5">
+               <router-link to="/income/create" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">เพิ่มรายการรับเงิน</router-link>
+        </div>
 
         <div v-if="user.role == 'manager'">
                 <a v-bind:href="'/income/edit/'+ income_search.id " class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
