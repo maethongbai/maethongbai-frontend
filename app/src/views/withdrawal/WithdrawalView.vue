@@ -98,6 +98,9 @@
                     </svg>
                 </a>
         </div>
+        <div class="block my-5">
+               <router-link to="/withdrawal/create" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">เพิ่มรายการเบิกเงิน</router-link>
+        </div>
     </div>
 
     

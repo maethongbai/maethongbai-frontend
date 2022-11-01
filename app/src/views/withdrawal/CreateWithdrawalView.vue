@@ -1,7 +1,9 @@
 <template>
     <div v-if= 'user.role == "account" ||
         user.role == "manager"'>
-
+         <div class="block my-5">
+               <router-link to="/withdrawal/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        </div>
         <form @submit.prevent="createWithdrawal()">
             <div class="mx-3 my-3">
             <label for="nextID" class="mx-3">เลขบิล: {{withdrawal.id}} </label>
