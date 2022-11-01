@@ -1,5 +1,8 @@
 <template>
     <div v-if='user.role == "manager"'>
+        <div class="block my-5">
+        <router-link to="/sale/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        </div>
         <div v-if=" onsiteSale!= null" class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
             <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
             รายละเอียด
