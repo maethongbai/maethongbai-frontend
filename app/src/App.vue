@@ -5,11 +5,11 @@ import Profile from './components/profile/Profile.vue'
 
 <template>
   <header>
-    <div class="max-w-[100%]">
+    <div class="inset-x-0 top-0">
       
       <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
         <div>
-          <div class="fixed relative flex flex-row justify-center">
+          <div class="flex flex-row justify-center">
             <div class="flex-none">
               <img alt="Maethongbai LOGO" class="logo" src="@/assets/LOGO.png" width="175" height="61.4" />
             </div>
@@ -37,9 +37,9 @@ import Profile from './components/profile/Profile.vue'
                 <RouterLink to="/test">Test</RouterLink> -->
                 <RouterLink to="/onsitesale/create" class="m-4">ขายทอง</RouterLink>
                 <RouterLink to="/redemption/create" class="m-4">รับซื้อทอง</RouterLink>
-                <RouterLink to="/income/create" class="m-4">รับเงิน</RouterLink>
-                <RouterLink to="/withdrawal/create" class="m-4">ถอนเงิน</RouterLink>
-                <RouterLink to="/total_sale" class="m-4">สรุปทองที่ขายทั้งหมด</RouterLink>
+                <RouterLink to="/custom_order/create" class="m-4">สร้างงานสั่งทอง</RouterLink>
+                <!-- <RouterLink to="/income/create" class="m-4">เพิ่มรายการรับเงิน</RouterLink>
+                <RouterLink to="/withdrawal/create" class="m-4">เพิ่มรายการเบิกเงิน</RouterLink> -->
                 <RouterLink to="/stock/create" class="m-4">เพิ่มทองลงสต็อก</RouterLink>
                 <RouterLink to="/stock/view" class="m-4">สถานะทองที่เพิ่ม</RouterLink>
               </div>
@@ -50,9 +50,14 @@ import Profile from './components/profile/Profile.vue'
           </div>
         </div>
       </div>
+
     </div>
   </header>
-  <RouterView />
+  
+  <body class="bg-[#F5F5F5]">
+    <RouterView />
+  </body>
+  
 </template>
 
 <!-- <style scoped>
