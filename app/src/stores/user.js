@@ -71,5 +71,9 @@ export const useUserStore = defineStore("users", {
       const response = await userAPI.saveEdit(id, obj)
       this.users = await userAPI.getAll()
     },
+    findByEmail(email) {
+      var filtered = [...this.users]
+      return filtered.find(user => user.email == email)
+    }
   },
 })

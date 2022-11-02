@@ -48,9 +48,26 @@
         phone : '',
         password: '',
         error: null,
-        disabledButton: false
+        disabledButton: false,
+        auth: null,
+        user: null
       }
     },
+    watch: {
+      auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                this.auth = this.auth_store.getAuth
+                this.user = JSON.parse(this.auth_store.getUser)
+            }
+        },
+    },
+    async mounted() {
+        if (this.auth_store.isAuthen) {
+                this.$router.push("/");
+        }
+      },
     methods: {
       async onFormSubmit() {
         this.error = null
