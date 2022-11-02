@@ -45,6 +45,10 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
     async getNextID() {
       const nextID = await onsiteSaleAPI.getNextID()
       return nextID
+    },
+    filterAcceptFromDate (date) {
+      var filtered = [...this.onsiteSales]
+      return filtered.filter((onsiteSales) => onsiteSales.transfer_status == "ยืนยัน" && onlineSale.sale_date == date)                                    
     }
   }
 })
