@@ -11,7 +11,7 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
   
   getters: {
     getOnlineSales (state) {
-      console.log(state.onlineSales)
+      // console.log(state.onlineSales)
       return state.onlineSales
     },
     getTrackingEmployee (state) {
@@ -75,7 +75,7 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
           this.filterSales.push(sale)
         }
       })
-      console.table(this.filterSales)
+      // console.table(this.filterSales)
       return this.filterSales                             
     }
   }
