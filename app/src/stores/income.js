@@ -4,7 +4,8 @@ import { incomeAPI } from '@/services/api.js'
 export const useIncomeStore = defineStore("incomes", {
   state: () => {
     return {
-      incomes: []
+      incomes: [],
+      filtered_incomes: []
     }
   },
   getters: {
@@ -55,5 +56,19 @@ export const useIncomeStore = defineStore("incomes", {
       var filtered = [...incomes]
       return filtered.filter((income) => income.id == id)
     },
+    filterDate (date_str) {
+      this.filtered_incomes = []
+      var date = new Date(date_str).getTime()
+      // console.log(date)
+      this.incomes.forEach( (o) => {
+        var bdate = new Date(o.transaction_date).getTime()
+        if(bdate == date)
+        {
+          this.filtered_incomes.push(o)
+        }
+      })
+      // console.table(this.filterSales)
+      return this.filtered_incomes                         
+    }
   }
 })
