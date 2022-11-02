@@ -3,7 +3,7 @@
     <div class="flex flex-col mb-10">
         <div>
             <h1 class="text-xl m-5">สร้างคำสั่งซื้อ</h1>
-            <div>
+            <div class="wrap border">
                 <router-link to="/onsitesale/create" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">
                     ขายทอง
                 </router-link>
@@ -17,7 +17,7 @@
 
             <h1 class="text-xl m-5">ประวัติคำสั่งซื้อ</h1>
             <div>
-                <RouterLink to="/redemption/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">รายการซื้อ</RouterLink>
+                <RouterLink to="/redemption/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">รายการรับซื้อ</RouterLink>
                 <RouterLink to="/sale/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">รายการขาย</RouterLink>
                 <RouterLink to="/custom_order/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">งานสั่ง</RouterLink>
             </div>

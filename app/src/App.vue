@@ -5,11 +5,11 @@ import Profile from './components/profile/Profile.vue'
 
 <template>
   <header>
-    <div class="wrapper max-w-[100%]">
+    <div class="max-w-[100%]">
       
       <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
         <div>
-          <div class="relative flex flex-row">
+          <div class="fixed relative flex flex-row justify-center">
             <div class="flex-none">
               <img alt="Maethongbai LOGO" class="logo" src="@/assets/LOGO.png" width="175" height="61.4" />
             </div>
@@ -55,7 +55,7 @@ import Profile from './components/profile/Profile.vue'
   <RouterView />
 </template>
 
-<style scoped>
+<!-- <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -117,4 +117,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
+</style> -->
