@@ -4,13 +4,14 @@ import { onlineSaleAPI } from '@/services/api.js'
 export const useOnlineSaleStore = defineStore("onlineSales", {
   state: () => {
     return {
-      onlineSales: []
+      onlineSales: [],
+      filterSales: []
     }
   },
   
   getters: {
     getOnlineSales (state) {
-      console.log(state.onlineSales)
+      // console.log(state.onlineSales)
       return state.onlineSales
     },
     getTrackingEmployee (state) {
@@ -23,7 +24,11 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
     filterNotDelivery (state) {
       var filtered = [...state.onlineSales]
       return filtered.filter((onlineSale) => onlineSale.delivery_status != "จัดส่งสำเร็จ")
-    }
+    },
+    filterAccept (state) {
+      var filtered = [...state.onlineSales]
+      return filtered.filter((onlineSale) => onlineSale.transfer_status == "ยืนยัน")
+    },
   },
 
   actions: {
@@ -67,5 +72,19 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       var filtered = [...this.onlineSales]
       return filtered.filter((online_sale) => online_sale.user.id == user.id)
     },
+    getAcceptFromDate (date_str) {
+      this.filterSales = []
+      var date = new Date(date_str).getTime()
+      // console.log(date)
+      this.onlineSales.forEach( (sale) => {
+        var sale_date_date = new Date(sale.sale_date).getTime()
+        if(sale_date_date == date)
+        {
+          this.filterSales.push(sale)
+        }
+      })
+      // console.table(this.filterSales)
+      return this.filterSales                             
+    }
   }
 })

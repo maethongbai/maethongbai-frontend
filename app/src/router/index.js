@@ -207,6 +207,11 @@ const router = createRouter({
       component: () => import('@/views/RegisterView.vue')
     },
     {
+      path: '/total_sale',
+      name: 'total_sale',
+      component: () => import('@/views/gold/sale/TotalSaleView.vue')
+      },
+      {
       path: '/total',
       name: 'total',
       component: () => import('@/views/total/TotalIncomeWithdrawlView.vue')
