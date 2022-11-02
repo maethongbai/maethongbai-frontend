@@ -6,7 +6,8 @@ export const useAllSaleStore = defineStore("all_sales", {
   state: () => {
     return {
       all_sales: [],
-      golds: []
+      golds: [],
+      all_sales_filtered: []
     }
   },
   
@@ -30,8 +31,9 @@ export const useAllSaleStore = defineStore("all_sales", {
     },
     filterByDate(date) {
       var filtered = [...this.all_sales]
-      return filtered.filter((sale) => sale.transfer_status == "ยืนยัน" &&
+      this.all_sales_filtered = filtered.filter((sale) => sale.transfer_status == "ยืนยัน" &&
                                         (new Date(sale.sale_date).getTime()) == (new Date(date).getTime()))
+      return this.all_sales_filtered
     },
     getGoldFromSales(date){
       this.golds = []
@@ -103,15 +105,26 @@ export const useAllSaleStore = defineStore("all_sales", {
       var id = 0
       filtered.forEach(a => {
         var count = 0
+        var sales = []
+        var sale_amount = 0
         // for each filtered value, count duplicates
         this.golds.forEach(b => {
           if(this.checkSame(a, b)) {
             count += 1
           }
         })
+
+        this.all_sales_filtered.forEach(sale => {
+          if (sale.gold.id == a.id) {
+            sales.push(sale)
+            sale_amount += sale.gold_price
+          }
+        })
         id += 1
         var obj = {
           count: count,
+          sales: sales,
+          sale_amount: sale_amount,
           gold: a,
           id: id
         }

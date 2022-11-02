@@ -141,16 +141,21 @@
                     <th scope="col" class="px-6 py-3"> ลำดับ </th>
                     <th scope="col" class="px-6 py-3"> ชื่อรายการ </th>
                     <th scope="col" class="px-6 py-3"> จำนวน </th>
+                    <th scope="col" class="px-6 py-3"> ราคาที่ขาย </th>
                 </thead>
                 <tbody class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="item in selled_gold">
                     <tr>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{item.id}}</td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{item.gold.name}}</td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{item.count}}</td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{item.sale_amount}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <p class="pl-3 text-lg font-semibold text-left text-gray-900 bg-white ">
+            สรุปรายได้จากทองในวัน: {{total_sale_amount}} บาท
+        </p> 
     </div>
 </div>
 </template>
@@ -214,7 +219,8 @@ export default {
             sale_search: null,
 
             selled_gold: null,
-            chosen_date: moment()
+            chosen_date: moment(),
+            total_sale_amount: 0
         };
     },
     async mounted() {
@@ -342,7 +348,13 @@ export default {
 
             this.allSale_store.getGoldFromSales(new Date(formatted_date))
             this.selled_gold = this.allSale_store.countSoldGold()
-            console.table(this.selled_gold)
+
+            var total_sale_amount = 0
+            this.selled_gold.forEach(element => {
+                total_sale_amount += element.sale_amount
+            });
+            console.log(total_sale_amount)
+            this.total_sale_amount = total_sale_amount
         }
 
     }
