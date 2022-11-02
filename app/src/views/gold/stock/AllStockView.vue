@@ -1,8 +1,9 @@
 <template>
     <div v-if='user.role == "employee" ||
-user.role == "account" ||
-user.role == "manager"'>
+               user.role == "account" ||
+               user.role == "manager"'>
     <div class="inline">
+        <div class="text-3xl">สต็อกสินค้าทั้งหมด</div>
         <form @submit.prevent="searchID()">
             <div class="inline">
                 <label>ID</label>
@@ -33,21 +34,18 @@ user.role == "manager"'>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="gold in golds" class="bg-yellow-700 border-b border-blue-400 hover:bg-yellow-500"
-             @click="setSearched(gold.id)">
+            <tr v-for="item in list" class="bg-yellow-700 border-b border-blue-400 hover:bg-yellow-500"
+             @click="setSearched(item)">
                 <th scope="row" class="py-4 px-6 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                    {{ gold.id }}
+                    {{ item.id }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ gold.name }}
+                    {{ item.gold.name }}
                 </td>
                 <td class="px-6 py-4">
-                    คงเหลือ
+                    {{ item.count}}
                 </td>
-                <td class="px-6 py-4">
-                    {{ gold.employee_add_stock }}
-                </td>
-                <td class="py-4 px-6" v-if="gold.employee_add_stock != null">{{gold.employee_add_stock.nickname}}</td>
+                <td class="py-4 px-6" v-if="item.gold.employee_add_stock != null">{{item.gold.employee_add_stock.nickname}}</td>
                 <td class="py-4 px-6" v-else>-</td>
             </tr>
         </tbody>
@@ -61,18 +59,16 @@ user.role == "manager"'>
                 ลำดับ: {{stock_searched.id}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700">
-                ชื่อสินค้า: {{stock_searched.name}}
+                ชื่อสินค้า: {{stock_searched.gold.name}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700">
-                จำนวนคงเหลือ: คงเหลือ
+                จำนวนคงเหลือ: {{ stock_searched.count }}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700" v-if="stock_searched.employee_add_stock != null">
-                พนักงานเจ้าของ: {{stock_searched.employee_add_stock.nickname}}
+                พนักงานเจ้าของ: {{stock_searched.gold.employee_add_stock.nickname}}
             </p>
         </div>
-
     </div>
-
 </div>
 </div>
 </template>
@@ -93,9 +89,11 @@ export default {
             user: null,
             golds: null,
             stock_searched: null,
-            stock_id: null,
             stockSearchID: null,
-            error: null
+            error: null,
+            list: null,
+            temp_list: null
+
         }
     },
     watch: {
@@ -127,36 +125,30 @@ export default {
         }
         
         await this.gold_store.fetch()
-        this.golds = this.gold_store.getGolds
+        this.gold_store.fetchLeftover()
+        this.list = this.gold_store.countLeftover()
+        console.log(this.list)
+        
     },
     methods: {
         async searchID() {
-            console.log("pin")
             this.error = null
             if (this.stockSearchID == null || this.stockSearchID == "")  {
-                console.log("pin1")
                 this.stock_searched = null
                 this.$router.go(0)
             }
             try {
-                this.stock_searched = await this.gold_store.getID(this.stockSearchID)
-                this.golds = this.gold_store.getGolds
-                this.golds = this.gold_store.filterStockByID(this.golds,this.stockSearchID)
-                console.log(this.stock_searched)
+                this.stock_searched = await this.gold_store.getCountID(this.stockSearchID)
+                this.temp_list = this.gold_store.countLeftover()
+                this.list = this.gold_store.filterStockByID(this.temp_list,this.stockSearchID)
+                // console.log(this.stock_searched)
             } catch (error) {
                 this.error = error.message
             }
     },
-    async setSearched(stock_id) {
-            this.error = null
-            try {
-                this.stock_searched = await this.gold_store.getID(stock_id)
-                console.log(this.stock_searched)
-            } catch (error) {
-                this.error = error.message
-                this.disabledSearchButton = false
-            }
-        }
+    setSearched(item) {
+            this.stock_searched = item
+    }
    
 }
 

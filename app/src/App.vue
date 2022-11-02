@@ -16,10 +16,17 @@ import Profile from './components/profile/Profile.vue'
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/test">Test</RouterLink>
+        <RouterLink to="/stock/view">Stock</RouterLink>
         <RouterLink to="/redemption/view">Redemptions</RouterLink>
         <RouterLink to="/custom_order/view">Custom Orders</RouterLink>
         <RouterLink to="/sale/view">Sales</RouterLink>
-        <RouterLink to="/stock/view">Stock</RouterLink>
+        <RouterLink to="/allstock/view">All Stock</RouterLink>
+        <RouterLink to="/withdrawal/view">Withdrawal</RouterLink>
+        <RouterLink to="/income/view">Income</RouterLink>
+        <RouterLink to="/custom_order_worker/view">Custom Order Worker</RouterLink>
+        <RouterLink to="/gold_pattern/view">Gold Pattern</RouterLink>
+        <RouterLink to="/wholesale/view">Wholesale</RouterLink>
+        <RouterLink to="/gold_type/view">Gold Type</RouterLink>
       </nav>
     </div>
   </header>

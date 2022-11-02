@@ -52,11 +52,6 @@ const router = createRouter({
       component: () => import('@/views/gold/redemption/EditRedemptionView.vue')
     },
     {
-      path: '/stock/view',
-      name: 'stock.view',
-      component: () => import('@/views/gold/stock/AllStockView.vue')
-    },
-    {
       path: '/redemption/create',
       name: 'redemption.create',
       component: () => import('@/views/gold/redemption/CreateRedemptionView.vue'),
@@ -70,6 +65,16 @@ const router = createRouter({
       path: '/onsitesale/create',
       name: 'onsitesale.create',
       component: () => import('@/views/gold/sale/CreateOnsiteSaleView.vue'),
+    },
+    {
+      path: '/onsitesale/edit/:id',
+      name: 'onsitesale.edit',
+      component: () => import('@/views/gold/sale/EditOnsiteSaleView.vue')
+    },
+    {
+      path: '/onlinesale/edit/:id',
+      name: 'onlinesale.edit',
+      component: () => import('@/views/gold/sale/EditOnlineSaleView.vue')
     },
     {
       path: '/custom_order/view',
@@ -117,6 +122,86 @@ const router = createRouter({
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
     },
     {
+      path: '/allstock/view',
+      name: 'allstock.view',
+      component: () => import('@/views/gold/stock/AllStockView.vue')
+    },
+    {
+      path: '/stock/create',
+      name: 'stock.create',
+      component: () => import('@/views/gold/stock/CreateStockView.vue')
+    },
+    {
+      path: '/stock/edit/:id',
+      name: 'stock.edit',
+      component: () => import('@/views/gold/stock/EditStockView.vue')
+    },
+    {
+      path: '/stock/view',
+      name: 'stock.view',
+      component: () => import('@/views/gold/stock/StockView.vue')
+    },
+    {
+      path: '/custom_order_worker/view',
+      name: 'custom_order_worker.view',
+      component: () => import('@/views/gold/custom_order_worker/CustomOrderWorkerView.vue')
+    },
+    {
+      path: '/custom_order_worker/create',
+      name: 'custom_order_worker.create',
+      component: () => import('@/views/gold/custom_order_worker/AddCustomOrderWorkerView.vue')
+    },
+    {
+      path: '/custom_order_worker/edit/:id',
+      name: 'custom_order_worker.edit',
+      component: () => import('@/views/gold/custom_order_worker/EditCustomOrderWorkerView.vue')
+    },
+    {
+      path: '/gold_pattern/view',
+      name: 'gold_pattern.view',
+      component: () => import('@/views/gold/pattern/GoldPatternView.vue')
+    },
+    {
+      path: '/gold_pattern/create',
+      name: 'gold_pattern.create',
+      component: () => import('@/views/gold/pattern/AddGoldPatternView.vue')
+    },
+    {
+      path: '/gold_pattern/edit/:id',
+      name: 'gold_pattern.edit',
+      component: () => import('@/views/gold/pattern/EditGoldPatternView.vue')
+    },
+    {
+      path: '/gold_type/view',
+      name: 'gold_type.view',
+      component: () => import('@/views/gold/type/GoldTypeView.vue')
+    },
+    {
+      path: '/gold_type/create',
+      name: 'gold_type.create',
+      component: () => import('@/views/gold/type/AddGoldTypeView.vue')
+    },
+    {
+      path: '/gold_type/edit/:id',
+      name: 'gold_type.edit',
+      component: () => import('@/views/gold/type/EditGoldTypeView.vue')
+    },
+    {
+      path: '/wholesale/view',
+      name: 'wholesale.view',
+      component: () => import('@/views/gold/wholesale/WholesaleView.vue')
+    },
+    {
+      path: '/wholesale/create',
+      name: 'wholesale.create',
+      component: () => import('@/views/gold/wholesale/AddWholesaleView.vue')
+    },
+    {
+      path: '/wholesale/edit/:id',
+      name: 'wholesale.edit',
+      component: () => import('@/views/gold/wholesale/EditWholesaleView.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('@/views/RegisterView.vue')
@@ -125,6 +210,41 @@ const router = createRouter({
       path: '/total_sale',
       name: 'total_sale',
       component: () => import('@/views/gold/sale/TotalSaleView.vue')
+      },
+      {
+      path: '/total',
+      name: 'total',
+      component: () => import('@/views/total/TotalIncomeWithdrawlView.vue')
+    },
+    {
+      path: '/income/create',
+      name: 'income.create',
+      component: () => import('@/views/income/CreateIncomeView.vue')
+    },
+    {
+      path: '/income/view',
+      name: 'income.view',
+      component: () => import('@/views/income/IncomeView.vue')
+    },
+    {
+      path: '/income/edit/:id',
+      name: 'income.edit',
+      component: () => import('@/views/income/EditIncomeView.vue')
+    },
+    {
+      path: '/withdrawal/create',
+      name: 'withdrawal.create',
+      component: () => import('@/views/withdrawal/CreateWithdrawalView.vue')
+    },
+    {
+      path: '/withdrawal/view',
+      name: 'withdrawal.view',
+      component: () => import('@/views/withdrawal/WithdrawalView.vue')
+    },
+    {
+      path: '/withdrawal/edit/:id',
+      name: 'withdrawal.edit',
+      component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
     },
   ]
 })

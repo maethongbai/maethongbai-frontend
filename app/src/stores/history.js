@@ -76,7 +76,6 @@ export const useHistoryStore = defineStore("histories", {
           history_object.item = obj
           this.histories.push(history_object)
         });
-
     },
     filterByUser(user) {
       var filtered = [...this.histories]

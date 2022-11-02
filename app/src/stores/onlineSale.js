@@ -45,6 +45,14 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
         }
 	    return false
     },
+    async edit (id,onlineSale) {
+      const response = await onlineSaleAPI.saveEdit(id,onlineSale)
+      if (response.success) {
+        this.onlineSales = await onlineSaleAPI.getAll()
+        return response.onlineSale_id
+      }
+      return false
+    },
     delete (id) {
       this.onlineSales = this.onlineSales.filter(onlineSale => onlineSale.id != id)
     },

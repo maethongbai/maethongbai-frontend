@@ -1,43 +1,49 @@
-import { defineStore } from 'pinia'
-import { goldAPI } from '@/services/api.js'
+import { defineStore } from "pinia";
+import { goldAPI } from "@/services/api.js";
 
 export const useGoldStore = defineStore("golds", {
   state: () => {
     return {
-      golds: []
+      golds: [],
+      count_golds: []
+
     }
   },
-  
+
   getters: {
     getGolds (state) {
       return state.golds
+    },
+    getCountGold(state) {
+      return state.count_golds
     }
    },
 
   actions: {
-    async fetch () {
-        this.golds = await goldAPI.getAll()
+    async fetch() {
+      this.golds = await goldAPI.getAll();
     },
-    async add (gold) {
-        const response = await goldAPI.saveNew(gold)
-        if (response.success) {
-          this.golds = await goldAPI.getAll()
-          return response.gold_id
-        }
-	      return false
+    async add(gold) {
+      const response = await goldAPI.saveNew(gold);
+      if (response.success) {
+        this.golds = await goldAPI.getAll();
+        return response.gold_id;
+      }
+      return false;
     },
-    delete (id) {
-      this.golds = this.golds.filter(gold => gold.id != id)
+    delete(id) {
+      this.golds = this.golds.filter((gold) => gold.id != id);
     },
     async getID(id) {
-      const gold = await goldAPI.getID(id)
-      return gold
+      const gold = await goldAPI.getID(id);
+      return gold;
     },
-    filterStockByID(golds,id) {
-      var filtered = [...golds]
-      return filtered.filter((gold) => gold.id == id)
+    filterStockByID(golds, id) {
+      var filtered = [...golds];
+      return filtered.filter((gold) => gold.id == id);
     },
-    filterUnsellable() {
+
+    filterSellable() {
       var filtered = [...this.golds];
 
       /*
@@ -52,8 +58,18 @@ export const useGoldStore = defineStore("golds", {
           gold.stock_approval_status == "อนุมัติ"
       );
     },
+    filterUnsellable() {
+      var filtered = [...this.golds];
+      return filtered.filter(
+        (gold) =>
+          gold.is_sold == false &&
+          gold.is_redemption == false &&
+          (gold.stock_approval_status == "รออนุมัติ" 
+          || gold.stock_approval_status == "ไม่อนุมัติ")
+      );
+    },
     filterLeftover() {
-      var filtered = this.filterUnsellable()
+      var filtered = this.filterSellable()
 
       // filter out duplicates and put it in another array
       var no_dupes = [];
@@ -96,71 +112,6 @@ export const useGoldStore = defineStore("golds", {
     async editGold (id, gold) {
       const response = await goldAPI.saveEdit(id, gold)
       this.golds = await goldAPI.getAll()
-    },
-    filterUnsellable() {
-      var filtered = [...this.golds];
-      return filtered.filter(
-        (gold) =>
-          gold.is_sold == false &&
-          gold.is_redemption == false &&
-          (gold.stock_approval_status == "รออนุมัติ" 
-          || gold.stock_approval_status == "ไม่อนุมัติ")
-      );
-
-    },
-
-    filterSellable() {
-      var filtered = [...this.golds];
-
-      /*
-      remove is_sold == true (already sold)
-      remove is_redemption == true (no reselling)
-      filter stock_approval_status == อนุมัติ (only approved gold can be sold)
-      */
-      return filtered.filter(
-        (gold) =>
-          gold.is_sold == false &&
-          gold.is_redemption == false &&
-          gold.stock_approval_status == "อนุมัติ"
-      );
-    },
-    filterLeftover() {
-      var filtered = this.filterSellable()
-
-      // filter out duplicates and put it in another array
-      var no_dupes = [];
-      filtered.forEach((gold) => {
-        var is_dupe = false;
-        var gweight = gold.weight;
-        if (gweight == null) {
-          gweight = gold.custom_weight;
-        }
-
-        var temp_dupes = [...no_dupes]
-
-        temp_dupes.every((obj) => {
-          var oweight = obj.weight;
-          if (oweight == null) {
-            oweight = obj.custom_weight;
-          }
-
-          // find if gold and obj is same
-          is_dupe = this.checkSame(gold, obj);
-          if (is_dupe == true) {
-            // console.log("same");
-            return false // break
-          } else {
-            return true // continue
-          }
-        });
-        // console.log(is_dupe);
-        if (is_dupe == false) {
-          // console.log("new gold")
-          no_dupes.push(gold);
-        }
-      });
-      // console.log(no_dupes)
-      return no_dupes
     },
     checkSame(a, b) {
       /* leftover criteria (for it to count as same gold)                
@@ -267,7 +218,7 @@ export const useGoldStore = defineStore("golds", {
       filtered.forEach(a => {
         var count = 0
         // for each filtered value, count duplicates
-        this.golds.forEach(b => {
+        this.filterSellable().forEach(b => {
           if (this.checkSame(a,b)) {
             count += 1
           }
@@ -310,8 +261,6 @@ export const useGoldStore = defineStore("golds", {
       // console.log(count_array)
       return count_array
     },
-
-
     filterSoldGold() {
       var filtered = [...this.golds];
 
@@ -384,8 +333,14 @@ export const useGoldStore = defineStore("golds", {
       // console.log(count_array)
       return count_array
     },
-
-
-
+    findByID(id) {
+      var filtered = [...this.golds]
+      return filtered.find(element => element.id == id)
+    },
+    async edit(gold) {
+      const response = await goldAPI.saveEdit(gold.id, gold)
+      this.golds = await goldAPI.getAll()
+    }
   },
-})
+  
+});

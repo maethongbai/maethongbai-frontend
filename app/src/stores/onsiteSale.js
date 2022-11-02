@@ -31,6 +31,22 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
     async fetch () {
         this.onsiteSales = await onsiteSaleAPI.getAll()
     },
+    async add (onsiteSale) {
+      const response = await onsiteSaleAPI.saveNew(onsiteSale)
+      if (response.success) {
+        this.onsiteSales = await onsiteSaleAPI.getAll()
+        return response.onsiteSale_id
+      }
+      return false
+    },
+    async edit (id,onsiteSale) {
+      const response = await onsiteSaleAPI.saveEdit(id,onsiteSale)
+      if (response.success) {
+        this.onsiteSales = await onsiteSaleAPI.getAll()
+        return response.onsiteSale_id
+      }
+      return false
+    },
     delete (id) {
       this.onsiteSales = this.onsiteSales.filter(onsiteSale => onsiteSale.id != id)
     },
@@ -41,10 +57,6 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
     filterOnsiteByID(onsiteSales, id) {
       var filtered = [...onsiteSales]
       return filtered.filter((onsiteSale) => onsiteSale.id == id)
-    },
-    async getNextID() {
-      const nextID = await onsiteSaleAPI.getNextID()
-      return nextID
     },
     filterAcceptFromDate (date) {
       var filtered = [...this.onsiteSales]
@@ -63,6 +75,14 @@ export const useOnsiteSaleStore = defineStore("onsiteSales", {
       })
       // console.table(this.filterSales)
       return this.filterSales                             
-    }
+    },
+    getNextID() {
+      console.log("in")
+      var id = 1
+      this.onsiteSales.forEach(element => {
+        id = id + 1
+      });
+      return id
+    },
   }
 })
