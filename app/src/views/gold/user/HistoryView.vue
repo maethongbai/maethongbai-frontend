@@ -376,7 +376,12 @@ export default {
                 this.user = response.data.data
                 this.user_id = this.user.id
                 console.log(this.user_id)
-                if (this.auth_user.id != this.user_id) {
+                if (this.auth_user.id == this.user_id ||
+                this.auth_user.role == "employee" ||
+                this.auth_user.role == "account" ||
+                this.auth_user.role == "manager") {
+                    
+                } else {
                     this.$router.push("/")
                 }
             }
