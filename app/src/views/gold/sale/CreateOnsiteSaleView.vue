@@ -192,6 +192,7 @@ export default {
                     pension_per_piece: null,
                     pattern_type: null,
                     size: null,
+                    is_sold: null
                 },
                 gold_price: 0,
                 sale_date: "",
@@ -306,6 +307,10 @@ export default {
                     this.input_check.is_valid = false
                 }
             }
+            if (this.onsiteSale.gold.is_sold == true) {
+                this.input_check.errors.push("ทองนี้ถูกขายไปแล้ว")
+                this.input_check.is_valid = false
+            }
 
             if (this.onsiteSale.sale_payment_method.payment_method == "cash") {
                 if (this.onsiteSale.sale_payment_method.paid_change < 0) {
@@ -407,6 +412,7 @@ export default {
             this.onsiteSale.gold.pattern_type = gold.pattern_type
             this.onsiteSale.gold.size = gold.size
             this.onsiteSale.gold.pension_per_piece = gold.pension_per_piece
+            this.onsiteSale.gold.is_sold = gold.is_sold
 
             var price = Number(Math.round(this.onsiteSale.gold_sell_price.sell_price + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)))
             console.log(price)
