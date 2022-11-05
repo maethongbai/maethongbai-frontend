@@ -247,6 +247,11 @@ const router = createRouter({
       component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
     },
     {
+      path: '/manage_home',
+      name: 'manage_home',
+      component: () => import('@/views/MainEmployeeView.vue')
+    },
+    {
       path: '/shopping/all',
       name: 'shopping.all',
       component: () => import('@/views/shopping/AllGoldShopping.vue')
