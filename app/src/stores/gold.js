@@ -5,19 +5,18 @@ export const useGoldStore = defineStore("golds", {
   state: () => {
     return {
       golds: [],
-      count_golds: []
-
-    }
+      count_golds: [],
+    };
   },
 
   getters: {
-    getGolds (state) {
-      return state.golds
+    getGolds(state) {
+      return state.golds;
     },
     getCountGold(state) {
-      return state.count_golds
-    }
-   },
+      return state.count_golds;
+    },
+  },
 
   actions: {
     async fetch() {
@@ -64,12 +63,12 @@ export const useGoldStore = defineStore("golds", {
         (gold) =>
           gold.is_sold == false &&
           gold.is_redemption == false &&
-          (gold.stock_approval_status == "รออนุมัติ" 
-          || gold.stock_approval_status == "ไม่อนุมัติ")
+          (gold.stock_approval_status == "รออนุมัติ" ||
+            gold.stock_approval_status == "ไม่อนุมัติ")
       );
     },
     filterLeftover() {
-      var filtered = this.filterSellable()
+      var filtered = this.filterSellable();
 
       // filter out duplicates and put it in another array
       var no_dupes = [];
@@ -80,7 +79,7 @@ export const useGoldStore = defineStore("golds", {
           gweight = gold.custom_weight;
         }
 
-        var temp_dupes = [...no_dupes]
+        var temp_dupes = [...no_dupes];
 
         temp_dupes.every((obj) => {
           var oweight = obj.weight;
@@ -92,9 +91,9 @@ export const useGoldStore = defineStore("golds", {
           is_dupe = this.checkSame(gold, obj);
           if (is_dupe == true) {
             // console.log("same");
-            return false // break
+            return false; // break
           } else {
-            return true // continue
+            return true; // continue
           }
         });
         // console.log(is_dupe);
@@ -104,14 +103,14 @@ export const useGoldStore = defineStore("golds", {
         }
       });
       // console.log(no_dupes)
-      return no_dupes
+      return no_dupes;
     },
     getNextID() {
-      return this.golds.length + 1
+      return this.golds.length + 1;
     },
-    async editGold (id, gold) {
-      const response = await goldAPI.saveEdit(id, gold)
-      this.golds = await goldAPI.getAll()
+    async editGold(id, gold) {
+      const response = await goldAPI.saveEdit(id, gold);
+      this.golds = await goldAPI.getAll();
     },
     checkSame(a, b) {
       /* leftover criteria (for it to count as same gold)                
@@ -212,54 +211,54 @@ export const useGoldStore = defineStore("golds", {
       return true;
     },
     countLeftover() {
-      var filtered = this.filterLeftover()
-      var count_array = []
-      var id = 0
-      filtered.forEach(a => {
-        var count = 0
+      var filtered = this.filterLeftover();
+      var count_array = [];
+      var id = 0;
+      filtered.forEach((a) => {
+        var count = 0;
         // for each filtered value, count duplicates
-        this.filterSellable().forEach(b => {
-          if (this.checkSame(a,b)) {
-            count += 1
+        this.filterSellable().forEach((b) => {
+          if (this.checkSame(a, b)) {
+            count += 1;
           }
-        })
-        id += 1
+        });
+        id += 1;
         var count_obj = {
           count: count,
           gold: a,
-          id: id
-        }
+          id: id,
+        };
         // console.log(count_obj)
-        count_array.push(count_obj)
-      })
+        count_array.push(count_obj);
+      });
       // console.log(count_array)
-      return count_array
+      return count_array;
     },
     fetchLeftover() {
-      this.count_golds = this.countLeftover()
+      this.count_golds = this.countLeftover();
     },
     getCountID(id) {
-      var filtered = [...this.count_golds]
-      return filtered.find((item) => item.id == id)
+      var filtered = [...this.count_golds];
+      return filtered.find((item) => item.id == id);
     },
     countUnsellable() {
-      var filtered = this.filterUnsellable()
-      var count_array = []
-      var id = 0
-      filtered.forEach(a => {
+      var filtered = this.filterUnsellable();
+      var count_array = [];
+      var id = 0;
+      filtered.forEach((a) => {
         // var count = 0
         // for each filtered value, count duplicates
-        id += 1
+        id += 1;
         var obj = {
           // count: count,
           gold: a,
-          id: id
-        }
+          id: id,
+        };
         // console.log(count_obj)
-        count_array.push(obj)
-      })
+        count_array.push(obj);
+      });
       // console.log(count_array)
-      return count_array
+      return count_array;
     },
     filterSoldGold() {
       var filtered = [...this.golds];
@@ -277,7 +276,7 @@ export const useGoldStore = defineStore("golds", {
       );
     },
     filterSoldLeftover() {
-      var filtered = this.filterSoldGold()
+      var filtered = this.filterSoldGold();
 
       // filter out duplicates and put it in another array
       var no_dupes = [];
@@ -288,7 +287,7 @@ export const useGoldStore = defineStore("golds", {
           gweight = gold.custom_weight;
         }
 
-        var temp_dupes = [...no_dupes]
+        var temp_dupes = [...no_dupes];
 
         temp_dupes.every((obj) => {
           var oweight = obj.weight;
@@ -300,9 +299,9 @@ export const useGoldStore = defineStore("golds", {
           is_dupe = this.checkSame(gold, obj);
           if (is_dupe == true) {
             // console.log("same");
-            return false // break
+            return false; // break
           } else {
-            return true // continue
+            return true; // continue
           }
         });
         // console.log(is_dupe);
@@ -312,35 +311,126 @@ export const useGoldStore = defineStore("golds", {
         }
       });
       // console.log(no_dupes)
-      return no_dupes
+      return no_dupes;
     },
     countSoldGold() {
-      var filtered = this.filterSoldLeftover()
-      var count_array = []
-      var id = 0
-      filtered.forEach(a => {
-        var count = 0
+      var filtered = this.filterSoldLeftover();
+      var count_array = [];
+      var id = 0;
+      filtered.forEach((a) => {
+        var count = 0;
         // for each filtered value, count duplicates
-        id += 1
+        id += 1;
         var obj = {
           count: count,
           gold: a,
-          id: id
-        }
+          id: id,
+        };
         // console.log(count_obj)
-        count_array.push(obj)
-      })
+        count_array.push(obj);
+      });
       // console.log(count_array)
-      return count_array
+      return count_array;
     },
     findByID(id) {
-      var filtered = [...this.golds]
-      return filtered.find(element => element.id == id)
+      var filtered = [...this.golds];
+      return filtered.find((element) => element.id == id);
     },
     async edit(gold) {
-      const response = await goldAPI.saveEdit(gold.id, gold)
-      this.golds = await goldAPI.getAll()
-    }
+      const response = await goldAPI.saveEdit(gold.id, gold);
+      this.golds = await goldAPI.getAll();
+    },
+    filterStock(temp_list, filter_list) {
+      //   search_inputs_object: { // string and/or objects from api
+      //     weight: null,
+      //     custom_weight: null,
+      //     gold_type: null,
+      //     gold_pattern: null,
+      //     gold_pattern_type: null
+      // },
+      var list = [];
+      temp_list.every((element) => {
+        console.log(element)
+        console.log(filter_list)
+        // weight/custom weight filter (gold must have one of two)
+        if (filter_list.weight == null) {
+          // custom weight filter
+          if (element.custom_weight != filter_list.custom_weight) {
+            return true // filter out
+          }
+        } else if (filter_list.custom_weight == null){
+          // weight filter
+          if (element.weight != filter_list.weight) {
+            return true // filter out
+          }
+        }
+
+        // gold_type filter
+        if (filter_list.gold_type != null) {
+          if (element.gold_type == null) {
+            // if element has no gold_type
+            return true // filter out
+          }
+          if (filter_list.gold_type.name != element.gold_type.name) {
+            // if name doesn't match
+            return true // filter out
+          }
+        }
+
+        // gold_pattern filter
+        if (filter_list.gold_pattern != null) {
+          if (element.gold_pattern == null) {
+            // if element has no gold_pattern
+            return true // filter out
+          }
+          if (filter_list.gold_pattern.name != element.gold_pattern.name) {
+            // if name doesn't match
+            return true // filter out
+          }
+        }
+
+        if (filter_list.gold_pattern_type != null) {
+          if (element.pattern_type == null) {
+            // if element has no gold_pattern_type
+            return true // filter out
+          }
+          if (filter_list.gold_pattern_type != element.pattern_type) {
+            // if name doesn't match
+            return true // filter out
+          }
+        }
+
+        // filter in
+        list.push(element)
+        return true
+      });
+
+      console.log(list)
+      return list
+    },
+    countStock(stock) {
+      var filtered = stock;
+      var count_array = [];
+      var id = 0;
+      filtered.forEach((a) => {
+        var count = 0;
+        // for each filtered value, count duplicates
+        this.filterSellable().forEach((b) => {
+          if (this.checkSame(a, b)) {
+            count += 1;
+          }
+        });
+        id += 1;
+        var count_obj = {
+          count: count,
+          gold: a,
+          id: id,
+        };
+        // console.log(count_obj)
+        count_array.push(count_obj);
+      });
+      // console.log(count_array)
+      return count_array;
+    },
   },
-  
 });
