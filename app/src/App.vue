@@ -1,21 +1,24 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Profile from './components/profile/Profile.vue'
+
+
 </script>
 
 <template>
-  <header>
-    <div class="inset-x-0 top-0">
-      
-      <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
-        <div>
+  <header class=" bg-white sticky top-0">
+    <div class="inset-x-0 top-0 bg-[#F5F5F5]">
+      <nav>
+        <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
           <div class="flex flex-row justify-center">
+            
             <div class="flex-none">
               <img alt="Maethongbai LOGO" class="logo" src="@/assets/LOGO.png" width="175" height="61.4" />
             </div>
 
             <div>
               <div>
+
                 <form class="flex items-center min-w-[50%]">   
                   <label for="simple-search" class="sr-only">Search</label>
                   <div class="relative w-full">
@@ -28,7 +31,8 @@ import Profile from './components/profile/Profile.vue'
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                       <span class="sr-only">Search</span>
                   </button>
-              </form>
+                </form>
+
               </div>
 
               <div class="text-white mt-4">
@@ -46,17 +50,56 @@ import Profile from './components/profile/Profile.vue'
                 
             </div>
 
-            <Profile class="text-white pt-2 pl-2 inset-y-0 right-0"></Profile>
+            <Profile class="text-white pt-2 pl-24 text-right"></Profile>
           </div>
-        </div>
       </div>
 
+      </nav>
+      
+      
     </div>
   </header>
   
   <body class="bg-[#F5F5F5]">
     <RouterView />
   </body>
+
+  <footer>
+    <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] h-[200px] items-center justify-center flex flex-row justify-center">
+      <div class="w-[1200px]">
+        <div class="flex flex-row justify-center grid grid-cols-3 text-center">
+        <div>
+          <div class="flex flex-col justify-center">
+            <img alt="Maethongbai LOGO" class="mx-auto" src="@/assets/LOGO.png" width="228" height="84" />
+            <p class="text-white mt-5">ห้างทองแม่ทองใบ คลาสสิก เดอะมอลล์บางแค<br>
+                                        ซื้อ-ขาย ทองแท่ง ทองรูปพรรณ มาตรฐาน</p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="flex flex-col justify-center text-white text-left">
+            <p class="text-bold text-xl"><b>ติดต่อเรา:</b></p>
+            <p> <b>โทร: </b>02-4549398-9 <br>
+                 <b>ที่ตั้ง: </b>275 หมู่ 1 ชั้น G เดอะมอลล์บางแค ถนนเพชรเกษม <br> แขวงบางแคเหนือ กรุงเทพมหานคร 10160 </p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="flex flex-col justify-center text-white text-left">
+            <p class="text-bold text-xl"><b>ติดตามเรา:</b></p>
+            <p> FB: ห้างทองแม่ทองใบ คลาสสิก เดอะมอลล์บางแค <br>
+                Line id: mtcbangkae <br>
+                Instagram: mtcbangkae <br>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      </div>
+      
+      
+    </div>
+  </footer>
   
 </template>
 

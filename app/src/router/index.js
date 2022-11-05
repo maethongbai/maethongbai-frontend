@@ -246,6 +246,11 @@ const router = createRouter({
       name: 'withdrawal.edit',
       component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
     },
+    {
+      path: '/manage_home',
+      name: 'manage_home',
+      component: () => import('@/views/MainEmployeeView.vue')
+    },
   ]
 })
 
