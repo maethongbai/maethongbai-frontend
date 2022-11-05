@@ -1,41 +1,51 @@
 <template>
-<div v-if='user.role == "employee" ||
+    <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/income/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-    </div>
-    <form @submit.prevent="createIncome()">
-        <div class="mx-3 my-3">
-            <label for="nextID" class="mx-3">เลขบิล: {{income.id}} </label>
-            <div>
-                <p>รายการรับเงิน:</p>
-                <input type="text" v-model="income.name">
-            </div>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px]">
+            <div class="flex flex-col text-s1">
+                <p>หน้าหลัก > เพิ่ม</p>
+                <div class="flex flex-row w-[554px]">
+                    <label for="nextID" class="m-3">เลขบิล: {{income.id}} </label>
+                    <p class="ml-auto m-3">วันที่เพิ่ม: {{income.transaction_date}}</p>
+                </div>
+                
+                <div class="card-gray w-[554px] flex flex-col">
+                    <form @submit.prevent="createIncome()">
+                        <div class="flex flex-row">
+                            <p class="pt-2">ชื่อรายการ:</p>
+                            <input type="text" class="text-field w-[384px] ml-auto mr-3" v-model="income.name">
+                        </div>
 
-            <div>
-                <p>จำนวนเงิน:</p>
-                <input type="number" step=".01" v-model="income.amount">
-            </div>
+                        <div class="flex flex-row">
+                            <p class="pt-2">จำนวนเงิน:</p>
+                            <input type="number" class="text-field w-[384px] ml-auto mr-3" v-model="income.amount">
+                        </div>
 
-            <div>
-                <p>หมายเหตุ:</p>
-                <input type="text" v-model="income.note">
+                        <div class="flex flex-row">
+                            <p class="pt-2">หมายเหตุ:</p>
+                            <textarea v-model="income.note" name="" id="" cols="30" rows="10" class="text-field w-[384px] ml-auto mr-3"></textarea>
+                        </div>
+
+                        <div class="w-[250px] mx-auto">
+                            <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                                บันทึกรายการรับเงิน
+                            </button>
+                            <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                                บันทึกรายการรับเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                            </label>
+                            <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                                - {{error}}
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                </div>
             </div>
         </div>
-
-        <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            บันทึกรายการรับเงิน
-        </button>
-        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-            บันทึกรายการรับเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-        </label>
-        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-            - {{error}}
-        </label>
-    </form>
-
-</div>
+    </div>
 </template>
 
 <script>

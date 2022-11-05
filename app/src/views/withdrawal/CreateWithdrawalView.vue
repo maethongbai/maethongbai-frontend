@@ -1,46 +1,52 @@
 <template>
-    <div v-if= 'user.role == "account" ||
+        <div v-if='user.role == "employee" ||
+        user.role == "account" ||
         user.role == "manager"'>
-         <div class="block my-5">
-               <router-link to="/withdrawal/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px]">
+            <div class="flex flex-col text-s1">
+                <p>หน้าหลัก > เพิ่ม</p>
+                <div class="flex flex-row w-[554px]">
+                    <label for="nextID" class="m-3">เลขบิล: {{withdrawal.id}} </label>
+                    <p class="ml-auto m-3">วันที่เพิ่ม: {{withdrawal.withdrawal_date}}</p>
+                </div>
+                
+                <div class="card-gray w-[554px] flex flex-col">
+                    <form @submit.prevent="createWithdrawal()">
+                        <div class="flex flex-row">
+                            <p class="pt-2">ชื่อรายการ:</p>
+                            <input type="text" class="text-field w-[384px] ml-auto mr-3" v-model="withdrawal.name">
+                        </div>
+
+                        <div class="flex flex-row">
+                            <p class="pt-2">จำนวนเงิน:</p>
+                            <input type="number" class="text-field w-[384px] ml-auto mr-3" v-model="withdrawal.amount">
+                        </div>
+
+                        <div class="flex flex-row">
+                            <p  class="pt-2">พนักงานที่ต้องการเบิกเงิน:</p>
+                            <select class="select-box w-[280px] ml-auto mr-3" v-model="withdrawal.employee">
+                                <option v-for="employee in options.employees" :value="employee.id"> {{ employee.nickname }}</option>
+                            </select>
+                        </div>
+
+                        <div class="w-[250px] mx-auto">
+                            <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                                บันทึกรายการรับเงิน
+                            </button>
+                            <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                                บันทึกรายการรับเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                            </label>
+                            <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                                - {{error}}
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                </div>
+            </div>
         </div>
-        <form @submit.prevent="createWithdrawal()">
-            <div class="mx-3 my-3">
-            <label for="nextID" class="mx-3">เลขบิล: {{withdrawal.id}} </label>
-            <div>
-                <p>รายการเบิกเงิน:</p>
-                <input type="text" v-model="withdrawal.name">
-            </div>
-
-            <div>
-                <p>จำนวนเงิน:</p>
-                <input type="number" step=".01" v-model="withdrawal.amount">
-            </div>
-
-            <div>
-                <p>พนักงานที่ต้องการเบิกเงิน:</p>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="withdrawal.employee">
-                    <option v-for="employee in options.employees" :value="employee.id"> {{ employee.nickname }}</option>
-                </select>
-            </div>
-
-            <div>
-                <p>วันที่เบิก:</p>
-                <p>{{withdrawal.withdrawal_date}}</p>
-            </div>
-            </div>
-        
-        <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            บันทึกรายการเบิกเงิน
-        </button>
-        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-            บันทึกรายการเบิกเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-        </label>
-        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-            - {{error}}
-        </label>
-        </form>
-
     </div>
 </template>
 

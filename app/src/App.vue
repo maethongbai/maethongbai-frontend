@@ -6,7 +6,8 @@ import Profile from './components/profile/Profile.vue'
 </script>
 
 <template>
-  <header class=" bg-white sticky top-0">
+  <div class="flex flex-col h-screen justify-between bg-[#F5F5F5]">
+    <header class=" bg-white sticky top-0">
     <div class="inset-x-0 top-0 bg-[#F5F5F5]">
       <nav>
         <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
@@ -58,13 +59,13 @@ import Profile from './components/profile/Profile.vue'
       
       
     </div>
-  </header>
-  
-  <body class="bg-[#F5F5F5]">
-    <RouterView />
-  </body>
+    </header>
 
-  <footer>
+    <body class="bg-[#F5F5F5]">
+      <RouterView />
+    </body>
+
+    <footer>
     <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] h-[200px] items-center justify-center flex flex-row justify-center">
       <div class="w-[1200px]">
         <div class="flex flex-row justify-center grid grid-cols-3 text-center">
@@ -99,8 +100,8 @@ import Profile from './components/profile/Profile.vue'
       
       
     </div>
-  </footer>
-  
+    </footer>
+  </div>
 </template>
 
 <!-- <style scoped>
