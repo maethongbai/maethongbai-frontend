@@ -59,13 +59,13 @@ import Profile from './components/profile/Profile.vue'
       
       
     </div>
-  </header>
-  
-  <body class="bg-[#F5F5F5]">
-    <RouterView />
-  </body>
+    </header>
 
-  <footer>
+    <body class="bg-[#F5F5F5]">
+      <RouterView />
+    </body>
+
+    <footer>
     <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] h-[200px] items-center justify-center flex flex-row justify-center">
       <div class="w-[1200px]">
         <div class="flex flex-row justify-center grid grid-cols-3 text-center">

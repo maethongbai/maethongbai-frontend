@@ -24,4 +24,23 @@
     .label-card {
         @apply mt-2 mb-2 text-2xl text-s1
     }
+
+    .text-field {
+        @apply mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+        disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+        focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+    }
+
+    .select-box {
+        @apply mt-1 block w-full px-3 py-2 appearance-none w-full bg-white border border-slate-300 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:border-sky-500
+    }
+
+    .table-head {
+        @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400
+    }
+
+    .table-card {
+        @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600
+    }
 }

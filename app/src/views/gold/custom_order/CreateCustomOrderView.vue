@@ -2,151 +2,189 @@
 <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/custom_order/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px] text-s1">
+            <div class="m-4 mb-0">
+                <!-- breadcrumb -->
+                <b>หน้าหลักระบบหลังร้าน > รับซื้อทอง</b>
+            </div>
+
+            <form @submit.prevent="createCustomOrder()">
+                <div class="flex flex-row">
+                    <div class="m-3 p-2 mt-4">
+                        <p>เลขที่ใบเสร็จ: {{ custom_order.id }}</p>
+                    </div>
+
+                    <div class="flex flex-row ml-auto m-3">
+                        <p class="p-2 mr-2 mt-1">เบอร์โทร</p>
+                        <input class="text-field w-[200px] bg-[#F5F5F5]" type="text" v-model="custom_order.user_phone_search" autocomplete="off" required>
+                        <button @click="findUser" :disabled="disabledButton" class="red-btn w-[69px] h-[36px] ml-2 mt-1">
+                            ค้นหา
+                        </button>
+                        <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="custom_order.user_phone_search == null">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
+                        <a v-bind:href="'/register'" v-if="custom_order.user_phone_search == null" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                            ลงทะเบียน
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+
+                </div>
+                <div class="card-gray w-[1044px] mb-4 text-m">
+                    <div class="grid grid-cols-2 text-base">
+                        <div class="flex flex-col">
+                            <p class="pt-2 pb-2 text-xl"><b>รายละเอียดลูกค้า</b></p>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex flex-row pl-2">
+                                    <p>รหัสลูกค้า: </p>
+                                    <label class="ml-4" v-if="custom_order.user != null">{{custom_order.user.id}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+
+                                <div class="flex flex-row pl-2">
+                                    <p>ชื่อ: </p>
+                                    <label class="ml-4" v-if="custom_order.user != null">{{custom_order.user.first_name}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+
+                                <div class="flex flex-row pl-2">
+                                    <p>นามสกุล: </p>
+                                    <label class="ml-4" v-if="custom_order.user != null">{{custom_order.user.last_name}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+                            </div>
+
+                            <p class="pt-2 pb-2 text-xl"><b>รายละเอียดงานสั่ง</b></p>
+
+                            <div class="flex flex-row">
+                                <label class="p-2">ชื่องานสั่ง</label>
+                                <input class="text-field w-[350px] ml-auto mr-3" type="text" v-model="custom_order.name" autocomplete="off" required>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label class="p-2">ประเภท/ลักษณะ</label>
+                                <input class="text-field w-[350px] ml-auto mr-3" type="text" v-model="custom_order.type" autocomplete="off" required>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label class="p-2">น้ำหนัก</label>
+                                <input class="text-field w-[290px] ml-auto mr-3" step=".01" type="number" v-model="custom_order.custom_weight" autocomplete="off" required>
+                                <label class="p-2 mr-4">กรัม</label>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label class="p-2">ค่าแรง</label>
+                                <input class="text-field w-[290px] ml-auto mr-3" step=".01" type="number" v-model="custom_order.wage" autocomplete="off" required>
+                                <label class="p-2 mr-4">บาท</label>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <p class="p-2">ราคาทองตอนสั่ง: </p>
+                                <p class=" p-2 ml-1 mr-3">{{custom_order.gold_order_price.sell_price}} บาท</p>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <p class="p-2">ราคาเต็ม: </p>
+                                <p class=" p-2 pl-3 ml-12 mr-3">{{custom_order.full_price}} บาท</p>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label class="p-2">มัดจำ</label>
+                                <input class="text-field w-[290px] ml-auto mr-3" step=".01" type="number" v-model="custom_order.deposit_total_amount" autocomplete="off" required>
+                                <label class="p-2 mr-4">บาท</label>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <p class="p-2">ส่วนต่าง: </p>
+                                <p class=" p-2 pl-4 ml-12 mr-3">{{custom_order.difference_amount}} บาท</p>
+                            </div>       
+                        </div>
+
+                        <div>
+                            <div class="flex flex-row mt-2">
+                                <label class="p-2">วันที่สั่ง: {{custom_order.order_date}}</label>
+                            </div>
+                            <div class="flex flex-row">
+                                <label class="p-2">วันที่เสร็จคาดว่าจะเสร็จ: </label>
+                                <Datepicker v-model="custom_order.finish_date"></Datepicker>
+                            </div>
+                            <div class="flex flex-row">
+                                <label class="p-2">ช่างที่รับผลิต</label>
+                                <select class="select-box w-[200px]" v-model="custom_order.custom_order_worker">
+                                    <option v-for="worker in select.custom_order_workers" :value="worker.name"> {{ worker.name }}</option>
+                                </select>
+                            </div>
+                            <p class="mt-4 pt-2 pb-2 text-xl"><b>ช่องทางการชำระมัดจำ</b></p>
+                            <div class="mx-3 my-3">
+                                <input v-model="select.payment_method" id="เงินสด" type="radio" value="เงินสด">
+                                <label class="mx-3">เงินสด</label>
+                                <input v-model="select.payment_method" id="โอน" type="radio" value="โอน">
+                                <label class="mx-3">โอน</label>
+                                <input v-model="select.payment_method" id="บัตรเครดิต" type="radio" value="บัตรเครดิต">
+                                <label class="mx-3">บัตรเครดิต</label>
+                            </div>
+
+                            <div class="mx-3 my-3" v-if="select.payment_method == 'เงินสด'">
+                                <div>
+                                    <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.deposit_total_amount}} บาท</label>
+                                </div>
+                                <div class="flex flex-row">
+                                    <label class="mx-3 my-3 pt-2">เงินที่ลูกค้าจ่าย</label>
+                                    <input class="mx-3 my-3 text-field w-[200px]" type="text" :required="select.payment_method == 'เงินสด'" v-model="custom_order.cash.paid_amount" autocomplete="off">
+                                    <label class="mx-3 my-3">บาท</label>
+                                </div>
+                                <div>
+                                    <label class="my-3 ml-3">เงินทอน: {{custom_order.cash.change_amount}} บาท</label>
+                                </div>
+                            </div>
+
+                            <div class="mx-3 my-3" v-if="select.payment_method == 'โอน'">
+                                <div class="mx-3 my-3">
+                                    <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+                                    <img :src="`${custom_order.transfer.slip_image}`" width="200">
+                                </div>
+                            </div>
+
+                            <div class="mx-3 my-3" v-if="select.payment_method == 'บัตรเครดิต'">
+                                <label class="mx-3 my-3">ประเภท</label>
+                                <select class="select-box w-[200px]" v-model="custom_order.credit_card.type">
+                                    <option v-for="card in select.credit_card_type" :value="card">{{ card }}</option>
+                                </select>
+                                <div class="mb-3" v-if="custom_order.credit_card.type == 'อื่นๆ'">
+                                    <label class="ml-3">ระบุประเภทบัตรเครดิต </label>
+                                    <input class="mx-3 my-3" type="text" :required="custom_order.credit_card.type == 'อื่นๆ'" v-model="custom_order.credit_card.custom_type" autocomplete="off">
+                                </div>
+                                <label class="mx-3 my-3">ชื่อธนาคาร</label>
+                                <select class="select-box w-[200px]" v-model="custom_order.credit_card.bank_name">
+                                    <option v-for="bank in select.credit_card_bank_name" :value="bank">{{ bank }}</option>
+                                </select>
+                                <div class="mb-3" v-if="custom_order.credit_card.bank_name == 'อื่นๆ'">
+                                    <label class="ml-3">ระบุชื่อธนาคาร </label>
+                                    <input class="text-field w-[200px]" type="text" :required="custom_order.credit_card.bank_name == 'อื่นๆ'" v-model="custom_order.credit_card.custom_bank_name" autocomplete="off">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" :disabled="disableButton" class="red-btn w-[323px] mx-auto mt-2 mb-2">
+                            บันทึกรายการ
+                        </button>
+                        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                            ยืนยันรายการสั่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                        </label>
+                        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                            - {{error}}
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-
-    <form @submit.prevent="createCustomOrder()">
-        <div class="mx-3 my-3">
-            <label class="mx-3">เลขบิล: {{custom_order.id}}</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ชื่องานสั่ง</label>
-            <input class="mx-3" type="text" v-model="custom_order.name" autocomplete="off" required>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ประเภท/ลักษณะ</label>
-            <input class="mx-3" type="text" v-model="custom_order.type" autocomplete="off" required>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">น้ำหนัก</label>
-            <input class="mx-3" step=".01" type="number" v-model="custom_order.custom_weight" autocomplete="off" required>
-            <label class="mx-3">กรัม</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ค่าแรง</label>
-            <input class="mx-3" step=".01" type="number" v-model="custom_order.wage" autocomplete="off" required>
-            <label class="mx-3">บาท</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ราคาทองตอนสั่ง: {{custom_order.gold_order_price.sell_price}} บาท</label>
-
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">ราคาเต็ม: {{custom_order.full_price}} บาท</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">มัดจำ</label>
-            <input class="mx-3" step=".01" type="number" v-model="custom_order.deposit_total_amount" autocomplete="off" required>
-            <label class="mx-3">บาท</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount}} บาท</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">วันที่เสร็จ</label>
-            <Datepicker v-model="custom_order.finish_date"></Datepicker>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">วันที่สั่ง: {{custom_order.order_date}}</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ช่างที่รับผลิต</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.custom_order_worker">
-                <option v-for="worker in select.custom_order_workers" :value="worker.name"> {{ worker.name }}</option>
-            </select>
-        </div>
-        <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
-            ช่องทางการชำระมัดจำ
-        </h5>
-        <div class="mx-3 my-3">
-            <input v-model="select.payment_method" id="บัตรเครดิต" type="radio" value="บัตรเครดิต">
-            <label class="mx-3">บัตรเครดิต</label>
-            <input v-model="select.payment_method" id="เงินสด" type="radio" value="เงินสด">
-            <label class="mx-3">เงินสด</label>
-            <input v-model="select.payment_method" id="โอน" type="radio" value="โอน">
-            <label class="mx-3">โอน</label>
-        </div>
-        <div class="mx-3 my-3" v-if="select.payment_method == 'บัตรเครดิต'">
-            <label class="mx-3 my-3">ประเภท</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.credit_card.type">
-                <option v-for="card in select.credit_card_type" :value="card">{{ card }}</option>
-            </select>
-            <div class="mb-3" v-if="custom_order.credit_card.type == 'อื่นๆ'">
-                <label class="ml-3">ระบุประเภทบัตรเครดิต </label>
-                <input class="mx-3 my-3" type="text" :required="custom_order.credit_card.type == 'อื่นๆ'" v-model="custom_order.credit_card.custom_type" autocomplete="off">
-            </div>
-            <label class="mx-3 my-3">ชื่อธนาคาร</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.credit_card.bank_name">
-                <option v-for="bank in select.credit_card_bank_name" :value="bank">{{ bank }}</option>
-            </select>
-            <div class="mb-3" v-if="custom_order.credit_card.bank_name == 'อื่นๆ'">
-                <label class="ml-3">ระบุชื่อธนาคาร </label>
-                <input class="mx-3 my-3" type="text" :required="custom_order.credit_card.bank_name == 'อื่นๆ'" v-model="custom_order.credit_card.custom_bank_name" autocomplete="off">
-            </div>
-        </div>
-        <div class="mx-3 my-3" v-if="select.payment_method == 'เงินสด'">
-            <div>
-                <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.deposit_total_amount}} บาท</label>
-            </div>
-            <div>
-                <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
-                <input class="mx-3 my-3" type="text" :required="select.payment_method == 'เงินสด'" v-model="custom_order.cash.paid_amount" autocomplete="off">
-                <label class="mx-3 my-3">บาท</label>
-            </div>
-            <div>
-                <label class="my-3 ml-3">เงินทอน: {{custom_order.cash.change_amount}} บาท</label>
-            </div>
-        </div>
-        <div class="mx-3 my-3" v-if="select.payment_method == 'โอน'">
-            <div class="mx-3 my-3">
-                <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
-                <img :src="`${custom_order.transfer.slip_image}`" width="200">
-            </div>
-        </div>
-
-        <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
-            ข้อมูลลูกค้าที่สั่ง
-        </h5>
-        <div class="mx-3 my-3">
-            <label class="mx-3">เบอร์โทร</label>
-            <input class="mx-3" type="text" v-model="custom_order.user_phone_search" autocomplete="off" required>
-            <button @click="findUser" :disabled="disableButton" class="p-2 bg-green-400 border rounded-lg">
-                ค้นหา
-            </button>
-            <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="custom_order.user_phone_search == null">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
-            <a v-bind:href="'/register'" v-if="custom_order.user_phone_search == null" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                ลงทะเบียน
-                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">รหัสสมาชิก: </label>
-            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.id}}</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">ชื่อ: </label>
-            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.first_name}}</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">นามสกุล: </label>
-            <label class="inline" v-if="custom_order.user != null">{{custom_order.user.last_name}}</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <button type="submit" :disabled="disableButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            ยืนยันรายการสั่ง
-        </button>
-        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-            ยืนยันรายการสั่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-        </label>
-        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-            - {{error}}
-        </label>
-    </form>
 </div>
 </template>
 

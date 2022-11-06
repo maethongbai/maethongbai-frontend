@@ -1,22 +1,31 @@
 <template>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/custom_order_worker/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-    </div>
-    <form @submit.prevent="createGoldType()">
-        <div class="mx-3 my-3">
-            <label for="nextID" class="mx-3">รหัสประเภททอง: {{ gold_type.id }}</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label for="gold_pattern.name" class="mx-3">ชื่อประเภททอง</label>
-            <input class="mx-3" type="text" v-model="gold_type.name">
-        </div>
+    <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > ประเภททองทั้งหมด > เพิ่มประเภททองใหม่</b>
+                </div>
 
-        <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            บันทึกรายการ
-        </button>
-    </form>
-</div>
+                <div class="card-gray w-[554px] mt-4 mx-auto flex flex-col text-base">
+                    <form @submit.prevent="createGoldType()">
+                        <div class="flex flex-row">
+                            <label for="nextID" class="p-2">รหัสประเภททอง: {{ gold_type.id }}</label>
+                        </div>
+                        <div class="flex flex-row">
+                            <label for="gold_pattern.name" class="p-2">ชื่อประเภททอง: </label>
+                            <input required class="text-field w-[300px] ml-auto mr-12" type="text" v-model="gold_type.name">
+                        </div>
+                        <div class="w-[250px] mx-auto">
+                            <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                                เพิ่มประเภททองใหม่
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
