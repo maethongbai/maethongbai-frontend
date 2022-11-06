@@ -64,9 +64,8 @@ export const useOnlineSaleStore = defineStore("onlineSales", {
       var filtered = [...onlineSales]
       return filtered.filter((onlineSale) => onlineSale.id == id)
     },
-    async getNextID() {
-      const nextID = await onlineSaleAPI.getNextID()
-      return nextID
+    getNextID() {
+      return this.onlineSales.length + 1
     },
     filterByUser(user) {
       var filtered = [...this.onlineSales]

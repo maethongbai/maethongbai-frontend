@@ -246,6 +246,16 @@ const router = createRouter({
       name: 'withdrawal.edit',
       component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
     },
+    {
+      path: '/product/detail/:id',
+      name: 'product.detail',
+      component: () => import('@/views/product/ProductDetailView.vue')
+    },
+    {
+      path: '/product/purchase/:id',
+      name: 'product.purchase',
+      component: () => import('@/views/product/ProductPurchaseView.vue')
+    },
   ]
 })
 

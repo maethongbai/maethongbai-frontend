@@ -40,7 +40,7 @@ export const useGoldStore = defineStore("golds", {
     },
     filterStockByID(golds, id) {
       var filtered = [...golds];
-      return filtered.filter((gold) => gold.id == id);
+      return filtered.find((gold) => gold.id == id);
     },
 
     filterSellable() {
@@ -340,7 +340,26 @@ export const useGoldStore = defineStore("golds", {
     async edit(gold) {
       const response = await goldAPI.saveEdit(gold.id, gold)
       this.golds = await goldAPI.getAll()
-    }
+    },
+    countGold(gold) {
+      var filtered = this.filterSellable()
+      var count_obj = {
+        count: null,
+        gold: null
+      }
+      var count = 0
+      filtered.forEach(a => {
+        // for each filtered value, count duplicates
+          if (this.checkSame(a,gold)) {
+            count += 1
+          } 
+        // console.log(count_obj)
+      })
+      count_obj.count = count
+      count_obj.gold = gold
+      return count_obj
+    },
   },
+  
   
 });
