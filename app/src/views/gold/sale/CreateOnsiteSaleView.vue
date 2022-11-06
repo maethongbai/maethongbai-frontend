@@ -189,6 +189,7 @@ export default {
                     name: null,
                     gold_type: null,
                     weight: null,
+                    custom_weight: null,
                     pension_per_piece: null,
                     pattern_type: null,
                     size: null,
@@ -409,6 +410,7 @@ export default {
             this.onsiteSale.gold.name = gold.name
             this.onsiteSale.gold.gold_type = gold.gold_type
             this.onsiteSale.gold.weight = gold.weight
+            this.onsiteSale.gold.custom_weight = gold.custom_weight
             this.onsiteSale.gold.pattern_type = gold.pattern_type
             this.onsiteSale.gold.size = gold.size
             this.onsiteSale.gold.pension_per_piece = gold.pension_per_piece
@@ -417,13 +419,29 @@ export default {
             var price = Number(Math.round(this.onsiteSale.gold_sell_price.sell_price + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)))
             console.log(price)
             console.log(this.onsiteSale.gold.pension_per_piece)
-            if (this.onsiteSale.gold.weight == "ครึ้งสลึง" ||
+            if (this.onsiteSale.gold.weight == "ครึ่งสลึง" ||
                 this.onsiteSale.gold.weight == "1 สลึง" ||
                 this.onsiteSale.gold.weight == "2 สลึง" ||
                 this.onsiteSale.gold.weight == "3 สลึง" ||
                 this.onsiteSale.gold.weight == "6 สลึง") {
-                this.onsiteSale.gold_price = price
-            } else {
+                    var fprice = this.onsiteSale.gold_sell_price.sell_price/4
+                    if(this.onsiteSale.gold.weight == "ครึ่งสลึง"){
+                        this.onsiteSale.gold_price = (fprice/2) + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                    } else if (this.onsiteSale.gold.weight == "1 สลึง") {
+                        this.onsiteSale.gold_price = fprice + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                    } else if (this.onsiteSale.gold.weight == "2 สลึง") {
+                        this.onsiteSale.gold_price = (fprice*2) + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                    } else if (this.onsiteSale.gold.weight == "3 สลึง") {
+                        this.onsiteSale.gold_price = (fprice*3) + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                    } else if (this.onsiteSale.gold.weight == "6 สลึง") {
+                        this.onsiteSale.gold_price = (fprice*6) + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                    }
+            } else if (this.onsiteSale.gold.custom_weight != null) {
+                var pricee = this.onsiteSale.gold_sell_price.sell_price/15.16
+                this.onsiteSale.gold_price = pricee + ((this.onsiteSale.gold.pension_per_piece * 5) + 500)
+                
+            }
+            else {
                 if (this.onsiteSale.gold.weight == "1 บาท") {
                     this.onsiteSale.gold_price = price * 1
                 } else if (this.onsiteSale.gold.weight == "2 บาท") {
