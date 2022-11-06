@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+
+    /* text color for white bg card */
+    .text-s1{
+        @apply text-[#404040]
+    }
+
+    .card-white {
+        @apply flex flex-col rounded-lg shadow-lg  p-10 pl-20 pr-20 bg-white
+    }
+
+    .card-gray {
+        @apply bg-[#F5F5F5] p-5 rounded-lg text-s1 text-lg
+    }
+
+    .red-btn {
+        @apply bg-[#9B0000] p-2 rounded-lg text-white text-center hover:bg-[#BB0202] active:bg-[#F40000]
+    }
+
+    .label-card {
+        @apply mt-2 mb-2 text-2xl text-s1
+    }
+}

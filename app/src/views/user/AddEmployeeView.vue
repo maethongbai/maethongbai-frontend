@@ -20,7 +20,6 @@
                     <div>
                         <label for="name_prefix">คำนำหน้าชื่อ</label>
                         <select v-model="employee.name_prefix">
-                            <option disabled selected value="">คำนำหน้าชื่อ</option>
                             <option value="นาย">นาย</option>
                             <option value="นาง">นาง</option>
                             <option value="นางสาว">นางสาว</option>
@@ -50,7 +49,6 @@
                     <div>
                         <label for="role">ตำแหน่ง</label>
                         <select v-model="employee.role">
-                            <option disabled selected value="">ตำแหน่ง</option>
                             <option value="employee">พนักงานประจำร้าน (Employee)</option>
                             <option value="account">บัญชี (accounter)</option>
                             <option value="manager">ผู้จัดการร้าน (manager)</option>
@@ -62,15 +60,15 @@
                     </div>
                     <div>
                         <label>วันเกิด</label>
-                        <Datepicker v-model="employee.birth_date" :format="date_format"></Datepicker>
+                        <Datepicker v-model="employee.birth_date"></Datepicker>
                     </div>
                     <div>
                         <label>เงินเดือน</label>
-                        <input type="text" v-model="employee.salary" required autocomplete="off">
+                        <input type="number" step=".01" v-model="employee.salary" required autocomplete="off">
                     </div>
                     <div>
                         <label>วันที่เริ่มทำงาน</label>
-                        <Datepicker v-model="employee.work_start_date" :format="date_format"></Datepicker>
+                        <Datepicker v-model="employee.work_start_date"></Datepicker>
                     </div>
                 </div>
             </div>
@@ -85,16 +83,18 @@
                 <p>***รหัสผ่านเริ่มต้นของบัญชีคือเบอร์โทรศัพท์***</p>
             </div>
 
-            <div v-if="error_message">
-                {{ error_message }}
-            </div>
-
             <button type="submit"
                 :disabled="disabledButton"
                 class="p-2 bg-green-400 border rounded-lg"
             >
                 เพิ่มบัญชีพนักงานใหม่
             </button>
+            <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                ยืนยันรายการสั่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+            </label>
+            <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                - {{error}}
+            </label>
         </form>
     </div>
 </template>
@@ -106,20 +106,12 @@
     import moment from 'moment'
     import Datepicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css'
-    import { DOMDirectiveTransforms } from '@vue/compiler-dom';
     export default {
       setup() {
         const auth_store = useAuthStore()
         const user_store = useUserStore()
         const employee_store = useEmployeeStore()
-        const date_format = (date) => {
-            const day = date.getDate();
-            const month = date.getMonth();
-            const year = date.getFullYear();
-
-            return `${day}/${month}/${year}`;
-        }
-        return { user_store, auth_store, employee_store, date_format }
+        return { user_store, auth_store, employee_store}
       },
       data() {
         return {
@@ -129,7 +121,7 @@
             employee_obj_id: null,
             employee: {
                 id: null,
-                name_prefix: null,
+                name_prefix: "นาย",
                 first_name: null,
                 last_name: null,
                 nickname: null,
@@ -137,11 +129,15 @@
                 address: null,
                 email: null,
                 work_start_date: null,
-                role: null,
+                role: "employee",
                 phone: null,
                 birth_date: null,
                 salary: null,
                 password: null,
+            },
+            input_check: {
+                errors: [],
+                is_valid: true
             }
         }
       },
@@ -173,14 +169,89 @@
       },
       methods: {
         async onFormSubmit() {
-            this.error = null
-            this.error_message = null
-            if ( this.user_store.findByPhone(this.employee.phone) != null) {
-                this.error_message = "เบอร์โทรนี้มีในระบบแล้ว"
-                return;
+            this.disableButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            var user_list = this.user_store.getUsers
+            var email_available = true
+            var phone_available = true
+
+            user_list.every((user) => { 
+                if (user.email == this.employee.email) {
+                    email_available = false
+                    return false // break
+                }
+                if (user.phone == this.employee.phone) {
+                    phone_available = false
+                    return false
+                }
+                return true
+            })
+
+            if (email_available == false) {
+                this.input_check.errors.push("อีเมลนี้ถูกใช้ไปแล้ว")
+                this.input_check.is_valid = false
+            }
+            if (phone_available == false) {
+                this.input_check.errors.push("เบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว")
+                this.input_check.is_valid = false
+            }
+            if (this.employee.phone.length != 10) {
+                this.input_check.errors.push("เบอร์โทรศัพท์ไม่ถูกต้อง")
+                this.input_check.is_valid = false
+            }
+            if (this.employee.id_card_number.length != 13) {
+                this.input_check.errors.push("เลขบัตรประชาชนไม่ถูกต้อง")
+                this.input_check.is_valid = false
             }
 
-            this.disabledButton = true
+            if (this.employee.birth_date == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลวันเกิด")
+                this.input_check.is_valid = false
+            } else {
+                if ((new Date(this.employee.birth_date)) < moment()) {
+                    this.input_check.errors.push("วันเกิดต้องไม่อยู่ในอดีต")
+                    this.input_check.is_valid = false
+                }
+            }
+
+            if (this.employee.salary < 0) {
+                this.input_check.errors.push("เงินเดือนต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.employee.work_start_date == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลวันที่เริ่มทำงาน")
+                this.input_check.is_valid = false
+            } else {
+                if ((new Date(this.employee.work_start_date)) < moment()) {
+                    this.input_check.errors.push("วันที่เริ่มทำงานต้องไม่อยู่ในอดีต")
+                    this.input_check.is_valid = false
+                }
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disableButton = false
+                return
+            }
+
+            var date = new Date(this.employee.birth_date).toLocaleDateString().split("/")
+            var year = String(date[2]).padStart(4, '0')
+            var day = String(date[1]).padStart(2, '0')
+            var month = String(date[0]).padStart(2, '0')
+            var birth_date = year + "-" + month + "-" + day
+            this.employee.birth_date = birth_date
+
+            var date = new Date(this.employee.work_date).toLocaleDateString().split("/")
+            var year = String(date[2]).padStart(4, '0')
+            var day = String(date[1]).padStart(2, '0')
+            var month = String(date[0]).padStart(2, '0')
+            var work_date = year + "-" + month + "-" + day
+            this.employee.work_start_date = work_date
+
+
             var employee_obj = {
                 nickname: this.employee.nickname,
                 work_start_date: this.employee.work_start_date.getFullYear() + '-' +
@@ -194,9 +265,9 @@
             }
 
             try {
-                console.table(employee_obj)
+                // console.table(employee_obj)
                 this.employee_obj_id = await this.employee_store.add(employee_obj)
-                console.log(this.employee_obj_id)
+                // console.log(this.employee_obj_id)
             } catch (error) {
                 console.log(error.message)
                 this.disabledButton = false

@@ -1,6 +1,6 @@
 <template>
 <div class="m-8">
-    <h1 class="text-3xl">สร้างบัญชีใหม่</h1>
+    <h1 class="text-3xl">แก้ไขข้อมูลบัญชีผู้ใช้</h1>
 </div>
 <hr>
 <form @submit.prevent="onFormSubmit()">
@@ -50,10 +50,10 @@
     </div>
 
     <button type="submit" :disabled="disabledButton" class="p-2 bg-green-400 border rounded-lg">
-        สร้างบัญชีใหม่
+        แก้ไข
     </button>
     <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-        สร้างบัญชีใหม่ไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        แก้ไขไม่สำเร็จ ตรวจสอบ error ข้างล่าง
     </label>
     <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
         - {{error}}
@@ -111,6 +111,23 @@ export default {
                 this.auth_user = JSON.parse(this.auth_store.getUser)
             }
         },
+    },
+    async created() {
+        const id = this.$route.params.id
+        const url = `/users/${id}`
+
+        try {
+            const response = await this.$axios.get(url)
+            if (response.status === 200) {
+                this.user = response.data.data
+                // console.table(this.employee)
+
+            }
+        } catch (error) {
+            console.error(error)
+            this.error = error.message
+
+        }
     },
     async mounted() {
         if (this.auth_store.isAuthen) {
