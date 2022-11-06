@@ -5,7 +5,7 @@
     <div class="center">
         <form @submit.prevent="searchID()">
             <div class="inline">
-                <label>ID</label>
+                <label>เบอร์โทรศัพท์</label>
                 <input class="mx-3" type="text" v-model="search_id" autocomplete="off">
             </div>
 
@@ -145,7 +145,7 @@
         async setSelected(id) {
             this.error = null
             try {
-                this.selected = await this.user_store.findById(id)
+                this.selected = await this.user_store.findByPhone(id)
                 console.table(this.selected)
             } catch (error) {
                 console.log(error.message)
@@ -154,7 +154,7 @@
         },
         searchID() {
             const id = this.search_id
-            this.selected = this.users.find((user) => user.id == id)
+            this.selected = this.users.find((user) => user.phone == id)
         }
       }
     }
