@@ -1,30 +1,60 @@
 <template>
-<br>
-<div>
-    <div class="bg-gray-100">
-        <h1 class="text-lg">ประเภท</h1>
+    <br>
+    <div class="flex items-center justify-center">
+        <div class="ml-4 mr-4 w-[1200px] ">
         <vue-horizontal responsive>
-            <a v-bind:href="'/shopping/'+ type.name" v-for="type in this.gold_type" class="p-5">
-                {{type.name}}
-            </a>
+           <img src="@/assets/banner01.png">
+           <img src="@/assets/banner02.png">
+           <img src="@/assets/banner03.png">
         </vue-horizontal>
-
     </div>
 
+    </div>
+<br>
+
+<div>
+    <div class="flex items-center justify-center">
+        <div class=" w-[1200px] ">
+        <p class="text-base"> หน้าหลัก>หน้าสินค้าทั้งหมด </p>
+        </div>
+    </div>
+    <div class="flex items-center justify-center">
+        <div class="bg-[#9B0000] rounded-lg w-[1200px]">
+        <h1 class="text-lg text-white ml-2">ประเภท</h1>
+        <vue-horizontal responsive class="text-white ">
+            <a v-bind:href="'/shopping/'+ type.name" v-for="type in this.gold_type" class="p-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-basket2 mx-auto m-2" viewBox="0 0 16 16">
+                <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0v-2z"/>
+                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6H2.163z"/>
+                </svg>
+            {{type.name}}
+            </a>
+        </vue-horizontal>
+        </div>
+
+    </div>
     <br>
     <div>
-        <p>เรียงโดย</p>
+        <div class="flex items-center justify-center">
+        <div class="bg-[#FFFFFF] rounded-lg w-[1200px]">
+            <p class="ml-2">เรียงโดย</p>
         <button @click="this.sortA = true , this.sortD = false , this.sortN = false,this.sortO = false,this.range_price = false" class="px-4 py-2 rounded-lg bg-lime-400"> น้อยไปมาก </button>
         <button @click="this.sortD = true , this.sortA = false, this.sortN = false,this.sortO = false" class="px-4 py-2 rounded-lg bg-lime-400"> มากไปน้อย </button>
         <button @click="this.sortN = true , this.sortD = false , this.sortA = false,this.sortO = false" class="px-4 py-2 rounded-lg bg-lime-400"> ใหม่ไปเก่า </button>
         <button @click="this.sortO = true,this.sortN = false , this.sortD = false , this.sortA = false" class="px-4 py-2 rounded-lg bg-lime-400"> เก่าไปใหม่ </button>
 
         <br>
-        <p>ช่วงราคา</p>
+        <div>
+            <p>ช่วงราคา</p>
         <input class="mx-3" type="number" step=".01" v-model="l_price">
         <label> - </label>
         <input class="mx-3" type="number" step=".01" v-model="h_price">
         <p class="inline" v-if="checkPrice() == false">ราคาในช่วงไม่ถูกต้อง</p>
+
+        </div>
+        </div>
+        </div>
+    
     </div>
 
     <div hidden>
@@ -185,7 +215,8 @@ export default {
             h_price: null,
             sort_array: [],
             range_price: false,
-            price_valid: true
+            price_valid: true,
+            banner:[]
 
         }
     },
