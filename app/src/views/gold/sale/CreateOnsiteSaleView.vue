@@ -368,7 +368,12 @@ export default {
                 onsiteSale.paid_change = this.onsiteSale.sale_payment_method.paid_change
             }
             try {
+                var temp_gold = {
+                    id: this.onsiteSale.gold.id,
+                    is_sold: true
+                }
                 await this.onsiteSale_store.add(onsiteSale)
+                await this.gold_store.edit(temp_gold)
 
                 this.$router.push("/sale/view");
 
