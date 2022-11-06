@@ -1,29 +1,39 @@
 <template>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/wholesale/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > ร้านขายส่งทั้งหมด > เพิ่มร้านขายส่งใหม่</b>
+                </div>
+
+                <div class="card-gray w-[554px] mt-4 mx-auto flex flex-col text-base">
+                    <form @submit.prevent="createWholesale()">
+                        <div class="flex flex-row">
+                            <p class="p-2">รหัสร้านขายส่ง: {{ wholesale.id }}</p>
+                        </div>
+                        <div class="flex flex-row">
+                            <label for="wholesale.name" class="p-2">ชื่อร้านขายส่ง: </label>
+                            <input required class="text-field w-[300px] ml-auto mr-12" type="text" v-model="wholesale.name">
+                        </div>
+                        <div class="flex flex-row">
+                            <label for="wholesale.name" class="p-2">เบอร์โทรศัพท์ติดต่อ: </label>
+                            <input required class="text-field w-[300px] ml-auto mr-12" type="text" v-model="wholesale.phone">
+                        </div>
+                        <div class="flex flex-row">
+                            <label for="wholesale.name" class="p-2">ที่อยู่ร้านขายส่ง: </label>
+                            <textarea required v-model="wholesale.address" class="text-field w-[300px] ml-auto mr-12" name="" id="" cols="30" rows="5"></textarea>
+                        </div>
+                        <div class="w-[250px] mx-auto">
+                            <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                                เพิ่มร้านขายส่ง
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <form @submit.prevent="createWholesale()">
-        <div class="mx-3 my-3">
-            <label for="nextID" class="mx-3">รหัสร้านขายส่ง: {{ wholesale.id }}</label>
-        </div>
-        <div class="my-3">
-            <label for="wholesale.name" class="mx-3">ชื่อร้านขายส่ง</label>
-            <input class="mx-3" type="text" v-model="wholesale.name">
-        </div>
-        <div class="my-3">
-            <label for="wholesale.phone" class="mx-3">เบอร์โทรศัพท์ติดต่อ</label>
-            <input class="mx-3" type="text" v-model="wholesale.phone">
-        </div>
-        <div class="my-3">
-            <label for="wholesale.address" class="mx-3">ที่อยู่ร้านขายส่ง</label>
-            <input class="mx-3" type="text" v-model="wholesale.address">
-        </div>
-        <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            บันทึกรายการ
-        </button>
-    </form>
-</div>
 </template>
 
 <script>

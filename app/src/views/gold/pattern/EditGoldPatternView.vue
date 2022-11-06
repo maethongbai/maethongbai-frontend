@@ -1,22 +1,29 @@
 <template>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/gold_pattern/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > ประเภททองทั้งหมด > แก้ไขลายทอง > {{ gold_pattern.id }} </b>
+                </div>
+
+                <div class="card-gray w-[554px] mt-4 mx-auto flex flex-col text-base">
+                    <div class="flex flex-row">
+                        <label for="nextID" class="p-2">รหัสลายทอง: {{ gold_pattern.id }}</label>
+                    </div>
+                    <div class="flex flex-row">
+                        <label for="gold_pattern.name" class="p-2">ชื่อลายทอง</label>
+                        <input required class="text-field w-[350px] ml-auto mr-12" type="text" v-model="gold_pattern.name">
+                    </div>
+                    <div class="w-[250px] mx-auto">
+                        <button @click="saveGoldPattern()" type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                            บันทึกรายการ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div v-if=" gold_pattern != null" class="mx-3 my-3">
-        <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            รายละเอียดลายทอง
-        </h5>
-        <label class="mx-3">รหัสลายทอง: {{ gold_pattern.id }}</label>
-    </div>
-    <div class="my-3">
-        <label for="gold_pattern.name" class="mx-3">ชื่อลายทอง</label>
-        <input class="mx-3" type="text" v-model="gold_pattern.name">
-    </div>
-    <button @click="saveGoldPattern()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-        ยืนยันการเปลี่ยนแปลงข้อมูล
-    </button>
-</div>
 </template>
 
 <script>

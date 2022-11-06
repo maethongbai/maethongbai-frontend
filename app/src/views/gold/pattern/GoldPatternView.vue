@@ -1,76 +1,72 @@
 <template>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-    </div>
-    <div class="inline">
-        <div class="text-3xl">ลายทองทั้งหมด</div>
-        <form @submit.prevent="searchID()">
-            <div class="inline">
-                <label>ID</label>
-                <input class="mx-3" type="text" v-model="goldPatternSearchID" autocomplete="off">
-            </div>
+    <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > ลายทองทั้งหมด</b>
+                    <div class="flex flex-row mt-5">
+                        <div class="flex flex-row mr-auto">
+                            <form @submit.prevent="searchID()">
+                                <div class="flex flex-row">
+                                    <p class="p-2">รหัสลาย</p>
+                                    <input class="mx-3 mt-0 text-field w-[200px]" type="text" v-model="goldPatternSearchID" autocomplete="off">
+                                    <button type="submit" class="red-btn w-[70px] h-[40px]">
+                                        ค้นหา
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="ml-auto red-btn w-[150px]">
+                            <a v-bind:href="'/gold_pattern/create'">
+                                เพิ่มลายใหม่ +
+                            </a>
+                        </div>
+                    </div>
 
-            <button type="submit" class="inline p-2 bg-green-400 border rounded-lg">
-                Search
-            </button>
-        </form>
-    </div>
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-            <thead class="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        รหัสลายทอง
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        ชื่อลายทอง
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="gold_pattern in gold_patterns" class="bg-yellow-700 border-b border-blue-400 hover:bg-yellow-500" @click="setSearched(gold_pattern)">
-                    <th scope="row" class="py-4 px-6 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                        {{ gold_pattern.id }}
-                    </th>
-                    <td class="px-6 py-4">
-                        {{ gold_pattern.name }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div v-if="gold_pattern_searched != null" class="py-5">
-            <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
-                <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                    รายละเอียด
-                </h5>
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    รหัสลายทอง: {{gold_pattern_searched.id}}
-                </p>
-                <p class="mx-1 mb-3 font-normal text-gray-700">
-                    ชื่อลายทอง: {{gold_pattern_searched.name}}
-                </p>
-                <div v-if="user.role == 'manager'" class="py-3">
-                    <a v-bind:href="'/gold_pattern/edit/'+gold_pattern_searched.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                        แก้ไข
-                        <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </a>
                 </div>
-            </div>
 
-        </div>
-        <div v-if="user.role == 'manager'" class="py-3">
-            <a v-bind:href="'/gold_pattern/create'" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                เพิ่ม
-                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
+                <div class="card-gray w-[1044px] mt-4">
+                    <table class="w-full text-sm w-[1014px]">
+                        <thead class="table-head text-left text-base">
+                            <tr>
+                                <th scope="col" class="p-2 w-[200px] text-center">
+                                    รหัสลายทอง
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    ชื่อลายทอง
+                                </th>
+                                <th scope="col" class="px-6 py-3 ml-auto w-[200px]">
+                                    แก้ไข
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="gold_pattern in gold_patterns" class="table-card" @click="setSearched(gold_pattern)">
+                            <th scope="row" class="text-center">
+                                {{ gold_pattern.id }}
+                            </th>
+                            <td class="px-6 py-4 pl-10">
+                                {{ gold_pattern.name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <a v-bind:href="'/gold_pattern/edit/'+ gold_pattern.id" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </a>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
