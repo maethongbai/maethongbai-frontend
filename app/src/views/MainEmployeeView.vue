@@ -114,7 +114,7 @@
                                 <router-link v-if="this.user.role == 'manager'" to="/employee/view" class="red-btn h-[40px]">
                                     ดูรายชื่อพนักงานทั้งหมด
                                 </router-link>
-                                <router-link to="/employee/view" class="red-btn h-[40px]">
+                                <router-link to="/user/view" class="red-btn h-[40px]">
                                     ดูรายชื่อลูกค้าทั้งหมด
                                 </router-link>
                             </div>
