@@ -122,6 +122,16 @@ const router = createRouter({
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
     },
     {
+      path: '/user/view',
+      name: 'user.view',
+      component: () => import('@/views/user/UserListView.vue')
+    },
+    {
+      path: '/user/:id/edit',
+      name: 'user.edit',
+      component: () => import('@/views/user/EditUserView.vue')
+    },
+    {
       path: '/allstock/view',
       name: 'allstock.view',
       component: () => import('@/views/gold/stock/AllStockView.vue')
