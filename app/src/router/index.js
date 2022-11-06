@@ -266,6 +266,11 @@ const router = createRouter({
       name: 'shopping.all',
       component: () => import('@/views/shopping/AllGoldShopping.vue')
     },
+    {
+      path: '/shopping/:name',
+      name: 'shopping.type',
+      component: () => import('@/views/shopping/GoldTypeView.vue')
+    },
   ]
 })
 
