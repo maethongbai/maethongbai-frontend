@@ -30,29 +30,6 @@
             </div>
         </div>
     </div>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/custom_order_worker/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-    </div>
-    <div v-if=" worker != null" class="mx-3 my-3">
-        <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            รายละเอียดช่างงานสั่ง
-        </h5>
-        <label class="mx-3">รหัสช่างงานสั่ง: {{ worker.id }}</label>
-    </div>
-    <div class="my-3">
-        <label for="worker.name" class="mx-3">ชื่อช่างงานสั่ง</label>
-        <input class="mx-3" type="text" v-model="worker.name">
-    </div>
-    <div class="my-3">
-        <label for="worker.phone" class="mx-3">เบอร์โทรศัพท์ติดต่อ</label>
-        <input class="mx-3" type="text" v-model="worker.phone">
-    </div>
-    <button @click="saveCustomOrderWorker()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-        ยืนยันการเปลี่ยนแปลงข้อมูล
-    </button>
-
-</div>
 </template>
 
 <script>
