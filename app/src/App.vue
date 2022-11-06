@@ -6,7 +6,8 @@ import Profile from './components/profile/Profile.vue'
 </script>
 
 <template>
-  <header class=" bg-white sticky top-0">
+  <div class="flex flex-col h-screen justify-between bg-[#F5F5F5]">
+    <header class=" bg-white sticky top-0">
     <div class="inset-x-0 top-0 bg-[#F5F5F5]">
       <nav>
         <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] p-5">
@@ -100,6 +101,8 @@ import Profile from './components/profile/Profile.vue'
       
     </div>
   </footer>
+
+  </div>
   
 </template>
 
