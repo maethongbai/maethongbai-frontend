@@ -185,6 +185,7 @@ export default {
                 gold_pattern_type: null,
                 gold_type: null,
                 gold_size: null,
+                gold_image: null,
                 goldsmith_charge: null,
                 amount: null,
                 import_date: null,
@@ -250,7 +251,7 @@ export default {
                         gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern).id,
                         size: this.gold.gold_size,
                         pension_per_piece: this.gold.goldsmith_charge,
-                        // amount: this.gold.amount,
+                        image: this.gold.gold_image,
                         import_date: this.gold.import_date,
                         is_sold: this.gold.is_sold,
                         wholesale_id: this.wholesale_store.findByName(this.gold.wholesale).id,
@@ -271,6 +272,14 @@ export default {
                 console.error(error.response.data)
             }
             this.disabledButton = false
+        },
+        onFileChange(e) {
+            const reader = new FileReader()
+            reader.readAsDataURL(e.target.files[0])
+            reader.onload = e => {
+                this.gold.gold_image = e.target.result
+                // console.log(this.image)
+            }
         }
     }
 }

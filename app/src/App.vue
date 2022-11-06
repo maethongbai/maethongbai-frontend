@@ -100,8 +100,10 @@ import Profile from './components/profile/Profile.vue'
       
       
     </div>
-    </footer>
+  </footer>
+
   </div>
+  
 </template>
 
 <!-- <style scoped>
