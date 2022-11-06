@@ -1,4 +1,19 @@
 <template>
+    <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > ร้านขายส่งทั้งหมด > เพิ่มร้านขายส่งใหม่</b>
+                </div>
+                
+                <div class="card-gray w-[554px] mt-4 mx-auto flex flex-col text-base">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 <div v-if='user.role == "manager"'>
     <div class="block my-5">
         <router-link to="/wholesale/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
