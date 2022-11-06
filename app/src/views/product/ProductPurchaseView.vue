@@ -1,15 +1,25 @@
 <template>
-    <div>
-        
-    </div>
+<div>
+
+</div>
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
-import { useGoldStore } from '@/stores/gold.js'
-import { useUserStore } from '@/stores/user.js'
-import { useGoldPriceStore } from '@/stores/gold_price.js'
-import { useOnlineSaleStore } from '@/stores/onlineSale.js'
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useGoldStore
+} from '@/stores/gold.js'
+import {
+    useUserStore
+} from '@/stores/user.js'
+import {
+    useGoldPriceStore
+} from '@/stores/gold_price.js'
+import {
+    useOnlineSaleStore
+} from '@/stores/onlineSale.js'
 
 export default {
     setup() {
@@ -85,7 +95,6 @@ export default {
             this.$router.push("/login")
         }
 
-
         await this.online_sale_store.fetch()
         this.onlineSale.id = this.online_sale_store.getNextID()
         await this.user_store.fetch()
@@ -93,5 +102,4 @@ export default {
 
     }
 }
-
 </script>
