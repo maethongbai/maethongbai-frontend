@@ -113,8 +113,13 @@ const router = createRouter({
     },
     {
       path: '/user/:id/history',
-      name: 'user.history',
+      name: 'user.id.history',
       component: () => import('@/views/gold/user/HistoryView.vue')
+    },
+    {
+      path: '/user/history',
+      name: 'user.history',
+      component: () => import('@/views/gold/user/AllHistoryView.vue')
     },
     {
       path: '/user/sale_status',
