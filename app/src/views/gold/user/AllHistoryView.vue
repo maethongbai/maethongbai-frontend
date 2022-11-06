@@ -366,29 +366,6 @@ export default {
             }
         }
     },
-    async created() {
-        const id = this.$route.params.id
-        const url = `/users/${id}`
-
-        try {
-            const response = await this.$axios.get(url)
-            if (response.status === 200) {
-                this.user = response.data.data
-                this.user_id = this.user.id
-                console.log(this.user_id)
-                if (this.auth_user.id == this.user_id ||
-                this.auth_user.role == "employee" ||
-                this.auth_user.role == "account" ||
-                this.auth_user.role == "manager") {
-                    
-                } else {
-                    this.$router.push("/")
-                }
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    },
     async mounted() {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
@@ -400,7 +377,7 @@ export default {
                 this.auth_user.role == "manager") {
                 console.log("authorized " + document.URL);
             } else {
-                // this.$router.push("/")
+                this.$router.push("/")
             }
 
         } else {
@@ -409,8 +386,8 @@ export default {
             this.$router.push("/login")
         }
         await this.history_store.fetch()
-        // this.histories = this.history_store.getHistories
-        this.histories = this.history_store.filterByUser(this.user)
+        this.histories = this.history_store.getHistories
+        // this.histories = this.history_store.filterByUser(this.user)
     },
     methods: {
         setSearched(obj) {

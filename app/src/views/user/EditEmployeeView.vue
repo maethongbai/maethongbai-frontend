@@ -239,6 +239,7 @@
             console.table(this.employee)
             this.disabledButton = false
             try {
+                await this.employee_store.edit(this.employee.employee.id, this.employee.employee)
                 await this.user_store.edit(this.employee.id, this.employee)
                 this.$router.push('/employee/view')
             } catch (error) {
