@@ -68,13 +68,12 @@
                             <div class="mx-2 mt-2">
                                 <div class="">
                                     <label for="gold.pattern_type" class="mr-3">ประเภทลายทอง</label>
-                                    <input type="radio" id="ทองตัน" value="ทองตัน"  v-model="gold.gold_pattern_type">
+                                    <input type="radio" id="ทองตัน" value="ทองตัน" v-model="gold.gold_pattern_type">
                                     <label for="ทองตัน" class="mr-5 ml-1 ">ตัน</label>
                                     <input type="radio" id="ทองโป่ง" value="ทองโป่ง" v-model="gold.gold_pattern_type">
                                     <label for="ทองโป่ง" class="ml-1">โป่ง</label>
                                 </div>
                             </div>
-
 
                             <div class="flex flex-row">
                                 <label for="gold.size" class="p-2">ขนาด</label>
@@ -95,7 +94,7 @@
                             </div>
 
                         </div>
-                        
+
                         <div class="flex flex-col">
                             <div class="my-3 mt-12">
                                 <label for="gold.import_date" class="p-2">วันที่นำทองเข้า: {{showDate}}</label>
@@ -117,16 +116,25 @@
 
                             <div>
                                 <p class="m-2"><b>รูปสินค้า</b></p>
+                                <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+                                <img :src="`${gold.gold_image}`" width="200">
+                                <!-- </p> -->
                             </div>
                         </div>
 
                     </div>
-                        <div class="w-[250px] mx-auto mt-4">
-                            <button type="submit" :disabled="disabledButton" class="red-btn w-[323px] mx-auto">
-                                บันทึกรายการ
-                            </button>
-                        </div>
+                    <div class="w-[250px] mx-auto mt-4">
+                        <button type="submit" :disabled="disabledButton" class="red-btn w-[323px] mx-auto">
+                            บันทึกรายการ
+                        </button>
                     </div>
+                </div>
+                <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                    บันทึกรายการขายไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                </label>
+                <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                    - {{error}}
+                </label>
             </form>
         </div>
     </div>
@@ -194,7 +202,11 @@ export default {
                 is_sold: false
             },
             is_switch_gold_weight: false,
-            disabledButton: false
+            disabledButton: false,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
     },
     watch: {
@@ -239,7 +251,66 @@ export default {
     },
     methods: {
         async createGold() {
-            this.disabledButton = true
+
+            this.disableButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            if (this.gold.gold_type == null) {
+                this.input_check.errors.push("กรุณาเลือกประเภททอง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.gold.gold_weight == null && this.is_switch_gold_weight == false) {
+                this.input_check.errors.push("กรุณาเลือกน้ำหนักทอง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.gold.gold_pattern == null) {
+                this.input_check.errors.push("กรุณาเลือกลายทอง")
+                this.input_check.is_valid = false
+            }
+        
+            if (this.gold.gold_pattern_type == null) {
+                this.input_check.errors.push("กรุณาเลือกประเภทลายทอง")
+                this.input_check.is_valid = false
+            }
+
+            if (Number(this.gold.gold_size) < 0) {
+                this.input_check.errors.push("ขนาดทองต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.gold.amount <= 0) {
+                this.input_check.errors.push("จำนวนทองต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.gold.goldsmith_charge <= 0) {
+                this.input_check.errors.push("ค่ากำเหน็จต่อชิ้นต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.gold.wholesale == null) {
+                this.input_check.errors.push("กรุณาเลือกร้านขายส่ง")
+                this.input_check.is_valid = false
+            }
+            if (this.gold.gold_buy_price_wholesale < 0) {
+                this.input_check.errors.push("ราคาจากร้านขายส่งต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+            if (this.gold.gold_image == null) {
+                this.input_check.errors.push("กรุณาใส่รูปสินค้า")
+                this.input_check.is_valid = false
+            }
+
+
+            if (this.input_check.is_valid == false) {
+                this.disableButton = false
+                return
+            }
+
             try {
                 for (let i = 0; i < this.gold.amount; i++) {
                     var gold = {
