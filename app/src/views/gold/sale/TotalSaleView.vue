@@ -132,7 +132,7 @@
         <p class="pl-5">(ยังไม่ได้เลือก)</p>
     </div>
 
-    <div class="border">
+    <!-- <div class="border">
         <p class="pl-3 text-lg font-semibold text-left text-gray-900 bg-white ">สรุปสินค้าที่ขาย</p>
         <div class="pl-5">
             <table class="border w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -156,7 +156,7 @@
         <p class="pl-3 text-lg font-semibold text-left text-gray-900 bg-white ">
             สรุปรายได้จากทองในวัน: {{total_sale_amount}} บาท
         </p> 
-    </div>
+    </div> -->
 </div>
 </template>
 
