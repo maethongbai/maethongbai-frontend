@@ -115,6 +115,10 @@
             users: null,
             selected: null,
             error: null,
+
+            disabledSearchButton: false,
+            searched_user: null,
+
             search_id: null
         }
       },
@@ -148,21 +152,10 @@
             }
             
         },
-        async searchID() {
-            this.error = null
-            this.disabledSearchButton = true
-            if (this.search_id == null ||
-                this.search_id == "") {
-                this.selected = null
-                this.$router.go(0)
-            }
-            try {
-                this.selected = await this.user_store.findById(this.search_id)
-            } catch (error) {
-                this.error = error.message
-                this.disabledSearchButton = false
-            }
-        },
+        searchID() {
+            const id = this.search_id
+            this.selected = this.users.find((user) => user.id == id)
+        }
       }
     }
 </script>

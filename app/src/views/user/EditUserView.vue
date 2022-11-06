@@ -121,6 +121,19 @@ export default {
             if (response.status === 200) {
                 this.user = response.data.data
                 // console.table(this.employee)
+                if (this.auth_user.role == "user" &&
+                    this.user.id == this.auth_user.id) {
+
+                } else {
+                    if (this.auth_user.role == "employee" ||
+                        this.auth_user.role == "account" ||
+                        this.auth_user.role == "manager") {
+
+                    } else {
+                        this.$router.push("/");
+                    }
+
+                }
 
             }
         } catch (error) {
@@ -138,8 +151,12 @@ export default {
                 this.auth_user.role == "manager") {
                 console.log("authorized " + document.URL);
             } else {
-                this.$router.push("/");
+                // this.$router.push("/");
             }
+        } else {
+            this.auth = null
+            this.auth_user = null
+            this.$router.push("/login")
         }
 
         await this.user_store.fetch()

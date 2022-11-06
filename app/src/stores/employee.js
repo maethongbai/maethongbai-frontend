@@ -34,5 +34,14 @@ export const useEmployeeStore = defineStore("employees", {
     getNextId () {
         return this.employees.length + 1
     },
+    async edit (id, employee) {
+      const response = await employeeAPI.saveEdit(id, employee)
+      if (response.success) {
+
+        this.employees = await employeeAPI.getAll()
+        return true
+      }
+      return false
+  },
   }
 })
