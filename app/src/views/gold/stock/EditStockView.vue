@@ -62,11 +62,6 @@
         <div class="my-3">
             <label for="gold.goldsmith_charge" class="mx-3">ค่ากำเหน็จต่อชิ้น {{ gold.pension_per_piece }} บาท</label>
         </div>
-        <!-- <div class="my-3">
-        <label for="gold.amount" class="mx-3">จำนวน</label>
-        <input class="mx-3" type="number" v-model="gold.amount" autocomplete="off">
-        <label for="gold.amount" class="mx-3">ชิ้น</label>
-        </div> -->
         <div class="my-3">
             <label for="gold.import_date" class="mx-3">วันที่นำทองเข้า: {{ gold.import_date }}</label>
         </div>

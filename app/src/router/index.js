@@ -137,6 +137,11 @@ const router = createRouter({
       component: () => import('@/views/user/EditUserView.vue')
     },
     {
+      path: '/user/:user_id/:gold_id/edit_address',
+      name: 'user.editaddress',
+      component: () => import('@/views/user/EditUserAddressView.vue')
+    },
+    {
       path: '/allstock/view',
       name: 'allstock.view',
       component: () => import('@/views/gold/stock/AllStockView.vue')
@@ -270,6 +275,26 @@ const router = createRouter({
       path: '/shopping/all',
       name: 'shopping.all',
       component: () => import('@/views/shopping/AllGoldShopping.vue')
+    },
+    {
+      path: '/shopping/:name',
+      name: 'shopping.type',
+      component: () => import('@/views/shopping/GoldTypeView.vue')
+      },
+      {
+      path: '/product/detail/:id',
+      name: 'product.detail',
+      component: () => import('@/views/product/ProductDetailView.vue')
+    },
+    {
+      path: '/product/order_summary/:id',
+      name: 'product.order_summary',
+      component: () => import('@/views/product/OrderSummaryView.vue')
+    },
+    {
+      path: '/product/purchase/:id',
+      name: 'product.purchase',
+      component: () => import('@/views/product/ProductPurchaseView.vue')
     },
   ]
 })

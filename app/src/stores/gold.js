@@ -39,7 +39,7 @@ export const useGoldStore = defineStore("golds", {
     },
     filterStockByID(golds, id) {
       var filtered = [...golds];
-      return filtered.filter((gold) => gold.id == id);
+      return filtered.find((gold) => gold.id == id);
     },
 
     filterSellable() {
@@ -431,6 +431,44 @@ export const useGoldStore = defineStore("golds", {
       });
       // console.log(count_array)
       return count_array;
+    },
+    countGold(gold) {
+      var filtered = this.filterSellable()
+      var count_obj = {
+        count: null,
+        gold: null
+      }
+      var count = 0
+      filtered.forEach(a => {
+        // for each filtered value, count duplicates
+          if (this.checkSame(a,gold)) {
+            count += 1
+          } 
+        // console.log(count_obj)
+      })
+      count_obj.count = count
+      count_obj.gold = gold
+      return count_obj
+    },
+    countGoldList(gold) {
+      var filtered = this.filterSellable()
+      var count_obj = {
+        count: null,
+        gold: null,
+        gold_list: []
+      }
+      var count = 0
+      filtered.forEach(a => {
+        // for each filtered value, count duplicates
+          if (this.checkSame(a,gold)) {
+            count += 1
+            count_obj.gold_list.push(a)
+          } 
+        // console.log(count_obj)
+      })
+      count_obj.count = count
+      count_obj.gold = gold
+      return count_obj
     },
   },
 });

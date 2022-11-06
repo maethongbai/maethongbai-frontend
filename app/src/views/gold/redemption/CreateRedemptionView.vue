@@ -1,115 +1,158 @@
 <template>
 <div v-if='user.role == "employee" ||
-        user.role == "account" ||
-        user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-        <!-- {{user.employee.id}} -->
-    </div>
-    <form @submit.prevent="createRedemption()">
-        <div class="mx-3 my-3">
-            <label for="nextID" class="mx-3">เลขบิล: {{redemption.id}}</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label for="gold.percentage" class="mx-3">เปอร์เซนต์ทอง</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="redemption.gold.percentage">
-                <option value="96.5% รูปพรรณ">96.5% รูปพรรณ</option>
-                <option value="96.5% ทองแท่ง">96.5% ทองแท่ง</option>
-            </select>
-        </div>
-        <div class="mx-3 my-3">
-            <label for="gold.type" class="mx-3">ประเภททอง</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="redemption.gold.gold_type">
-                <option v-for="gold_type in gold_types" :value="gold_type.name">{{ gold_type.name }}</option>
-            </select>
-        </div>
-        <div class="mx-3 my-3">
-            <label for="gold.weight" class="mx-3">น้ำหนัก</label>
-            <input class="mx-3" type="number" v-model="temp_weight" step=".01" autocomplete="off" required>
-            <label for="gold.weight" class="mx-3">กรัม</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label for="gold.type" class="mx-3">ลายทอง</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="redemption.gold.gold_pattern">
-                <option v-for="gold_pattern in gold_patterns" :value="gold_pattern.name">{{ gold_pattern.name }}</option>
-            </select>
-        </div>
-        <div class="mx-3 my-3">
-            <input v-model="checked_brand.inside" id="ทางร้าน" :disabled="checked_brand.outside == true" type="checkbox" value="ทางร้าน" class="brand">
-            <label class="mx-3">ทองของทางร้าน</label>
-        </div>
-        <div class="mx-3 my-3">
-            <input v-model="checked_brand.outside" id="ร้านอื่น" :disabled="checked_brand.inside == true" type="checkbox" value="ร้านอื่น" class="brand">
-            <label class="mx-3">ทองของร้านอื่น</label>
-            <div v-if="checked_brand.outside == true" class="inline">
-                <label>ระบุร้าน</label>
-                <input class="mx-3" type="text" v-model="redemption.gold.brand" :required="checked_brand.outside == true" autocomplete="off">
+    user.role == "account" ||
+    user.role == "manager"'>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px] text-s1">
+            <div class="m-4 mb-0">
+                <!-- breadcrumb -->
+                <b>หน้าหลักระบบหลังร้าน > รับซื้อทอง</b>
             </div>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">วันที่รับซื้อ: {{showDate}}</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ราคาทองตอนรับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="inline ml-3">ราคาที่รับซื้อ: </label>
-            <label class="inline" v-if="redemption.gold.weight != null">{{redemption.redemption_price}} บาท</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
-            ข้อมูลลูกค้า
-        </h5>
-        <div class="mx-3 my-3">
-            <label class="ml-3">ชื่อ: </label>
-            <label class="inline" v-if="redemption.user != null">{{redemption.user.first_name}}</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="ml-3">นามสกุล: </label>
-            <label class="inline" v-if="redemption.user != null">{{redemption.user.last_name}}</label>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">เลขบัตรประชาชน</label>
-            <input class="mx-3" type="text" v-if="redemption.user != null" v-model="redemption.user.id_card_number" autocomplete="off" required>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">ที่อยู่</label>
-            <input class="mx-3" type="text" v-if="redemption.user != null" v-model="redemption.user.address" autocomplete="off" required>
-            <label class="inline" v-else>-</label>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">เบอร์โทร</label>
-            <input class="mx-3" type="text" v-model="redemption.user_phone" autocomplete="off" required>
-            <button @click="findUser" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-                ค้นหา
-            </button>
-            <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.phone_user == false">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
-            <a v-bind:href="'/register'" v-if="checks.phone_user == false" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                ลงทะเบียน
-                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
-        </div>
-        <div class="mx-3 my-3">
-            <label class="mx-3">รูปบัตรประชาชน</label>
-            <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
-            <img :src="`${redemption.id_card_image}`" width="200">
-        </div>
 
-        <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            บันทึกรายการรับซื้อ
-        </button>
-        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-            บันทึกรายการรับซื้อไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-        </label>
-        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-            - {{error}}
-        </label>
-    </form>
+            <form @submit.prevent="createRedemption()">
+                <div class="flex flex-row">
+                    <div class="m-3 p-2 mt-4">
+                        <p>เลขที่ใบเสร็จ: {{ redemption.id }}</p>
+                    </div>
+
+                    <div class="flex flex-row ml-auto m-3">
+                        <p class="p-2 mr-2 mt-1">เบอร์โทร</p>
+                        <input class="text-field w-[200px] bg-[#F5F5F5]" type="text" v-model="redemption.user_phone" autocomplete="off" required>
+                        <button @click="findUser" :disabled="disabledButton" class="red-btn w-[69px] h-[36px] ml-2 mt-1">
+                            ค้นหา
+                        </button>
+                        <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.phone_user == false">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
+                        <a v-bind:href="'/register'" v-if="checks.phone_user == false" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                            ลงทะเบียน
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-gray w-[1044px] mb-4">
+                    <div class="grid grid-cols-2">
+                        <div class="flex flex-col">
+                            <p class="pt-2 pb-2 text-xl"><b>รายละเอียดลูกค้า</b></p>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex flex-row pl-2">
+                                    <p>รหัสลูกค้า: </p>
+                                    <label class="ml-4" v-if="redemption.user != null">{{redemption.user.id}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+
+                                <div class="flex flex-row pl-2">
+                                    <p>ชื่อ: </p>
+                                    <label class="ml-4" v-if="redemption.user != null">{{redemption.user.first_name}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+
+                                <div class="flex flex-row pl-2">
+                                    <p>นามสกุล: </p>
+                                    <label class="ml-4" v-if="redemption.user != null">{{redemption.user.last_name}}</label>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+                                
+                                <div class="flex flex-row">
+                                    <p class="p-2">เลขบัตรประชาชน: </p>
+                                    <input class="text-field w-[300px] ml-auto mr-6" type="text" v-if="redemption.user != null" v-model="redemption.user.id_card_number" autocomplete="off" required>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+
+                                <div class="flex flex-row pl-2">
+                                    <label class="">ที่อยู่:</label>
+                                    <textarea v-if="redemption.user != null" class="text-field w-[300px] ml-auto mr-6" v-model="redemption.user.address" name="" id="" cols="15" rows="5"></textarea>
+                                    <label class="inline" v-else>-</label>
+                                </div>
+                                
+                            </div>
+
+                            <p class="pt-2 pb-2 text-xl"><b>รายละเอียดทองที่รับซื้อ</b></p>
+
+                            <div class="flex flex-row">
+                                <label for="gold.percentage" class="p-2">เปอร์เซนต์ทอง</label>
+                                <select class="select-box w-[300px] ml-auto mr-6" v-model="redemption.gold.percentage">
+                                    <option value="96.5% รูปพรรณ">96.5% รูปพรรณ</option>
+                                    <option value="96.5% ทองแท่ง">96.5% ทองแท่ง</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label for="gold.type" class="p-2">ประเภททอง</label>
+                                <select class="select-box w-[300px] ml-auto mr-6" v-model="redemption.gold.gold_type">
+                                    <option v-for="gold_type in gold_types" :value="gold_type.name">{{ gold_type.name }}</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label for="gold.type" class="p-2">ลายทอง</label>
+                                <select class="select-box w-[300px] ml-auto mr-6" v-model="redemption.gold.gold_pattern">
+                                    <option v-for="gold_pattern in gold_patterns" :value="gold_pattern.name">{{ gold_pattern.name }}</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-row">
+                                <label for="gold.weight" class="p-2">น้ำหนัก</label>
+                                <input class="text-field w-[250px] ml-auto mr-3" type="number" v-model="temp_weight" step=".01" autocomplete="off" required>
+                                <label for="gold.weight" class="p-2 mr-4">กรัม</label>
+                            </div>
+
+                            <div>
+                                <div class="mt-4 mb-2">
+                                    <input v-model="checked_brand.inside" id="ทางร้าน" :disabled="checked_brand.outside == true" type="checkbox" value="ทางร้าน" class="brand">
+                                    <label class="p-2">ทองของทางร้าน</label>
+                                </div>
+                                <div class="">
+                                    <input v-model="checked_brand.outside" id="ร้านอื่น" :disabled="checked_brand.inside == true" type="checkbox" value="ร้านอื่น" class="brand">
+                                    <label class="p-2">ทองของร้านอื่น</label>
+                                    <div v-if="checked_brand.outside == true" class="inline flex flex-row">
+                                        <label class="p-2">ระบุ</label>
+                                        <input class="text-field ml-auto mr-3" type="text" v-model="redemption.gold.brand" :required="checked_brand.outside == true" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <p class="pt-2 pb-2 text-xl"><b>สรุป</b></p>
+                            <div>
+                                <label class="p-2">วันที่รับซื้อ: {{showDate}}</label>
+                            </div>
+                            <div>
+                                <label class="p-2">ราคาทอง ณ เวลารับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
+                            </div>
+                            <div>
+                                <label class="p-2">ราคาที่รับซื้อ: </label>
+                                <label class="" v-if="redemption.gold.weight != null">{{redemption.redemption_price}} บาท</label>
+                                <label class="inline" v-else>-</label>
+                            </div>
+
+                            <p class="pt-2 pb-2 text-xl"><b>รูปสำเนาบัตรประชาชน</b></p>
+                            <div>
+                                <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+                                <img :src="`${redemption.id_card_image}`" width="200">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="w-[250px] mx-auto mt-4 mb-4">
+                            <button type="submit" :disabled="disabledButton" class="red-btn w-[323px] mx-auto">
+                                บันทึกรายการ
+                            </button>
+                                <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold mt-4">
+                                    บันทึกรายการรับซื้อไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                                </label>
+                                <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                                    - {{error}}
+                                </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </template>
 
