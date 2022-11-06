@@ -152,7 +152,6 @@ export default {
             this.input_check.errors = []
             this.input_check.is_valid = true
 
-
             if (this.user_store.findByEmail(this.user.email) == undefined &&
                 this.user.email != null) {
                 this.input_check.errors.push("อีเมลนี้ถูกใช้ไปแล้ว")
@@ -178,6 +177,7 @@ export default {
             }
 
             var user_obj = {
+                id: this.user.id,
                 email: this.user.email,
                 password: this.user.password,
                 phone: this.user.phone,
@@ -189,7 +189,7 @@ export default {
             }
             try {
                 console.log(user_obj)
-                await this.user_store.add(user_obj)
+                await this.user_store.edit(this.user.id, user_obj)
                 this.$router.push('/login')
             } catch (error) {
                 console.error(error.response.data)

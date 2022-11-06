@@ -132,6 +132,11 @@ const router = createRouter({
       component: () => import('@/views/user/EditUserView.vue')
     },
     {
+      path: '/user/:user_id/:gold_id/edit_address',
+      name: 'user.editaddress',
+      component: () => import('@/views/user/EditUserAddressView.vue')
+    },
+    {
       path: '/allstock/view',
       name: 'allstock.view',
       component: () => import('@/views/gold/stock/AllStockView.vue')
