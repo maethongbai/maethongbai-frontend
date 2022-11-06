@@ -116,14 +116,8 @@ export default {
                 this.user.role == "account" ||
                 this.user.role == "manager") {
                 console.log("authorized");
-            } else {
-                this.$router.push("/")
-            }
-        } else {
-            this.auth = null
-            this.user = null
-            this.$router.push("/login")
-        }
+            } 
+        } 
 
         await this.user_store.fetch()
         await this.gold_store.fetch()

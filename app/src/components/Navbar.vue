@@ -18,8 +18,10 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
                     </form>
-                    <div>
-                        <div v-if="true" class="text-white mt-4 flex flex-row gap-5">
+                    <div v-if="user != null">
+                        <div v-if='user.role == "employee" ||
+                        user.role == "account" ||
+                        user.role == "manager"' class="text-white mt-4 flex flex-row gap-5">
                         <RouterLink class="hover:underline" to="/">หน้าหลัก</RouterLink>
                         <RouterLink class="hover:underline" to="/onsitesale/create">ขายทอง</RouterLink>
                         <RouterLink class="hover:underline" to="/redemption/create">รับซื้อทอง</RouterLink>
@@ -33,14 +35,19 @@
                             <RouterLink class="hover:underline" to="/shopping/all">สินค้าทั้งหมด</RouterLink>
                             <RouterLink class="hover:underline" to="/redemption/create">ติดตามสถานะการสั่งซื้อ</RouterLink>
                                                                     <!-- ใส่ไอดีคนที่ล็อกอิน -->
-                            <RouterLink class="hover:underline" to="/user/id/history">ประวัติการใช้บริการ</RouterLink>
+                            <RouterLink class="hover:underline" :to="'/user/' + user.id + '/history'">ประวัติการใช้บริการ</RouterLink>
                         </div>
+                    </div>
+                    <div v-else class="text-white mt-4 flex flex-row gap-5">
+                            <RouterLink class="hover:underline" to="/">หน้าหลัก</RouterLink>
+                            <RouterLink class="hover:underline" to="/shopping/all">สินค้าทั้งหมด</RouterLink>
+                                                                    <!-- ใส่ไอดีคนที่ล็อกอิน -->
                     </div>
                 </div>
             </div>
                 <div class="text-white pt-2 ml-auto text-right">
                     <div v-if="auth && auth.phone">
-                        phone: {{ auth.phone }} |
+                        สวัสดีคุณ {{ user.first_name }} | 
                         <router-link to="/logout">ออกจากระบบ</router-link>
                     </div>
                     <div v-else>
@@ -84,6 +91,7 @@ export default {
             handler(newValue, oldValue) {
                 // console.log(newValue.getAuth)
                 this.auth = this.auth_store.getAuth
+                this.user = JSON.parse(this.auth_store.getUser)
             }
         }
     },
@@ -94,11 +102,11 @@ export default {
             if (this.user.role == "manager" || this.user.role == "account" || this.user.role == "employee" || this.user.role == "user") {
                 console.log("authorized " + document.URL);
             } else {
-                this.$router.push("/");
+                // this.$router.push("/"); 
             }
         }
         else{
-            this.$router.push("/");
+            // this.$router.push("/");
         }
 
     }

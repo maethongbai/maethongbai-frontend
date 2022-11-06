@@ -241,12 +241,8 @@ export default {
                 this.user.role == 'user') {
                 console.log("authorized " + document.URL);
             } else {
-                this.$router.push("/");
+                // this.$router.push("/");
             }
-        } else {
-            this.auth = null
-            this.user = null
-            this.$router.push("/login")
         }
         await this.gold_store.fetch()
         this.golds = this.gold_store.countLeftover()
