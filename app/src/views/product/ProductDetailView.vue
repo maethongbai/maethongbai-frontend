@@ -31,8 +31,6 @@
 import { useAuthStore } from '@/stores/auth.js'
 import { useGoldStore } from '@/stores/gold.js'
 import { useUserStore } from '@/stores/user.js'
-import { useGoldPatternStore } from '@/stores/gold_pattern.js'
-import { useGoldTypeStore } from '@/stores/gold_type.js'
 import { useGoldPriceStore } from '@/stores/gold_price.js'
 
 export default {
@@ -40,15 +38,11 @@ export default {
         const auth_store = useAuthStore()
         const gold_store = useGoldStore()
         const user_store = useUserStore()
-        const gold_pattern_store = useGoldPatternStore()
-        const gold_type_store = useGoldTypeStore()
         const gold_price_store = useGoldPriceStore()
         return {
             auth_store,
             gold_store,
             user_store,
-            gold_pattern_store,
-            gold_type_store,
             gold_price_store
         }
     },
