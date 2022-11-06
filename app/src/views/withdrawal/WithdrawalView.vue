@@ -1,22 +1,25 @@
 <template>
-<div v-if= 'user.role == "account" ||
+<div v-if='user.role == "account" ||
         user.role == "manager"'>
-         <div>
-        <form  @submit.prevent="withdrawalsSearchID()">
-           <div class="inline">
-            <label>เลขที่บิลรายการเบิกเงิน</label>
-            <input id="withdrawal_SearchID" class="mx-3" type="text" v-model="withdrawal_SearchID" autocomplete="off">
-           </div>
+    <div>
+        <div class="block my-5">
+            <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+        </div>
+        <form @submit.prevent="withdrawalsSearchID()">
+            <div class="inline">
+                <label>เลขที่บิลรายการเบิกเงิน</label>
+                <input id="withdrawal_SearchID" class="mx-3" type="text" v-model="withdrawal_SearchID" autocomplete="off">
+            </div>
 
-           <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
+            <button type="submit" class="inline p-1 bg-green-400 border rounded-lg">
                 Search
             </button>
         </form>
-        </div>
-        <br>
-        <p>รายการเบิกเงินที่รอการอนุมัติ</p>
-        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
-            <thead>
+    </div>
+    <br>
+    <p>รายการเบิกเงินที่รอการอนุมัติ</p>
+    <table class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> รายการเบิก </th>
@@ -32,11 +35,11 @@
                 <td class="border border-green-700" v-if="withdrawal.employee_withdrawal !=null"> {{withdrawal.employee_withdrawal.nickname}} </td>
             </tr>
         </tbody>
-        </table>
-        
-        <p>รายการเบิกเงินที่ได้รับอนุมัติ</p>
-        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
-            <thead>
+    </table>
+
+    <p>รายการเบิกเงินที่ได้รับอนุมัติ</p>
+    <table class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> รายการเบิก </th>
@@ -52,11 +55,11 @@
                 <td class="border border-green-700" v-if="withdrawal.employee_withdrawal !=null"> {{withdrawal.employee_withdrawal.nickname}} </td>
             </tr>
         </tbody>
-        </table>
+    </table>
 
-        <p>รายการเบิกเงินที่ไม่ได้รับอนุมัติ</p>
-        <table  class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
-            <thead>
+    <p>รายการเบิกเงินที่ไม่ได้รับอนุมัติ</p>
+    <table class="border-collapse w-full text-sm text-left text-green-500 border border-green-700">
+        <thead>
             <tr class="text-xs text-green-700 bg-green-50 border border-green-700">
                 <th class="border border-green-700"> ลำดับ </th>
                 <th class="border border-green-700"> รายการเบิก </th>
@@ -72,12 +75,10 @@
                 <td class="border border-green-700" v-if="withdrawal.employee_withdrawal !=null"> {{withdrawal.employee_withdrawal.nickname}} </td>
             </tr>
         </tbody>
-        </table>    
-
-    </div>
+    </table>
     <br>
     <br>
-    <div v-if="withdrawal_search != null" class="py-5" >
+    <div v-if="withdrawal_search != null" class="py-5">
         <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
             <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 รายละเอียด
@@ -88,23 +89,21 @@
             <p> สถานะรายการเบิกเงิน : {{withdrawal_search.withdrawal_status}}</p>
             <p> พนักงานที่ต้องการเบิกเงิน : {{withdrawal_search.employee.nickname}}</p>
             <p v-if="withdrawal_search.employee_withdrawal !=null"> พนักงานที่ลงรายการเบิกเงิน : {{withdrawal_search.employee_withdrawal.nickname}}</p>
-        </div>
-
-        <div v-if="user.role == 'manager'">
+            <div v-if="user.role == 'manager'">
                 <a v-bind:href="'/withdrawal/edit/'+ withdrawal_search.id " class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     แก้ไข
                     <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                     </svg>
                 </a>
+            </div>
         </div>
-        <div class="block my-5">
-               <router-link to="/withdrawal/create" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">เพิ่มรายการเบิกเงิน</router-link>
-        </div>
+
     </div>
-
-    
-
+    <div class="block my-5">
+        <router-link to="/withdrawal/create" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">เพิ่มรายการเบิกเงิน</router-link>
+    </div>
+</div>
 </template>
 
 <script>
@@ -157,14 +156,13 @@ export default {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
             this.user = JSON.parse(this.auth_store.getUser)
-            if (this.user.role == "employee" ||
-                this.user.role == "account" ||
+            if (this.user.role == "account" ||
                 this.user.role == "manager") {
                 console.log("authorized " + document.URL);
 
             } else {
                 this.$router.push("/");
-            }  
+            }
         } else {
             this.auth = null
             this.user = null
@@ -182,8 +180,8 @@ export default {
             this.disabledSearchButton = true
             if (this.withdrawal_SearchID == null ||
                 this.withdrawal_SearchID == "") {
-                    this.withdrawal_search = null
-                    this.$router.go(0)
+                this.withdrawal_search = null
+                this.$router.go(0)
             }
             try {
                 this.withdrawal_search = await this.withdrawal_store.getID(this.withdrawal_SearchID)
@@ -196,19 +194,18 @@ export default {
                 this.withdrawal_search = this.withdrawal_search
                 this.withdrawal_SearchID = null
                 this.withdrawal_search = null
-                
+
             } catch (error) {
                 this.error = error.message
                 this.disabledSearchButton = false
-               
+
             }
         },
         async setSearched(withdrawal_id) {
             this.error = null
-            try { 
+            try {
                 console.log(this.withdrawal_store.getID(withdrawal_id))
                 this.withdrawal_search = await this.withdrawal_store.getID(withdrawal_id)
-               
 
             } catch (error) {
                 this.error = error.message

@@ -1,12 +1,12 @@
 <template>
-    <div v-if='user.role == "employee" ||
+<div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
-         <div class="block my-5">
-               <router-link to="/income/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-        </div>
-        <form @submit.prevent="createIncome()">
-            <div class="mx-3 my-3">
+    <div class="block my-5">
+        <router-link to="/income/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
+    <form @submit.prevent="createIncome()">
+        <div class="mx-3 my-3">
             <label for="nextID" class="mx-3">เลขบิล: {{income.id}} </label>
             <div>
                 <p>รายการรับเงิน:</p>
@@ -15,7 +15,7 @@
 
             <div>
                 <p>จำนวนเงิน:</p>
-                <input type="text" v-model="income.amount">
+                <input type="number" step=".01" v-model="income.amount">
             </div>
 
             <div>
@@ -23,13 +23,19 @@
                 <input type="text" v-model="income.note">
             </div>
         </div>
-        
+
         <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
             บันทึกรายการรับเงิน
         </button>
-        </form>
+        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+            บันทึกรายการรับเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        </label>
+        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+            - {{error}}
+        </label>
+    </form>
 
-    </div>
+</div>
 </template>
 
 <script>
@@ -68,6 +74,10 @@ export default {
                 transaction_date: "",
             },
             disabledButton: false,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
     },
     watch: {
@@ -104,6 +114,22 @@ export default {
     },
     methods: {
         async createIncome() {
+            this.disabledButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            if (this.income.amount <= 0) {
+                this.input_check.errors.push("จำนวนเงินต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disabledButton = false
+                return
+            }
+
+
             try {
                 var income = {
                     name: this.income.name,
@@ -125,7 +151,6 @@ export default {
         }
 
     }
-
 
 }
 </script>

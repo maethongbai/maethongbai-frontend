@@ -49,15 +49,15 @@
 
     <div v-if="role == 'manager'" class="mt-5">
         <label>เลือกวันที่ต้องการดู</label>
-        <Datepicker v-model="date" :format="date_format"></Datepicker>
+        <Datepicker v-model="date"></Datepicker>
         <button @click="seeAll()">ดูทั้งหมด</button>
     </div>
 
-    <div class="grid grid-cols-2 mt-2">
+    <div class="grid grid-cols-1 mt-2">
         <div>
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white">
+            <p class="p-5 text-lg font-semibold text-left text-gray-900 bg-white">
                 รายรับ
-            </caption>
+            </p>
             <table>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -104,9 +104,9 @@
         </div>
 
         <div>
-            <caption class="p-5 text-lg font-semibold text-left text-gray-900">
+            <p class="p-5 text-lg font-semibold text-left text-gray-900">
                 รายจ่าย
-            </caption>
+            </p>
 
             <table>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -162,9 +162,17 @@
 
     <hr>
 
-    <div class="py-5 grid grid-cols-2">
+    <div class="py-5">
         <h5 class="mx-6 text-2xl font-bold tracking-tight text-gray-900">สรุปรายรับ-รายจ่าย</h5>
-            
+        <div>
+            <p class="p-3 text-lg font-semibold text-gray-900 bg-white">
+            รายรับทั้งหมด: {{income_total_amount}} บาท
+            </p>
+            <p class="p-3 text-lg font-semibold text-gray-900 bg-white">
+                รายจ่ายทั้งหมด: {{withdrawal_total_amount}} บาท
+                </p>
+        </div>
+        
     </div>
 </template>
 
@@ -177,7 +185,8 @@ import { useWithdrawalStore } from '@/stores/withdrawal.js'
 import moment from 'moment'
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-import { DOMDirectiveTransforms } from '@vue/compiler-dom';
+// import { format } from 'date-fns'
+// import { DOMDirectiveTransforms } from '@vue/compiler-dom';
 
 export default {
       setup() {
@@ -185,14 +194,7 @@ export default {
         const employee_store = useEmployeeStore()
         const income_store = useIncomeStore()
         const withdrawal_store = useWithdrawalStore()
-        const date_format = (date) => {
-            const day = date.getDate();
-            const month = date.getMonth();
-            const year = date.getFullYear();
-
-            return `${day}/${month}/${year}`;
-        }
-        return { employee_store, auth_store, income_store, withdrawal_store, date_format }
+        return { employee_store, auth_store, income_store, withdrawal_store}
       },
       data() {
         return {
@@ -206,7 +208,9 @@ export default {
             date: null,
             date_str: null,
             error: null,
-            date_t: null
+            date_t: null,
+            income_total_amount: 0,
+            withdrawal_total_amount: 0
         }
       },
       async mounted() {
@@ -226,14 +230,12 @@ export default {
         }
         
         await this.income_store.fetch()
-        this.incomes = this.income_store.getIncomes
-
         await this.withdrawal_store.fetch()
-        this.withdrawals = this.withdrawal_store.getWithdrawals
-
         await this.employee_store.fetch()
 
-        console.log(this.user.role)
+        this.seeAll()
+
+        
         this.role = this.user.role
 
         const current = new Date();
@@ -243,11 +245,20 @@ export default {
         Datepicker
       },
       watch: {
-        async date () {
-            this.date_str = this.date.getFullYear() + '-' + this.date.getMonth() + '-' + this.date.getDate()
-            console.log(this.date_str)
-            this.incomes = await this.income_store.filterBySelectedDate(this.date_str)
-            this.withdrawals = await this.withdrawal_store.filterBySelectedDate(this.date_str)
+        auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                this.auth = this.auth_store.getAuth
+                this.user = JSON.parse(this.auth_store.getUser)
+            }
+        },
+        date: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                this.filterDate(newValue)
+            }
         }
       },
       methods: {
@@ -271,7 +282,38 @@ export default {
         },
         async seeAll(){
             this.incomes = this.income_store.getIncomes
-            this.withdrawals = this.withdrawal_store.getWithdrawals
+            this.withdrawals = this.withdrawal_store.filterConfirm
+            this.income_total_amount = 0
+        this.withdrawal_total_amount = 0
+        this.incomes.forEach(element => {
+            this.income_total_amount += element.amount
+        });
+        this.withdrawals.forEach(element => {
+            this.withdrawal_total_amount += element.amount
+        });
+        },
+        filterDate(date_str) {
+            if (date_str == null) {
+                this.seeAll()
+                return
+            }
+            var date = new Date(date_str).toLocaleDateString().split("/")
+            var year = String(date[2]).padStart(4, '0')
+            var day = String(date[1]).padStart(2, '0')
+            var month = String(date[0]).padStart(2, '0')
+            var formatted_date = year + "-" + month + "-" + day
+            console.log(formatted_date)
+
+            this.incomes = this.income_store.filterDate(formatted_date)
+            this.withdrawals = this.withdrawal_store.filterDate(formatted_date)
+            this.income_total_amount = 0
+        this.withdrawal_total_amount = 0
+        this.incomes.forEach(element => {
+            this.income_total_amount += element.amount
+        });
+        this.withdrawals.forEach(element => {
+            this.withdrawal_total_amount += element.amount
+        });
         }
       }
     }

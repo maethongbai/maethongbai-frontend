@@ -4,7 +4,8 @@ import { withdrawalAPI } from '@/services/api.js'
 export const useWithdrawalStore = defineStore("withdrawals", {
   state: () => {
     return {
-        withdrawals: []
+        withdrawals: [],
+        filtered_withdrawals: []
     }
   },
   getters: {
@@ -67,6 +68,20 @@ export const useWithdrawalStore = defineStore("withdrawals", {
     var filtered = [...withdrawals]
     return filtered.filter((withdrawal) => withdrawal.id == id)
   },
+  filterDate (date_str) {
+    this.filtered_withdrawals = []
+    var date = new Date(date_str).getTime()
+    // console.log(date)
+    this.withdrawals.forEach( (o) => {
+      var bdate = new Date(o.withdrawal_date).getTime()
+      if(bdate == date)
+      {
+        this.filtered_withdrawals.push(o)
+      }
+    })
+    // console.table(this.filterSales)
+    return this.filtered_withdrawals                         
+  }
 
   }
 })

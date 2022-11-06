@@ -37,9 +37,9 @@
             </div>
             <div class="mx-3 my-3">
                 <input v-model="select.brand_status" id="ทองของทางร้าน" type="radio" value="ทองของทางร้าน">
-                <label class="mx-3">ทางของทางร้าน</label>
+                <label class="mx-3">ทองของทางร้าน</label>
                 <input v-model="select.brand_status" id="ทองของร้านอื่น" type="radio" value="ทองของร้านอื่น">
-                <label class="mx-3">ทางของร้านอื่น</label>
+                <label class="mx-3">ทองของร้านอื่น</label>
             </div>
             <div v-if="select.brand_status == 'ทองของร้านอื่น'" class="mx-3 my-3">
                 <label class="mx-3">ระบุร้าน</label>
@@ -52,9 +52,7 @@
                 <label class="mx-3">ราคาทองตอนรับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
             </div>
             <div class="mx-3 my-3">
-                <label class="mx-3">ราคาที่รับซื้อ</label>
-                <input class="mx-3" type="number" v-model="redemption.redemption_price" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <label class="mx-3">ราคาที่รับซื้อ: {{redemption.redemption_price}} บาท</label>
             </div>
             <h5 class="mx-6 mb-2 text-lg font-bold tracking-tight text-gray-900">
                 ข้อมูลลูกค้า

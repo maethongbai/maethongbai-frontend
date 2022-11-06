@@ -2,11 +2,11 @@
 <div v-if="auth && auth.phone" class="center">
     phone: {{ auth.phone }} |
 
-    <router-link to="/logout">Logout</router-link>
+    <router-link to="/logout">ออกจากระบบ</router-link>
 </div>
 
 <div v-else class="center">
-    <router-link to="/login">Please Login</router-link>
+    <router-link to="/login"><u>เข้าสู่ระบบ</u></router-link>
 </div>
 </template>
 

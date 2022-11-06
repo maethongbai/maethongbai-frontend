@@ -137,10 +137,15 @@
             <label class="inline" v-if="custom_order.user != null">{{custom_order.user.last_name}}</label>
             <label class="inline" v-else>-</label>
         </div>
-
         <button type="submit" :disabled="disableButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
             ยืนยันรายการสั่ง
         </button>
+        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+            ยืนยันรายการสั่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        </label>
+        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+            - {{error}}
+        </label>
     </form>
 </div>
 </template>
@@ -202,16 +207,9 @@ export default {
                 finish_date: null,
                 order_date: null,
                 delivery_date: null,
-                custom_order_worker: {
-                    name: null
-                },
+                custom_order_worker: null,
                 user_phone_search: "-",
-                user: {
-                    id: null,
-                    first_name: null,
-                    last_name: null,
-                    phone: null
-                },
+                user: null,
                 credit_card: {
                     type: null,
                     custom_type: null,
@@ -245,7 +243,12 @@ export default {
                     "อื่นๆ"
                 ],
                 payment_method: null
+            },
+            input_check: {
+                errors: [],
+                is_valid: true
             }
+
         }
     },
     watch: {
@@ -278,6 +281,8 @@ export default {
                 } else {
                     this.custom_order.cash.change_amount = "-"
                 }
+
+                // console.log(newValue.custom_order_worker)
             }
         }
     },
@@ -312,7 +317,105 @@ export default {
     },
     methods: {
         async createCustomOrder() {
-            // custom order worker name -> custom order worker object
+            this.disableButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+            if (this.custom_order.custom_weight <= 0) {
+                this.input_check.errors.push("น้ำหนักต้องมีค่าเป็นบวก")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.wage < 0) {
+                this.input_check.errors.push("ค่าแรงต้องไม่เป็นค่าติดลบ")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.full_price != "-") {
+                // if there is full price, calculate
+                // if not, skip
+                var min_deposit = Number(Math.round((this.custom_order.full_price * 5 / 100) + 'e2') + 'e-2')
+                var max_deposit = Number(Math.round((this.custom_order.full_price * 10 / 100) + 'e2') + 'e-2')
+                if (this.custom_order.deposit_total_amount < min_deposit ||
+                    this.custom_order.deposit_total_amount > max_deposit) {
+                    this.input_check.errors.push("ค่ามัดจำต้องมีค่าระหว่าง " +
+                        String(min_deposit) +
+                        " - " + String(max_deposit) +
+                        " บาท")
+                    this.input_check.is_valid = false
+                }
+            } else {
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.finish_date == null) {
+                // if finish date is null, skip
+                // else, check finish date
+                this.input_check.errors.push("วันที่เสร็จต้องไม่เป็นค่าว่าง")
+                this.input_check.is_valid = false
+            } else {
+                if (new Date(this.custom_order.finish_date) < moment()) {
+                    // if finish date is before today
+                    this.input_check.errors.push("วันที่เสร็จต้องไม่อยู่ในอดีต")
+                    this.input_check.is_valid = false
+                }
+            }
+
+            if (this.custom_order.custom_order_worker == null) {
+                this.input_check.errors.push("กรุณาเลือกช่างที่รับผลิต")
+                this.input_check.is_valid = false
+            }
+            if (this.select.payment_method == "บัตรเครดิต") {
+                if (this.custom_order.credit_card.type == "อื่นๆ") {
+                    // check custom type
+                    if (this.custom_order.credit_card.custom_type == null) {
+                        this.input_check.errors.push("กรุณาใส่ประเภทบัตรเครดิต")
+                        this.input_check.is_valid = false
+                    }
+                } else if (this.custom_order.credit_card.type == null) {
+                    // check type
+                    this.input_check.errors.push("กรุณาเลือกประเภทบัตรเครดิต")
+                    this.input_check.is_valid = false
+                }
+                if (this.custom_order.credit_card.bank_name == "อื่นๆ") {
+                    // check custom bank name
+                    if (this.custom_order.credit_card.custom_bank_name == null) {
+                        this.input_check.errors.push("กรุณาใส่ชื่อธนาคาร")
+                        this.input_check.is_valid = false
+                    }
+                } else if (this.custom_order.credit_card.bank_name == null) {
+                    // check bank name
+                    this.input_check.errors.push("กรุณาเลือกชื่อธนาคาร")
+                    this.input_check.is_valid = false
+                }
+            } else if (this.select.payment_method == "เงินสด") {
+                if (this.custom_order.deposit_total_amount != "-") {
+                    // if there is full price, check paid amount
+                    // if not, skip
+                    if (this.custom_order.cash.paid_amount <= this.custom_order.deposit_total_amount) {
+                        this.input_check.errors.push("เงินที่ลูกค้าจ่ายต้องมีค่ามากกว่าหรือเท่ากับราคาสุทธิ")
+                        this.input_check.is_valid = false
+                    }
+                } else {
+                    this.input_check.is_valid = false
+                }
+            } else if (this.select.payment_method == "โอน") {
+                if (this.custom_order.transfer.slip_image == null) {
+                    this.input_check.errors.push("กรุณาอัพโหลดรูปสลิป")
+                    this.input_check.is_valid = false
+                }
+            } else {
+                this.input_check.errors.push("กรุณาเลือกช่องทางการชำระมัดจำ")
+                this.input_check.is_valid = false
+            }
+
+            if (this.custom_order.user == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลลูกค้าที่สั่ง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disableButton = false
+                return
+            }
+
             var custom_order = {
                 name: this.custom_order.name,
                 type: this.custom_order.type,
@@ -366,7 +469,7 @@ export default {
             try {
                 await this.custom_order_store.add(custom_order)
                 this.$router.push("/custom_order/view");
-            } catch(error) {
+            } catch (error) {
                 console.error(error.response.data)
             }
         },

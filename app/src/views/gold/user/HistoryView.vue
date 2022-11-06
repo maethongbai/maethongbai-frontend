@@ -1,11 +1,14 @@
 <template>
-<div v-if='auth_user != null'>
+<div v-if='auth_user != null &&
+            (user_id == auth_user.id ||
+            auth_user.role == "employee" ||
+            auth_user.role == "account" ||
+            auth_user.role == "manager")'>
     <div class="block my-5">
         <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
     </div>
     <div class="mx-3 my-3">
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        v-model="chosen_history">
+        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="chosen_history">
             <option value="ประวัติทั้งหมด">ประวัติทั้งหมด</option>
             <option v-for="val in options.history" :value="val"> {{ val }}</option>
         </select>
@@ -26,8 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="val in histories" class="bg-white border-b hover:bg-gray-50"
-                @click="setSearched(val)">
+                <tr v-for="val in histories" class="bg-white border-b hover:bg-gray-50" @click="setSearched(val)">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{val.id}}
                     </th>
@@ -95,12 +97,13 @@
                     </p>
                 </div>
             </div>
-            <div v-else-if="searched_obj.type == 'ซื้อทองหน้าร้าน'" class="py-5" >
+            <div v-else-if="searched_obj.type == 'ซื้อทองหน้าร้าน' ||
+                            searched_obj.type == 'เปลี่ยน'" class="py-5">
                 <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
                     <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
                         รายละเอียด
                     </h5>
-        
+
                     <div>
                         การขายหน้าร้าน
                         <p> เลขที่บิลขายหน้าร้าน : {{searched_obj.item.id}}</p>
@@ -110,32 +113,32 @@
                         <p> ราคาทอง ณ เวลาที่ขาย : {{searched_obj.item.gold_sell_price.sell_price}}</p>
                         <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{searched_obj.item.gold_price}}</p>
                         <p> ช่องทางการชำระเงิน : {{searched_obj.item.payment_method}} </p>
-                        
+
                         <div v-if="searched_obj.item.payment_method == 'credit_card'">
                             <p> ประเภทบัตรเครดิต : {{searched_obj.item.credit_card_type}}</p>
                             <p> ธนาคาร : {{searched_obj.item.bank_name}}</p>
                         </div>
-        
+
                         <div v-if="searched_obj.item.payment_method == 'transfer'">
                             <p> รูปสลิป : {{searched_obj.item.slip_image}}</p>
                             <p> สถานะการโอน : {{searched_obj.item.transfer_status}}</p>
                             <p> หมายเหตุการโอน : {{searched_obj.item.transfer_note}}</p>
                         </div>
-        
+
                         <div v-if="searched_obj.item.payment_method == 'cash'">
                             <p> ยอดเงินที่ลูกค้าชำระ : {{searched_obj.item.paid_amount}}</p>
                             <p> ยอดเงินทอน : {{searched_obj.item.paid_change}}</p>
                         </div>
-        
+
                         <p v-if="searched_obj.item.is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
-                        <div v-if="searched_obj.item.is_switch_gold == true"> 
+                        <div v-if="searched_obj.item.is_switch_gold == true">
                             <p> เป็นทองที่เปลี่ยน </p>
                             <p> เลขที่บิลรับซื้อ : {{searched_obj.item.redemption.id}} </p>
                         </div>
                         <p> พนักงานที่ทำรายการ : {{searched_obj.item.employee.nickname}}</p>
                         <p> ลูกค้า : {{searched_obj.item.user.username}}</p>
                     </div>
-        
+
                     <!-- <div v-if="online_SearchID != null || onlineSale_search != null">
                         การขายออนไลน์
                         <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
@@ -155,7 +158,7 @@
                     </div> -->
                 </div>
             </div>
-            <div v-else-if="searched_obj.type == 'ซื้อทองออนไลน์'" class="py-5" >
+            <div v-else-if="searched_obj.type == 'ซื้อทองออนไลน์'" class="py-5">
                 <div class="mx-3 bg-white border border-gray-200 rounded-lg shadow-md">
                     <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
                         รายละเอียด
@@ -348,7 +351,7 @@ export default {
                 if (newValue == "") {
                     this.chosen_history = "ประวัติทั้งหมด"
                 }
-                
+
                 if (newValue == "ประวัติทั้งหมด") {
                     this.histories = this.history_store.getHistories
                 } else if (newValue == "ซื้อทอง") {
@@ -359,7 +362,7 @@ export default {
                     this.histories = this.history_store.filterByCustomOrder()
                 } else if (newValue == "เปลี่ยน") {
                     this.histories = this.history_store.filterBySwitchGold()
-                } 
+                }
             }
         }
     },
@@ -372,6 +375,15 @@ export default {
             if (response.status === 200) {
                 this.user = response.data.data
                 this.user_id = this.user.id
+                console.log(this.user_id)
+                if (this.auth_user.id == this.user_id ||
+                this.auth_user.role == "employee" ||
+                this.auth_user.role == "account" ||
+                this.auth_user.role == "manager") {
+                    
+                } else {
+                    this.$router.push("/")
+                }
             }
         } catch (error) {
             console.error(error)
@@ -381,7 +393,16 @@ export default {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
             this.auth_user = JSON.parse(this.auth_store.getUser)
-            console.log("authorized " + document.URL);
+            // console.log(this.auth_user.id)
+            // console.log(this.user_id)
+            if (this.auth_user.role == "employee" ||
+                this.auth_user.role == "account" ||
+                this.auth_user.role == "manager") {
+                console.log("authorized " + document.URL);
+            } else {
+                // this.$router.push("/")
+            }
+
         } else {
             this.auth = null
             this.auth_user = null

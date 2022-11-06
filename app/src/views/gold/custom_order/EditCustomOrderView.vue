@@ -30,24 +30,28 @@ user.role == "manager"'>
                 <label class="mx-3">กรัม</label>
             </div>
             <div class="mx-3 my-3">
-                <label class="mx-3">ค่าแรง</label>
-                <input class="mx-3" step=".01" type="number" v-model="custom_order.wage" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    ค่าแรง: {{custom_order.wage}} บาท
+                </p>
             </div>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ราคาเต็ม: {{custom_order.full_price}} บาท
-            </p>
             <div class="mx-3 my-3">
-                <label class="mx-3">มัดจำ</label>
-                <input class="mx-3" step=".01" type="number" v-model="custom_order.deposit_total_amount" autocomplete="off" required>
-                <label class="mx-3">บาท</label>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    ราคาเต็ม: {{custom_order.full_price}} บาท
+                </p>
+            </div>
+            <div class="mx-3 my-3">
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    มัดจำ: {{custom_order.deposit_total_amount}} บาท
+                </p>
             </div>
             <div class="mx-3 my-3">
                 <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount}} บาท</label>
             </div>
-            <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                วันที่สั่ง: {{custom_order.order_date}}
-            </p>
+            <div class="mx-3 my-3">
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">
+                    วันที่สั่ง: {{custom_order.order_date}}
+                </p>
+            </div>
             <div class="mx-3 my-3">
                 <label class="mx-3">วันที่เสร็จ</label>
                 <Datepicker v-model="custom_order.finish_date"></Datepicker>
@@ -212,7 +216,7 @@ user.role == "manager"'>
             <option value="เสร็จสิ้น">เสร็จสิ้น</option>
             <option value="ยกเลิก">ยกเลิก</option>
         </select>
-        <div v-if='user.role == "manager"'>
+        <div v-if='user.role == "manager" && custom_order.deposit_payment_method == "transfer"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนมัดจำ</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.deposit_status">
                 <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
@@ -221,7 +225,7 @@ user.role == "manager"'>
             </select>
         </div>
 
-        <div v-if='user.role == "manager"'>
+        <div v-if='user.role == "manager" && custom_order.difference_payment_method == "transfer"'>
             <label class="inline-block mx-1 mb-2 font-medium text-gray-900">สถานะโอนส่วนต่าง</label>
             <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="custom_order.difference_status">
                 <option value="ยังไม่ได้ตรวจสอบ">ยังไม่ได้ตรวจสอบ</option>
@@ -233,6 +237,12 @@ user.role == "manager"'>
         <button @click="saveCustomOrder()" class="px-4 py-2 rounded-lg bg-lime-400">
             ยืนยันการเปลี่ยนแปลง
         </button>
+        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+            ยืนยันการเปลี่ยนแปลงไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        </label>
+        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+            - {{error}}
+        </label>
     </div>
 </div>
 </template>
@@ -277,6 +287,10 @@ export default {
             disableButton: false,
             select: {
                 custom_order_workers: []
+            },
+            input_check: {
+                errors: [],
+                is_valid: true
             }
         }
     },
@@ -356,6 +370,31 @@ export default {
     },
     methods: {
         async saveCustomOrder() {
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+            // validate
+            if (this.custom_order.weight < 0) {
+                this.input_check.errors.push("น้ำหนักต้องมีค่าเป็นบวก")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.delivery_date != null) {
+                if (new Date(this.custom_order.delivery_date) < moment()) {
+                    // if finish date is before today
+                    this.input_check.errors.push("วันที่ส่งมอบต้องไม่อยู่ในอดีต")
+                    this.input_check.is_valid = false
+                }
+            } else {
+                this.input_check.errors.push("กรุณาใส่วันที่ส่งมอบ")
+                this.input_check.is_valid = false
+            }
+            if (this.custom_order.user == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลลูกค้าที่สั่ง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                return
+            }
 
             var custom_order = {
                 name: this.custom_order.name,

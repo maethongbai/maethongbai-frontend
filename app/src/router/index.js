@@ -122,6 +122,16 @@ const router = createRouter({
       component: () => import('@/views/gold/user/UserSaleStatusView.vue')
     },
     {
+      path: '/user/view',
+      name: 'user.view',
+      component: () => import('@/views/user/UserListView.vue')
+    },
+    {
+      path: '/user/:id/edit',
+      name: 'user.edit',
+      component: () => import('@/views/user/EditUserView.vue')
+    },
+    {
       path: '/allstock/view',
       name: 'allstock.view',
       component: () => import('@/views/gold/stock/AllStockView.vue')
@@ -152,7 +162,7 @@ const router = createRouter({
       component: () => import('@/views/gold/custom_order_worker/AddCustomOrderWorkerView.vue')
     },
     {
-      path: '/custom_order/edit_worker/:id',
+      path: '/custom_order_worker/edit/:id',
       name: 'custom_order_worker.edit',
       component: () => import('@/views/gold/custom_order_worker/EditCustomOrderWorkerView.vue')
     },
@@ -207,6 +217,11 @@ const router = createRouter({
       component: () => import('@/views/RegisterView.vue')
     },
     {
+      path: '/total_sale',
+      name: 'total_sale',
+      component: () => import('@/views/gold/sale/TotalSaleView.vue')
+      },
+      {
       path: '/total',
       name: 'total',
       component: () => import('@/views/total/TotalIncomeWithdrawlView.vue')
@@ -240,6 +255,21 @@ const router = createRouter({
       path: '/withdrawal/edit/:id',
       name: 'withdrawal.edit',
       component: () => import('@/views/withdrawal/EditWithdrawalView.vue')
+    },
+    {
+      path: '/manage_home',
+      name: 'manage_home',
+      component: () => import('@/views/MainEmployeeView.vue')
+    },
+    {
+      path: '/shopping/all',
+      name: 'shopping.all',
+      component: () => import('@/views/shopping/AllGoldShopping.vue')
+    },
+    {
+      path: '/shopping/:name',
+      name: 'shopping.type',
+      component: () => import('@/views/shopping/GoldTypeView.vue')
     },
   ]
 })

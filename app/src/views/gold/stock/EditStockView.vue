@@ -1,7 +1,8 @@
 <template>
-<div v-if='user.role == "employee" ||
-        user.role == "account" ||
-        user.role == "manager"'>
+<div v-if='user.role == "manager"'>
+    <div class="block my-5">
+        <router-link to="/stock/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    </div>
     <div v-if=" gold != null" class="mx-3 my-3">
         <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
             รายละเอียดทอง
@@ -56,7 +57,7 @@
         <div class="my-3">
             <label for="gold.size" class="mx-3">ขนาด</label>
             <input class="mx-3" type="number" step=".01" v-model="gold.size">
-            <label for="gold.size" class="mx-3" v-if="gold.gold_type != 'แหวน'">เซนติเมตร</label>
+            <label for="gold.size" class="mx-3" v-if="gold.gold_type.name != 'แหวน'">เซนติเมตร</label>
         </div>
         <div class="my-3">
             <label for="gold.goldsmith_charge" class="mx-3">ค่ากำเหน็จต่อชิ้น {{ gold.pension_per_piece }} บาท</label>
@@ -188,9 +189,7 @@ export default {
         if (this.auth_store.isAuthen) {
             this.auth = this.auth_store.getAuth
             this.user = JSON.parse(this.auth_store.getUser)
-            if (this.user.role == "employee" ||
-                this.user.role == "account" ||
-                this.user.role == "manager") {
+            if (this.user.role == "manager") {
                 console.log("authorized " + document.URL);
             } else {
                 this.$router.push("/stock/view");
@@ -233,9 +232,11 @@ export default {
                 gold.custom_weight = null
             } else {
                 gold.name = String(this.gold.gold_type.name) + String(this.gold.gold_pattern.name) + " " + String(this.gold.custom_weight) + " กรัม"
-                gold.weight = null            }
+                gold.weight = null
+            }
             try {
                 await this.gold_store.editGold(gold.id, gold)
+                this.$router.push("/stock/view")
             } catch (error) {
                 this.error = error.message
                 console.error(error.response.data)

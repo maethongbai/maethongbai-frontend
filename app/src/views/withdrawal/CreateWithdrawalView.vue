@@ -14,13 +14,12 @@
 
             <div>
                 <p>จำนวนเงิน:</p>
-                <input type="text" v-model="withdrawal.amount">
+                <input type="number" step=".01" v-model="withdrawal.amount">
             </div>
 
             <div>
                 <p>พนักงานที่ต้องการเบิกเงิน:</p>
                 <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="withdrawal.employee">
-                    <option disabled value="">กรุณาเลือกพนักงานที่ต้องการเบิกเงิน</option>
                     <option v-for="employee in options.employees" :value="employee.id"> {{ employee.nickname }}</option>
                 </select>
             </div>
@@ -34,6 +33,12 @@
         <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
             บันทึกรายการเบิกเงิน
         </button>
+        <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+            บันทึกรายการเบิกเงินไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+        </label>
+        <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+            - {{error}}
+        </label>
         </form>
 
     </div>
@@ -77,6 +82,10 @@ export default {
                 employees: []
             },
             disabledButton: false,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
     },
     watch: {
@@ -114,6 +123,25 @@ export default {
     },
     methods: {
         async createWithdrawal() {
+            this.disabledButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            if (this.withdrawal.amount <= 0) {
+                this.input_check.errors.push("จำนวนเงินต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+            if (this.withdrawal.employee == null) {
+                this.input_check.errors.push("กรุณาเลือกพนักงานที่ต้องการเบิกเงิน")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disabledButton = false
+                return
+            }
+
             try {
                 var withdrawal = {
                     name: this.withdrawal.name,
