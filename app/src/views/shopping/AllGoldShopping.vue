@@ -232,14 +232,28 @@ export default {
             console.log(gold)
             var total
             var price = this.gold_sell_price.sell_price + ((gold.gold.pension_per_piece * 5) + 500)
-            if (gold.gold.weight == "ครึ้งสลึง" ||
+            if (gold.gold.weight == "ครึ่งสลึง" ||
                 gold.gold.weight == "1 สลึง" ||
                 gold.gold.weight == "2 สลึง" ||
                 gold.gold.weight == "3 สลึง" ||
-                gold.gold.weight == "6 สลึง" ||
-                gold.gold.weight == "5 หุน") {
-                total = price
-            } else {
+                gold.gold.weight == "6 สลึง") {
+                    var fprice = this.gold_sell_price.sell_price/4
+                    if(gold.gold.weight == "ครึ่งสลึง"){
+                       total = (fprice/2) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "1 สลึง") {
+                        total = fprice + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "2 สลึง") {
+                        total = (fprice*2) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "3 สลึง") {
+                        total = (fprice*3) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "6 สลึง") {
+                        total = (fprice*6) + ((gold.gold.pension_per_piece * 5) + 500)
+                    }
+            } else if (gold.gold.custom_weight != null) {
+                var pricee = this.gold_sell_price.sell_price/15.16
+                total = pricee + ((gold.gold.pension_per_piece * 5) + 500)
+                
+            }else {
                 if (gold.gold.weight == "1 บาท") {
                     total = price * 1
                 } else if (gold.gold.weight == "2 บาท") {
