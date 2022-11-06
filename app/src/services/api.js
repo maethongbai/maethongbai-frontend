@@ -444,6 +444,15 @@ export const employeeAPI = {
     return {
       success: false
     }
+  },
+  async saveEdit (id, obj) {
+    const response = await axiosInstance.put(`/employees/${id}`, obj)
+    if (response.status == 201) {
+      return response.data
+    }
+    return {
+      success: false
+    }
   }
 }
 
