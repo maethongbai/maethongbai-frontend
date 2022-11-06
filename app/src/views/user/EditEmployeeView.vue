@@ -91,6 +91,12 @@
             >
                 บันทึกข้อมูล
             </button>
+            <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                บันทึกข้อมูลไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+            </label>
+            <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                - {{error}}
+            </label>
         </form>
     </div>
 </template>
@@ -102,7 +108,6 @@
     import moment from 'moment'
     import Datepicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css'
-    import { DOMDirectiveTransforms } from '@vue/compiler-dom';
     
     export default {
       setup() {
@@ -125,6 +130,10 @@
             error_message: null,
             user: null,
             employee: null,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
       },
       async created() {
@@ -165,12 +174,65 @@
       },
       methods: {
         async onFormSubmit() {
-            this.error = null
-            this.error_message = null
-            if ( this.user_store.findByPhone(this.employee.phone) != null) {
-                this.error_message = "เบอร์โทรนี้มีในระบบแล้ว"
-                return;
+
+            this.disableButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            var user_list = this.user_store.getUsers
+            var email_available = true
+            var phone_available = true
+
+            user_list.every((user) => { 
+                if (user.email == this.employee.email) {
+                    email_available = false
+                    return false // break
+                }
+                if (user.phone == this.employee.phone) {
+                    phone_available = false
+                    return false
+                }
+                return true
+            })
+
+            if (email_available == false) {
+                this.input_check.errors.push("อีเมลนี้ถูกใช้ไปแล้ว")
+                this.input_check.is_valid = false
             }
+            if (phone_available == false) {
+                this.input_check.errors.push("เบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว")
+                this.input_check.is_valid = false
+            }
+            if (this.employee.phone.length != 10) {
+                this.input_check.errors.push("เบอร์โทรศัพท์ไม่ถูกต้อง")
+                this.input_check.is_valid = false
+            }
+            if (this.employee.id_card_number.length != 13) {
+                this.input_check.errors.push("เลขบัตรประชาชนไม่ถูกต้อง")
+                this.input_check.is_valid = false
+            }
+
+            if (this.employee.employee.birth_date == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลวันเกิด")
+                this.input_check.is_valid = false
+            }
+
+            if (this.employee.employee.salary < 0) {
+                this.input_check.errors.push("เงินเดือนต้องเป็นจำนวนบวก")
+                this.input_check.is_valid = false
+            }
+
+            if (this.employee.employee.work_start_date == null) {
+                this.input_check.errors.push("กรุณากรอกข้อมูลวันที่เริ่มทำงาน")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disableButton = false
+                return
+            }
+            
             //this.employee.employee.work_start_date = this.employee.employee.work_start_date.getFullYear() + '-' + this.employee.employee.work_start_date.getMonth() + '-'  +this.employee.employee.work_start_date.getDate()
             //this.employee.employee.birth_date = this.employee.employee.birth_date.getFullYear() + '-' + this.employee.employee.birth_date.getMonth() + '-'  +this.employee.employee.birth_dategetDate()
             this.disabledButton = true

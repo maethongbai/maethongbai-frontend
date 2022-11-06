@@ -6,6 +6,12 @@
                 <router-link v-if="this.user.role == 'manager' || this.user.role == 'account' || this.user.role == 'employee'" to="/manage_home" class="px-5 py-2 mx-4 my-4 bg-yellow-200 rounded-xl">
                     จัดการหน้าร้าน
                 </router-link>
+                <router-link :to="'/user/' + this.user.id + '/edit'"  class="px-5 py-2 mx-4 my-4 bg-yellow-200 rounded-xl">
+                    edit user
+                </router-link>
+                <router-link to="/user/view" class="px-5 py-2 mx-4 my-4 bg-yellow-200 rounded-xl">
+                    view all users
+                </router-link>
             </card>
         </div>
     </div>
@@ -26,6 +32,7 @@
             auth: null,
             users: null,
             error: null,
+            user: null,
         }
       },
       watch: {
