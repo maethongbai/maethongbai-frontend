@@ -245,6 +245,8 @@ export default {
         await this.gold_store.fetch()
         await this.allSale_store.fetch()
 
+        this.filterDate(moment())
+
     },
     watch: {
         auth_store: {
