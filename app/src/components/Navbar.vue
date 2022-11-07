@@ -53,10 +53,14 @@
                     <div v-else>
                         <router-link to="/login"><u>เข้าสู่ระบบ</u></router-link>
                     </div>
-                    <div  class="pt-7">
+                    <div v-if="user != null">
+                        <div v-if='user.role == "employee" ||
+                        user.role == "account" ||
+                        user.role == "manager"' class="pt-7">
                         <router-link to="/manage_home" class="hover:underline">
                             หน้าหลักระบบหลังร้าน
                         </router-link>
+                    </div>
                     </div>
                 </div>
         </div>
