@@ -1,64 +1,78 @@
 <template>
-<div class="m-8">
-    <h1 class="text-3xl">สร้างบัญชีใหม่</h1>
-</div>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[600px] text-s1">
+            <div class="">
+                <h1 class="text-3xl text-center p-2"><b>สร้างบัญชีใหม่</b></h1>
+                <form @submit.prevent="onFormSubmit()">
+                    <div>
+                        <label for="email">อีเมล</label>
+                        <input class="text-field mb-2" type="text" v-model="user.email" placeholder="อีเมล" autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input class="text-field mb-2" type="text" v-model="user.phone" placeholder="เบอร์โทรศัพท์" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="password">รหัสผ่าน</label>
+                        <input class="text-field mb-2" type="password" v-model="user.password" placeholder="รหัสผ่าน" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="comfirm_password">ยืนยันรหัสผ่าน</label>
+                        <input class="text-field mb-2" type="password" v-model="confirm_password" placeholder="ยืนยันรหัสผ่าน" required autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="name_prefix">คำนำหน้าชื่อ</label>
+                        <select class="select-box mb-2" v-model="user.name_prefix">
+                            <option value="นาย">นาย</option>
+                            <option value="นาง">นาง</option>
+                            <option value="นางสาว">นางสาว</option>
+                        </select>
+
+                        <label for="first_name">ชื่อ</label>
+                        <input class="text-field mb-2" type="text" v-model="user.first_name" placeholder="ชื่อ" autocomplete="off" required>
+
+                        <label for="last_name">นามสกุล</label>
+                        <input class="text-field mb-2" type="text" v-model="user.last_name" placeholder="นามสกุล" autocomplete="off" required>
+                    </div>
+
+                    <div>
+                        <label for="id_card_number">เลขบัตรประชาชน</label>
+                        <input class="text-field mb-2" type="text" v-model="user.id_card_number" placeholder="เลขบัตรประชาชน" autocomplete="off">
+                    </div>
+
+                    <div>
+                        <label for="address">ที่อยู่</label>
+                    </div>
+
+                    <div>
+                        <textarea class="text-field mb-2" v-model="user.address" placeholder="ที่อยู่" id="address" name="address" rows="4" cols="50"></textarea>
+                    </div>
+
+                    <div class="w-[250px] mx-auto text-center">
+                        <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
+                            สร้างบัญชีใหม่
+                        </button>
+                        <a href="/register" class="hover:underline">กลับไปยังหน้าเข้าสู่ระบบ</a>
+                    </div>
+
+                    <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                        สร้างบัญชีใหม่ไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                    </label>
+                    <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                        - {{error}}
+                    </label>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
 <hr>
-<form @submit.prevent="onFormSubmit()">
-    <div>
-        <label for="email">อีเมล</label>
-        <input type="text" v-model="user.email" placeholder="อีเมล" autocomplete="off">
-    </div>
-    <div>
-        <label for="phone">เบอร์โทรศัพท์</label>
-        <input type="text" v-model="user.phone" placeholder="เบอร์โทรศัพท์" required autocomplete="off">
-    </div>
-    <div>
-        <label for="password">รหัสผ่าน</label>
-        <input type="password" v-model="user.password" placeholder="รหัสผ่าน" required autocomplete="off">
-    </div>
-    <div>
-        <label for="comfirm_password">ยืนยันรหัสผ่าน</label>
-        <input type="password" v-model="confirm_password" placeholder="ยืนยันรหัสผ่าน" required autocomplete="off">
-    </div>
-    <hr>
-    <div>
-        <label for="name_prefix">คำนำหน้าชื่อ</label>
-        <select v-model="user.name_prefix">
-            <option value="นาย">นาย</option>
-            <option value="นาง">นาง</option>
-            <option value="นางสาว">นางสาว</option>
-        </select>
 
-        <label for="first_name">ชื่อ</label>
-        <input type="text" v-model="user.first_name" placeholder="ชื่อ" autocomplete="off" required>
-
-        <label for="last_name">นามสกุล</label>
-        <input type="text" v-model="user.last_name" placeholder="นามสกุล" autocomplete="off" required>
-    </div>
-
-    <div>
-        <label for="id_card_number">เลขบัตรประชาชน</label>
-        <input type="text" v-model="user.id_card_number" placeholder="เลขบัตรประชาชน" autocomplete="off">
-    </div>
-
-    <div>
-        <label for="address">ที่อยู่</label>
-    </div>
-
-    <div>
-        <textarea v-model="user.address" placeholder="ที่อยู่" id="address" name="address" rows="4" cols="50"></textarea>
-    </div>
-
-    <button type="submit" :disabled="disabledButton" class="p-2 bg-green-400 border rounded-lg">
-        สร้างบัญชีใหม่
-    </button>
-    <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-        สร้างบัญชีใหม่ไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-    </label>
-    <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-        - {{error}}
-    </label>
-</form>
 </template>
 
 <script>

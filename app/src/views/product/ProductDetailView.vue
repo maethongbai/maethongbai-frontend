@@ -1,30 +1,36 @@
 <template>
-<div v-if=" gold.is_sold == false ">
-    <div class="grid grid-flow-col auto-cols-max">
-        <div>
-            <p class="mx-1 mb-3 font-normal text-gray-700">
-                รูปสินค้า
-                <img :src="`${gold.image}`" alt="ไม่พบรูปสินค้า" width="200">
-            </p>
-        </div>
-        <div>
-            <p class="mx-1 mb-3 text-3xl text-gray-700"> รายละเอียดสินค้า </p>
-            <p class="mx-3 my-3 font-bold text-gray-700 "> {{ gold.name }} </p>
-            <p class="mx-3 my-3 font-normal text-gray-700"> ประเภท: {{ gold.gold_type.name }}</p>
-            <p class="mx-3 my-3 font-normal text-gray-700"> น้ำหนัก: {{ gold_weight }}</p>
-            <p class="mx-3 my-3 font-normal text-gray-700"> ลาย: {{ gold.gold_pattern.name }}</p>
-            <p class="ml-3 my-3  font-normal text-gray-700 inline">ขนาด: {{ gold.size }}</p>
-            <p class="font-normal text-gray-700 inline" v-if=" gold.gold_type.name != 'แหวน'"> เซนติเมตร </p>
-            <p class="mx-3 my-3 font-normal text-gray-700"> ราคา: {{ gold_price }} </p>
-            <a v-bind:href="'/product/order_summary/'+ gold_id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                ซื้อเลย
-                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px]">
+            <div v-if=" gold.is_sold == false ">
+                <div class="mb-4">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลัก > หน้าสินค้าทั้งหมด > {{gold.name}}</b>
+                </div>
+
+                <div class="grid grid-cols-2 auto-cols-max">
+                    <div class="ml-auto border m-2 mr-12">
+                        <img :src="`${gold.image}`" class="ml-auto border" alt="ไม่พบรูปสินค้า" width="200"/>
+                    </div>
+                    <div>
+                        <p class="mx-1 mb-3 text-3xl text-gray-700"> รายละเอียดสินค้า </p>
+                        <p class="mx-3 my-3 font-bold text-gray-700 "> {{ gold.name }} </p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ประเภท: {{ gold.gold_type.name }}</p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> น้ำหนัก: {{ gold_weight }}</p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ลาย: {{ gold.gold_pattern.name }}</p>
+                        <p class="ml-3 my-3  font-normal text-gray-700 inline">ขนาด: {{ gold.size }}</p>
+                        <p class="font-normal text-gray-700 inline" v-if=" gold.gold_type.name != 'แหวน'"> เซนติเมตร </p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ราคา: {{ gold_price }} </p>
+                        <a v-bind:href="'/product/order_summary/'+ gold_id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                            ซื้อเลย
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
