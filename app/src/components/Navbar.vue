@@ -33,7 +33,7 @@
                         <div v-else class="text-white mt-4 flex flex-row gap-5">
                             <RouterLink class="hover:underline" to="/">หน้าหลัก</RouterLink>
                             <RouterLink class="hover:underline" to="/shopping/all">สินค้าทั้งหมด</RouterLink>
-                            <RouterLink class="hover:underline" to="/redemption/create">ติดตามสถานะการสั่งซื้อ</RouterLink>
+                            <RouterLink class="hover:underline" to="/user/sale_status">ติดตามสถานะการสั่งซื้อ</RouterLink>
                                                                     <!-- ใส่ไอดีคนที่ล็อกอิน -->
                             <RouterLink class="hover:underline" :to="'/user/' + user.id + '/history'">ประวัติการใช้บริการ</RouterLink>
                         </div>
