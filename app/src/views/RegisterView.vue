@@ -48,11 +48,11 @@
                         <textarea class="text-field mb-2" v-model="user.address" placeholder="ที่อยู่" id="address" name="address" rows="4" cols="50"></textarea>
                     </div>
 
-                    <div class="w-[250px] mx-auto text-center">
+                    <div class="w-[250px] mx-auto text-center text-s1">
                         <button type="submit" :disabled="disabledButton" class="red-btn w-[282px] m-2 mt-6 mx-auto">
                             สร้างบัญชีใหม่
                         </button>
-                        <a href="/register" class="hover:underline">กลับไปยังหน้าเข้าสู่ระบบ</a>
+                        <a href="/login" class="hover:underline underline">กลับไปยังหน้าเข้าสู่ระบบ</a>
                     </div>
 
                     <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">

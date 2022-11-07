@@ -1,124 +1,128 @@
 <template>
-    <div class="pl-4">
-        <div class="relative h-96 w-52 bg-gray-100">
-            <div class="absolute inset-y-0 left-0 ">
-                <div>
-                    <h1 class="text-xl">นำ้หนัก</h1>
-                    <select  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-40 p-2.5" v-model="t_weight">
-                        <option value="-">-</option>
-                        <option value="ครึ่งสลึง">ครึ่งสลึง</option>
-                        <option value="1 สลึง">1 สลึง</option>
-                        <option value="2 สลึง">2 สลึง</option>
-                        <option value="3 สลึง">3 สลึง</option>
-                        <option value="6 สลึง">6 สลึง</option>
-                        <option value="1 บาท">1 บาท</option>
-                        <option value="2 บาท">2 บาท</option>
-                        <option value="3 บาท">3 บาท</option>
-                        <option value="4 บาท">4 บาท</option>
-                        <option value="5 บาท">5 บาท</option>
-                        <option value="6 บาท">6 บาท</option>
-                        <option value="7 บาท">7 บาท</option>
-                        <option value="8 บาท">8 บาท</option>
-                        <option value="9 บาท">9 บาท</option>
-                        <option value="10 บาท">10 บาท</option>
-                        <option value="15 บาท">15 บาท</option>
-                        <option value="20 บาท">20 บาท</option>
-                        <option value="นำ้หนักตามชั่ง">นำ้หนักตามชั่ง</option> 
-                    </select>
-                
+    <div class="pt-8 pb-8 flex items-center justify-center text-s1">
+        <div class="card-white w-[1200px]">
+            <div class=" w-[1200px] ">
+                <p class="text-lg p-2 text-s1"> <b>หน้าหลัก > ประเภททอง > {{ $route.params.name }}</b> </p>
+            </div>
 
-                
-                    <div v-if="t_weight == 'นำ้หนักตามชั่ง'">
-                        <p>นำ้หนักตามชั่ง</p>
-                        <input class="mx-3" type="text" v-model="custom_Weight" autocomplete="off">
-                        <!-- <p hidden>{{cusWeight(this.custom_Weight)}}</p> -->
+            <div class="grid grid-cols-2">
+                <div>
+                    <div class="flex flex-col">
+                        <div class="flex flex-row">
+                            <h1 class="p-2">นำ้หนัก</h1>
+                            <select  class="select-box w-[200px]" v-model="t_weight">
+                                <option value="-">-</option>
+                                <option value="ครึ่งสลึง">ครึ่งสลึง</option>
+                                <option value="1 สลึง">1 สลึง</option>
+                                <option value="2 สลึง">2 สลึง</option>
+                                <option value="3 สลึง">3 สลึง</option>
+                                <option value="6 สลึง">6 สลึง</option>
+                                <option value="1 บาท">1 บาท</option>
+                                <option value="2 บาท">2 บาท</option>
+                                <option value="3 บาท">3 บาท</option>
+                                <option value="4 บาท">4 บาท</option>
+                                <option value="5 บาท">5 บาท</option>
+                                <option value="6 บาท">6 บาท</option>
+                                <option value="7 บาท">7 บาท</option>
+                                <option value="8 บาท">8 บาท</option>
+                                <option value="9 บาท">9 บาท</option>
+                                <option value="10 บาท">10 บาท</option>
+                                <option value="15 บาท">15 บาท</option>
+                                <option value="20 บาท">20 บาท</option>
+                                <option value="นำ้หนักตามชั่ง">นำ้หนักตามชั่ง</option> 
+                            </select>
+                        </div>
+                        <div v-if="t_weight == 'นำ้หนักตามชั่ง'" class="flex flex-row">
+                            <p class="p-2">นำ้หนักตามชั่ง</p>
+                            <input class="text-field w-[200px]" type="text" v-model="custom_Weight" autocomplete="off">
+                        </div>
                     </div>
 
-                    <!-- <div v-if="t_weight!=null && customWeight == false" hidden>
-                        {{typeWeight(this.t_weight)}}
-                    </div> -->
+                    <div class="flex flex-row">
+                        <h1 class="p-2">ประเภทลาย</h1>
+                        <select  class="select-box w-[200px]" v-model="pattern_type">
+                            <option value="-">-</option>
+                            <option value="ทองตัน">ตัน</option>
+                            <option value="ทองโป่ง">โป่ง</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-row">
+                        <h1 class="p-2">ชื่อลาย</h1>
+                        <select class="select-box w-[200px]" v-model="g_pattern">
+                        <option v-for="pattern in gold_pattern" :value="pattern.name">{{pattern.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-row">
+                        <h1 class="p-2">ขนาด</h1>
+                        <input class="text-field w-[200px]" type="text" v-model="g_size">
+
+                        <!-- <p v-if="g_size != null" hidden>{{size(this.g_size)}}</p> -->
+                    </div>
+
+                    <div class="flex mt-2">
+                        <button  @click="filter" :disabled="disabledButton" class="red-btn w-[200px] ml-10">
+                            ค้นหา
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex flex-col">
+                        <p class="text-left text-xl">เรียงโดย</p>
+                        <div class="flex flex-row gap-1">
+                            <button @click="sortASC()" class="red-btn m-2 w-[150px] mx-auto"> น้อยไปมาก </button>
+                            <button @click="sortDESC()" class="red-btn m-2 w-[150px] mx-auto"> มากไปน้อย </button>
+                            <button @click="sortNew()" class="red-btn m-2 w-[150px] mx-auto"> ใหม่ไปเก่า </button>
+                            <button @click="sortOld()" class="red-btn m-2 w-[150px] mx-auto"> เก่าไปใหม่ </button>
+                        </div>
+
+                        <div>
+                            <p class="p-2">ช่วงราคา</p>
+                            <div class="flex flex-row">
+                                <input class="text-field w-[150px]" type="number" v-model="l_price">
+                            <label class="p-2 text-xl" > - </label>
+                            <input class="text-field w-[150px]" type="number" v-model="h_price">
+                            </div>
+
+                            <button @click="rangePrice()" class="red-btn w-[200px] mt-2 ml-16"> ค้นหาช่วงราคา </button>
+                        </div>
+                        
+                    </div>
+
                 </div>
 
-                <div>
-                    <h1 class="text-xl inline px-2">ประเภทลาย</h1>
-                    <br>
-                    <select  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-40 p-2.5" v-model="pattern_type">
-                        <option value="-">-</option>
-                        <option value="ทองตัน">ตัน</option>
-                        <option value="ทองโป่ง">โป่ง</option>
-                    </select>
-                    <!-- <input type="radio" id="ทองตัน" value="ทองตัน" v-model="pattern_type">
-                    <label for="ทองตัน">ตัน</label>
-                    <input type="radio" id="ทองโป่ง" value="ทองโป่ง" v-model="pattern_type">
-                    <label for="ทองโป่ง">โป่ง</label> -->
+            </div>
 
-                    
-                    <!-- <p v-if="pattern_type != null" hidden>{{patternT(this.pattern_type)}}</p> -->
-                </div>
+        </div>
+    </div>
 
 
-                <div>
-                    <h1 class="text-xl inline px-2">ชื่อลาย</h1>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-40 p-2.5" v-model="g_pattern">
-                    <option v-for="pattern in gold_pattern" :value="pattern.name">{{pattern.name }}</option>
-                    </select>
 
-                    <!-- <p v-if="g_pattern != null" hidden>{{pattern(this.g_pattern)}}</p> -->
-                </div>
-
-                <div>
-                    <h1 class="text-xl inline px-2">ขนาด</h1>
-                    <input type="text" v-model="g_size">
-
-                    <!-- <p v-if="g_size != null" hidden>{{size(this.g_size)}}</p> -->
-                </div>
-
-                <br>
-                <button  @click="filter" :disabled="disabledButton" class="inline p-1 bg-green-400 border rounded-lg">
-                    ค้นหา
-                </button>
-
-
-                <div>
-                    <p>เรียงโดย</p>
-                    <button @click="sortASC()" class="px-4 py-2 rounded-lg bg-lime-400"> น้อยไปมาก </button>
-                    <button @click="sortDESC()" class="px-4 py-2 rounded-lg bg-lime-400"> มากไปน้อย </button>
-                    <button @click="sortNew()" class="px-4 py-2 rounded-lg bg-lime-400"> ใหม่ไปเก่า </button>
-                    <button @click="sortOld()" class="px-4 py-2 rounded-lg bg-lime-400"> เก่าไปใหม่ </button>
-
-                    <br>
-        
-                    <p>ช่วงราคา</p>
-                    <input class="mx-3" type="number" v-model="l_price">
-                    <label > - </label>
-                    <input class="mx-3" type="number" v-model="h_price">
-                    <button @click="rangePrice()" class="px-4 py-2 rounded-lg bg-lime-400"> ค้นหาช่วงราคา </button>
-                    
+    <div class="pt-8 pb-8 flex items-center justify-center text-s1">
+        <div class="card-white w-[1200px] p-0">
+            <div class="w-[1200px] h-[64px] bg-[#9B0000] rounded-t-lg">
+                <p class="text-white text-xl ml-10 mt-5"><b>สินค้าทั้งหมด</b></p>
+            </div>
+            <div class="">
+                <div class="grid grid-cols-6 gap-x-16 p-10 ">
+                    <div v-for="gold in golds_type">
+                        <div class="text-center w-[200px] flex flex-col ml-2">
+                                <div class="w-[200] h-[200] border">
+                                    <img :src="`${gold.gold.gold.image}`" width="180" height="180" class="mx-auto">
+                                </div>
+                                <p>{{gold.gold.gold.name}}</p>
+                                <p class="text-[#9B0000]  mt-1 mb-1">฿{{gold.total_price}}</p>
+                                <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="red-btn text-s w-[150px] mx-auto">
+                                    ดูรายละเอียด
+                                </a>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="absolute top-80 left-60 ">
-        <div class="grid grid-cols-6 gap-x-16 ">
-            <div v-for="gold in golds_type">
-                <div>
-                <img :src="`${gold.gold.gold.image}`" width="200">
-                {{gold.gold.gold.name}}
-                <br>
-                {{gold.total_price}}
-                <br>
-                <a v-bind:href="'/product/detail/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    ดูรายละเอียด
-                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
 </template>
 
