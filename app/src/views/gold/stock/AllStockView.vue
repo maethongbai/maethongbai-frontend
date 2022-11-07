@@ -74,37 +74,37 @@
                     </button>
 
                 </div>
+                <div class="card-gray w-full mt-4 center">
+                    <table class="w-full text-base">
+                        <thead class="table-head text-left text-base">
+                            <tr>
+                                <th scope="col" class="p-2 w-[200px] text-center">
+                                    ลำดับ
+                                </th>
+                                <th scope="col" class="px-10 py-3">
+                                    ชื่อสินค้า
+                                </th>
+                                <th scope="col" class="px-6 py-3 ml-auto w-[200px]">
+                                    จำนวนคงเหลือ
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in list" class="table-card" @click="setSearched(item)">
+                                <th scope="row" class="text-center">
+                                    {{ item.id }}
+                                </th>
+                                <td class="px-6 py-4 pl-10">
+                                    {{ item.gold.name }}
+                                </td>
+                                <td class="px-6 py-4 pl-10">
+                                    {{ item.count }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="card-gray w-[1200px] mt-4 ml-36 ">
-            <table class="w-full text-base w-[1190px]">
-                <thead class="table-head text-left text-base">
-                    <tr>
-                        <th scope="col" class="p-2 w-[200px] text-center">
-                            ลำดับ
-                        </th>
-                        <th scope="col" class="px-10 py-3">
-                            ชื่อสินค้า
-                        </th>
-                        <th scope="col" class="px-6 py-3 ml-auto w-[200px]">
-                            จำนวนคงเหลือ
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in list" class="table-card" @click="setSearched(item)">
-                        <th scope="row" class="text-center">
-                            {{ item.id }}
-                        </th>
-                        <td class="px-6 py-4 pl-10">
-                            {{ item.gold.name }}
-                        </td>
-                        <td class="px-6 py-4 pl-10">
-                            {{ item.count }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </template>
