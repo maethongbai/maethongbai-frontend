@@ -1,0 +1,220 @@
+<template>
+<div class="m-8">
+    <h1 class="text-3xl">แก้ไขข้อมูลบัญชีผู้ใช้</h1>
+</div>
+<hr>
+<form @submit.prevent="onFormSubmit()">
+    <div>
+        <label for="email">อีเมล</label>
+        <input type="text" v-model="user.email" placeholder="อีเมล" autocomplete="off">
+    </div>
+    <div>
+        <label for="phone">เบอร์โทรศัพท์</label>
+        <input type="text" v-model="user.phone" placeholder="เบอร์โทรศัพท์" required autocomplete="off">
+    </div>
+    <div>
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" v-model="user.password" placeholder="รหัสผ่าน" required autocomplete="off">
+    </div>
+    <div>
+        <label for="comfirm_password">ยืนยันรหัสผ่าน</label>
+        <input type="password" v-model="confirm_password" placeholder="ยืนยันรหัสผ่าน" required autocomplete="off">
+    </div>
+    <hr>
+    <div>
+        <label for="name_prefix">คำนำหน้าชื่อ</label>
+        <select v-model="user.name_prefix">
+            <option value="นาย">นาย</option>
+            <option value="นาง">นาง</option>
+            <option value="นางสาว">นางสาว</option>
+        </select>
+
+        <label for="first_name">ชื่อ</label>
+        <input type="text" v-model="user.first_name" placeholder="ชื่อ" autocomplete="off" required>
+
+        <label for="last_name">นามสกุล</label>
+        <input type="text" v-model="user.last_name" placeholder="นามสกุล" autocomplete="off" required>
+    </div>
+
+    <div>
+        <label for="id_card_number">เลขบัตรประชาชน</label>
+        <input type="text" v-model="user.id_card_number" placeholder="เลขบัตรประชาชน" autocomplete="off">
+    </div>
+
+    <div>
+        <label for="address">ที่อยู่</label>
+    </div>
+
+    <div>
+        <textarea v-model="user.address" placeholder="ที่อยู่" id="address" name="address" rows="4" cols="50"></textarea>
+    </div>
+
+    <button type="submit" :disabled="disabledButton" class="p-2 bg-green-400 border rounded-lg">
+        แก้ไข
+    </button>
+    <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+        แก้ไขไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+    </label>
+    <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+        - {{error}}
+    </label>
+</form>
+</template>
+
+<script>
+import {
+    useUserStore
+} from '@/stores/user.js'
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+
+export default {
+    setup() {
+        const auth_store = useAuthStore()
+        const user_store = useUserStore()
+        return {
+            auth_store,
+            user_store
+        }
+    },
+    data() {
+        return {
+            user: {
+                email: null,
+                phone: null,
+                password: null,
+                name_prefix: "นาย",
+                first_name: null,
+                last_name: null,
+                id_card_number: null,
+                address: null
+            },
+            confirm_password: null,
+            error_message: null,
+            error: null,
+            disabledButton: false,
+            input_check: {
+                errors: [],
+                is_valid: true
+            },
+            auth: null,
+            auth_user: null
+        }
+    },
+    watch: {
+        auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                this.auth = this.auth_store.getAuth
+                this.auth_user = JSON.parse(this.auth_store.getUser)
+            }
+        },
+    },
+    async created() {
+        const id = this.$route.params.id
+        const url = `/users/${id}`
+
+        try {
+            const response = await this.$axios.get(url)
+            if (response.status === 200) {
+                this.user = response.data.data
+                // console.table(this.employee)
+                if (this.auth_user.role == "user" &&
+                    this.user.id == this.auth_user.id) {
+
+                } else {
+                    if (this.auth_user.role == "employee" ||
+                        this.auth_user.role == "account" ||
+                        this.auth_user.role == "manager") {
+
+                    } else {
+                        this.$router.push("/");
+                    }
+
+                }
+
+            }
+        } catch (error) {
+            console.error(error)
+            this.error = error.message
+
+        }
+    },
+    async mounted() {
+        if (this.auth_store.isAuthen) {
+            this.auth = this.auth_store.getAuth
+            this.auth_user = JSON.parse(this.auth_store.getUser)
+            if (this.auth_user.role == "employee" ||
+                this.auth_user.role == "account" ||
+                this.auth_user.role == "manager") {
+                console.log("authorized " + document.URL);
+            } else {
+                // this.$router.push("/");
+            }
+        } else {
+            this.auth = null
+            this.auth_user = null
+            this.$router.push("/login")
+        }
+
+        await this.user_store.fetch()
+        this.users = this.user_store.getUsers
+    },
+    methods: {
+        async onFormSubmit() {
+            this.disabledButton = true
+            // validation
+            this.input_check.errors = []
+            this.input_check.is_valid = true
+
+            if (this.user_store.findByEmail(this.user.email) == undefined &&
+                this.user.email != null) {
+                this.input_check.errors.push("อีเมลนี้ถูกใช้ไปแล้ว")
+                this.input_check.is_valid = false
+            }
+            if (this.user.password.length < 6) {
+                this.input_check.errors.push("รหัสผ่านสั้นไป")
+                this.input_check.is_valid = false
+            }
+            if (this.user.phone.length != 10) {
+                this.input_check.errors.push("กรุณาตรวจสอบเบอร์โทรศัพท์")
+                this.input_check.is_valid = false
+            }
+
+            if (this.user.password != this.confirm_password) {
+                this.input_check.errors.push("รหัสผ่านกับยืนยันรหัสผ่านไม่เหมือนกัน")
+                this.input_check.is_valid = false
+            }
+
+            if (this.input_check.is_valid == false) {
+                this.disabledButton = false
+                return
+            }
+
+            var user_obj = {
+                id: this.user.id,
+                email: this.user.email,
+                password: this.user.password,
+                phone: this.user.phone,
+                name_prefix: this.user.name_prefix,
+                first_name: this.user.first_name,
+                last_name: this.user.last_name,
+                id_card_number: this.user.id_card_number,
+                address: this.user.address
+            }
+            try {
+                console.log(user_obj)
+                await this.user_store.edit(this.user.id, user_obj)
+                this.$router.push('/login')
+            } catch (error) {
+                console.error(error.response.data)
+                this.disabledButton = false
+            }
+
+        }
+
+    }
+}
+</script>

@@ -1,0 +1,180 @@
+<template>
+    <div class="pt-8 pb-8 flex items-center justify-center">
+        <div class="card-white w-[1200px]">
+            <div v-if=" gold.is_sold == false ">
+                <div class="mb-4">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลัก > หน้าสินค้าทั้งหมด > {{gold.name}}</b>
+                </div>
+
+                <div class="grid grid-cols-2 auto-cols-max">
+                    <div class="ml-auto border m-2 mr-12">
+                        <img :src="`${gold.image}`" class="ml-auto border" alt="ไม่พบรูปสินค้า" width="200"/>
+                    </div>
+                    <div>
+                        <p class="mx-1 mb-3 text-3xl text-gray-700"> รายละเอียดสินค้า </p>
+                        <p class="mx-3 my-3 font-bold text-gray-700 "> {{ gold.name }} </p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ประเภท: {{ gold.gold_type.name }}</p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> น้ำหนัก: {{ gold_weight }}</p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ลาย: {{ gold.gold_pattern.name }}</p>
+                        <p class="ml-3 my-3  font-normal text-gray-700 inline">ขนาด: {{ gold.size }}</p>
+                        <p class="font-normal text-gray-700 inline" v-if=" gold.gold_type.name != 'แหวน'"> เซนติเมตร </p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ราคา: {{ gold_price }} </p>
+                        <a v-bind:href="'/product/order_summary/'+ gold_id" class="red-btn w-[200px]">
+                            ซื้อเลย
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import {
+    useAuthStore
+} from '@/stores/auth.js'
+import {
+    useGoldStore
+} from '@/stores/gold.js'
+import {
+    useUserStore
+} from '@/stores/user.js'
+import {
+    useGoldPriceStore
+} from '@/stores/gold_price.js'
+
+export default {
+    setup() {
+        const auth_store = useAuthStore()
+        const gold_store = useGoldStore()
+        const user_store = useUserStore()
+        const gold_price_store = useGoldPriceStore()
+        return {
+            auth_store,
+            gold_store,
+            user_store,
+            gold_price_store
+        }
+    },
+    data() {
+        return {
+            auth: null,
+            user: null,
+            gold: {
+                gold_type: {
+                    name: null
+                },
+                gold_pattern: {
+                    name: null
+                },
+                is_sold: false
+            },
+            gold_sell_price: {
+                id: -1,
+                buy_price: -1,
+                sell_price: -1
+            },
+            gold_weight: null,
+            gold_id: null,
+            gold_list: null,
+            gold_price: null,
+            disabledButton: false,
+            error: null
+        }
+    },
+    watch: {
+        auth_store: {
+            immediate: true,
+            deep: true,
+            handler(newValue, oldValue) {
+                // console.log(newValue.getAuth)
+                this.auth = newValue.getAuth
+                this.user = JSON.parse(newValue.getUser)
+            }
+        }
+    },
+    async created() {
+        const id = this.$route.params.id
+        // api
+        const url = `/golds/${id}`
+
+        try {
+            const response = await this.$axios.get(url)
+            if (response.status === 200) {
+                this.gold = response.data.data
+                console.log(this.gold)
+                this.gold_id = this.gold.id
+            }
+        } catch (error) {
+            console.error(error)
+            this.error = error.message
+        }
+    },
+    async mounted() {
+        if (this.auth_store.isAuthen) {
+            this.auth = this.auth_store.getAuth
+            this.user = JSON.parse(this.auth_store.getUser)
+            if (this.user.role == "employee" ||
+                this.user.role == "account" ||
+                this.user.role == "manager") {
+                console.log("authorized");
+            } 
+        } 
+
+        await this.user_store.fetch()
+        await this.gold_store.fetch()
+        this.gold_sell_price = await this.gold_price_store.getLast()
+        this.gold_list = this.gold_store.filterSellable()
+        this.gold = this.gold_store.filterStockByID(this.gold_list, this.gold_id)
+
+        if (this.gold.weight != null) {
+            this.gold_weight = this.gold.weight
+        } else {
+            this.gold_weight = this.gold.custom_weight
+        }
+        this.gold_price = this.price(this.gold)
+    },
+    methods: {
+        price(gold) {
+            var price = this.gold_sell_price.sell_price + ((gold.pension_per_piece * 5) + 500)
+            if (this.gold_weight == "ครึ่งสลึง" ||
+                this.gold_weight == "1 สลึง" ||
+                this.gold_weight == "2 สลึง" ||
+                this.gold_weight == "3 สลึง" ||
+                this.gold_weight == "6 สลึง") {
+                return price
+            } else {
+                if (this.gold_weight == "1 บาท") {
+                    price = price * 1
+                } else if (this.gold_weight == "2 บาท") {
+                    price = price * 2
+                } else if (this.gold_weight == "3 บาท") {
+                    price = price * 3
+                } else if (this.gold_weight == "4 บาท") {
+                    price = price * 4
+                } else if (this.gold_weight == "5 บาท") {
+                    price = price * 5
+                } else if (this.gold_weight == "6 บาท") {
+                    price = price * 6
+                } else if (this.gold_weight == "7 บาท") {
+                    price = price * 7
+                } else if (this.gold_weight == "8 บาท") {
+                    price = price * 8
+                } else if (this.gold_weight == "9 บาท") {
+                    price = price * 9
+                } else if (this.gold_weight == "10 บาท") {
+                    price = price * 10
+                } else if (this.gold_weight == "15 บาท") {
+                    price = price * 15
+                } else if (this.gold_weight == "20 บาท") {
+                    price = price * 20
+                }
+            }
+            return price
+        },
+
+    }
+
+}
+</script>

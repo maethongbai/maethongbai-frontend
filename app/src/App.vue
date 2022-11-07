@@ -1,85 +1,57 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="flex flex-col h-screen justify-between bg-[#F5F5F5]">
+    <header class=" bg-white sticky top-0">
+    <div class="inset-x-0 top-0 bg-[#F5F5F5]">
+      <Navbar />
     </div>
-  </header>
+    </header>
 
-  <RouterView />
+    <body class="bg-[#F5F5F5]">
+      <RouterView />
+    </body>
+
+    <footer>
+    <div class="bg-gradient-to-b from-[#D61111] via-[#9B0000] to-[#4E0000] h-[200px] items-center justify-center flex flex-row justify-center">
+      <div class="w-[1200px]">
+        <div class="flex flex-row justify-center grid grid-cols-3 text-center">
+        <div>
+          <div class="flex flex-col justify-center">
+            <img alt="Maethongbai LOGO" class="mx-auto" src="@/assets/LOGO.png" width="228" height="84" />
+            <p class="text-white mt-5">ห้างทองแม่ทองใบ คลาสสิก เดอะมอลล์บางแค<br>
+                                        ซื้อ-ขาย ทองแท่ง ทองรูปพรรณ มาตรฐาน</p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="flex flex-col justify-center text-white text-left">
+            <p class="text-bold text-xl"><b>ติดต่อเรา:</b></p>
+            <p> <b>โทร: </b>02-4549398-9 <br>
+                 <b>ที่ตั้ง: </b>275 หมู่ 1 ชั้น G เดอะมอลล์บางแค ถนนเพชรเกษม <br> แขวงบางแคเหนือ กรุงเทพมหานคร 10160 </p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="flex flex-col justify-center text-white text-left">
+            <p class="text-bold text-xl"><b>ติดตามเรา:</b></p>
+            <p> FB: ห้างทองแม่ทองใบ คลาสสิก เดอะมอลล์บางแค <br>
+                Line id: mtcbangkae <br>
+                Instagram: mtcbangkae <br>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      </div>
+      
+      
+    </div>
+  </footer>
+
+  </div>
+  
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
