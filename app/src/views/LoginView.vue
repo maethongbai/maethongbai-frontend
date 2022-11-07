@@ -1,7 +1,12 @@
 <template>
-    <div class="grid h-screen flex items-center justify-center w-full md:w-full mx-auto md:mx-0">
-      <div class="max-w-md bg-white p-10 flex flex-col items-center justify-center w-full shadow-xl rounded-xl">
-        <h2 class=" text-2xl font-bold text-gray-800 text-left mb-5">
+  <div class="pt-8 pb-8 flex items-center justify-center">
+    <div class="card-white w-[500px]">
+      <div class="flex flex-col">
+        <div class="mt-4 mb-6">
+          <img class="mx-auto" alt="Maethongbai LOGO" src="@/assets/LOGO-grey.png" width="228" height="84" />
+        </div>
+      
+        <h2 class=" text-2xl text-center font-bold text-gray-800 text-left mb-5">
           เข้าสู่ระบบ
         </h2>
 
@@ -63,6 +68,7 @@
         </form>
       </div>
     </div>
+  </div>
   </template>
   
   <script>

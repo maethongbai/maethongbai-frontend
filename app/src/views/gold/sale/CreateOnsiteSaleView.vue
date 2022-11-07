@@ -1,139 +1,174 @@
 <template>
-<div v-if='user.role == "employee" ||
+    <div v-if='user.role == "employee" ||
         user.role == "account" ||
         user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
-        <!-- {{user.employee.id}} -->
-    </div>
-</div>
-<form @submit.prevent="createOnsiteSale()">
-    <div class="mx-3 my-3">
-        <label for="nextID" class="mx-3">เลขบิล: {{onsiteSale.id}}</label>
-    </div>
-    <div class="mx-3 my-3">
-        <label class="mx-3">เบอร์โทร</label>
-        <input class="mx-3" type="text" v-model="onsiteSale.user.phone" autocomplete="off" required>
-        <button @click="findUser" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            ค้นหา
-        </button>
-        <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.phone_user == false">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
-        <a v-bind:href="'/register'" v-if="checks.phone_user == false" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-            ลงทะเบียน
-            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-            </svg>
-        </a>
-    </div>
-    <div class="mx-3 my-3">
-        <p class="mx-3" v-if="onsiteSale.user.id != null">รหัสลูกค้า: {{onsiteSale.user.id}}</p>
-        <p class="mx-3" v-else>รหัสลูกค้า: -</p>
-        <p class="mx-3" v-if="onsiteSale.user.username != null">ชื่อลูกค้า: {{onsiteSale.user.username}}</p>
-        <p class="mx-3" v-else>ชื่อลูกค้า: -</p>
-    </div>
-    <br>
-    <br>
-    <label> รายการสินค้าที่ขาย </label>
-    <div class="mx-3 my-3">
-        <label class="mx-3">รหัสสินค้า</label>
-        <input class="mx-3" type="text" v-model="onsiteSale.gold.id" autocomplete="off" required>
-        <button @click="findGold" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-            ค้นหา
-        </button>
-    </div>
-    <div class="mx-3 my-3">
-        <p class="mx-3" v-if="onsiteSale.gold.id != null">รหัสสินค้า: {{onsiteSale.gold.id_show}}</p>
-        <p class="mx-3" v-else>รหัสสินค้า: -</p>
-        <p class="mx-3" v-if="onsiteSale.gold.name != null">ชื่อสินค้า: {{onsiteSale.gold.name}}</p>
-        <p class="mx-3" v-else>ชื่อสินค้า: -</p>
-        <p class="mx-3" v-if="onsiteSale.gold.gold_type != null">ประเภทสินค้า: {{onsiteSale.gold.gold_type.name}}</p>
-        <p class="mx-3" v-else>ประเภทสินค้า: -</p>
-        <div v-if="onsiteSale.gold.custom_weight == null">
-            <p class="mx-3" v-if="onsiteSale.gold.weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.weight}}</p>
-            <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 mb-0">
+                <!-- breadcrumb -->
+                <b>หน้าหลักระบบหลังร้าน > ขายทอง</b>
+                <form @submit.prevent="createOnsiteSale()">
+                    <div class="flex flex-row">
+                        <div class="m-3 p-2 mt-4">
+                            <p>เลขที่ใบเสร็จ: {{ onsiteSale.id }}</p>
+                        </div>
+
+                        <div class="flex flex-row ml-auto m-3">
+                            <p class="p-2 mr-2 mt-1">เบอร์โทร</p>
+                            <input class="text-field w-[200px] bg-[#F5F5F5]" type="text" v-model="onsiteSale.user.phone" autocomplete="off" required>
+                            <button @click="findUser" :disabled="disabledButton" class="red-btn w-[69px] h-[36px] ml-2 mt-1">
+                                ค้นหา
+                            </button>
+                            <label class="inline-block mx-1 mb-2 font-medium text-red-500" v-if="checks.phone_user == false">ไม่มีผู้ใช้ที่ใช้เบอร์โทรนี้</label>
+                            <a v-bind:href="'/register'" v-if="checks.phone_user == false" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                ลงทะเบียน
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-gray w-[1044px] mb-4">
+                        <div class="grid grid-cols-2">
+                            <div class="flex flex-col">
+                                <p class="pt-2 pb-2 text-xl"><b>รายละเอียดลูกค้า</b></p>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex flex-row pl-2">
+                                        <p>รหัสลูกค้า: </p>
+                                        <label class="ml-4" v-if="onsiteSale.user.id != null">{{onsiteSale.user.id}}</label>
+                                        <label class="inline" v-else>-</label>
+                                    </div>
+
+                                    <div class="flex flex-row pl-2">
+                                        <p>ชื่อ: </p>
+                                        <label class="ml-4" v-if="onsiteSale.user.first_name != null">{{onsiteSale.user.first_name}}</label>
+                                        <label class="inline" v-else>-</label>
+                                    </div>
+
+                                    <div class="flex flex-row pl-2">
+                                        <p>นามสกุล: </p>
+                                        <label class="ml-4" v-if="onsiteSale.user.last_name != null">{{onsiteSale.user.last_name}}</label>
+                                        <label class="inline" v-else>-</label>
+                                    </div>
+                                </div>
+                                <p class="pt-2 pb-2 text-xl"><b>รายละเอียดทองที่รับซื้อ</b></p>
+                                <div class="flex flex-row text-base mb-2">
+                                    <label class="p-2">รหัสสินค้า</label>
+                                    <input class="text-field w-[200px]" type="text" v-model="onsiteSale.gold.id" autocomplete="off" required>
+                                    <button @click="findGold" :disabled="disabledButton" class="red-btn ml-2">
+                                        ค้นหา
+                                    </button>
+                                </div>
+                                <div class="text-base">
+                                    <p class="mx-3" v-if="onsiteSale.gold.id != null">รหัสสินค้า: {{onsiteSale.gold.id_show}}</p>
+                                    <p class="mx-3" v-else>รหัสสินค้า: -</p>
+                                    <p class="mx-3" v-if="onsiteSale.gold.name != null">ชื่อสินค้า: {{onsiteSale.gold.name}}</p>
+                                    <p class="mx-3" v-else>ชื่อสินค้า: -</p>
+                                    <p class="mx-3" v-if="onsiteSale.gold.gold_type != null">ประเภทสินค้า: {{onsiteSale.gold.gold_type.name}}</p>
+                                    <p class="mx-3" v-else>ประเภทสินค้า: -</p>
+                                    <div v-if="onsiteSale.gold.custom_weight == null">
+                                        <p class="mx-3" v-if="onsiteSale.gold.weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.weight}}</p>
+                                        <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
+                                    </div>
+                                    <div v-if="onsiteSale.gold.weight == null">
+                                        <p class="mx-3" v-if="onsiteSale.gold.custom_weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.custom_weight}}</p>
+                                        <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
+                                    </div>
+                                    <p class="mx-3" v-if="onsiteSale.gold.size != null">ขนาดสินค้า: {{onsiteSale.gold.size}}</p>
+                                    <p class="mx-3" v-else>ขนาดสินค้า: -</p>
+                                    <p class="mx-3">วันที่ขาย: {{showDate}}</p>
+                                    <p class="mx-3" v-if="onsiteSale.gold_sell_price != null">ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}} </p>
+                                    <p class="mx-3" v-else>ราคาทอง ณ เวลาขาย: -</p>
+                                    <div class="flex flex-row">
+                                        <label class="p-2"> ราคาสินค้า </label>
+                                        <input class="text-field w-[250px]" type="number" step=".01" v-model="onsiteSale.gold_price" autocomplete="off" required>
+                                        <p class="p-2">บาท</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="flex flex-row">
+                                    <input v-model="is_switch_gold" id="เปลี่ยน" type="checkbox" value="เปลี่ยน" class="mt-2 mr-2">
+                                    <label class="">ทองเปลี่ยน</label>
+                                </div>
+                                <div v-if="is_switch_gold == true" class="flex flex-col text-base">
+                                    <div class="flex flex-row">
+                                        <label class="p-2">ระบุเลขที่บิลรับซื้อ</label>
+                                        <input class=" text-field mr-2 w-[150px] h-[30px]" type="text" v-model="redemption.id" autocomplete="off">
+                                        <button @click="findRedemption" :disabled="disabledButton" class="red-btn text-base">
+                                            ค้นหา
+                                        </button>
+                                    </div>
+                                    <label v-if="redemption.found == true" class="inline-block mx-3">>>> พบเลขที่บิลรับซื้อท่ี {{redemption.id}}  </label>                      
+                                </div>
+
+                                <p class="pt-2 pb-2 text-xl mt-2"><b>ช่องทางการชำระเงิน</b></p>
+                                <div class="">
+                                    <label>ช่องทางการชำระเงิน</label>
+                                    <input class="mx-3" v-model="onsiteSale.sale_payment_method.payment_method" id="cash" type="radio" value="cash">
+                                    <label for="cash"> เงินสด </label>
+                                    <input class="mx-3" v-model="onsiteSale.sale_payment_method.payment_method" id="transfer" type="radio" value="transfer">
+                                    <label for="transfer"> โอน </label>
+                                    <input class="mx-3" v-model="onsiteSale.sale_payment_method.payment_method" id="credit_card" type="radio" value="credit_card">
+                                    <label for="credit_card"> บัตรเครดิต </label>
+                                </div>
+                                <p v-if="onsiteSale.sale_payment_method.payment_method == 'cash' ">
+                                    <label>ราคาสุทธิ: {{onsiteSale.gold_price}}</label>
+                                    <p>เงินที่ลูกค้าชำระ: </p>
+                                    <input class="mx-3 text-field w-[200px]" type="number" v-model="change" autocomplete="off" required>
+                                    <p>เงินทอน: </p>
+                                    <label> {{ onsiteSale.sale_payment_method.paid_change}}</label>
+                                </p>
+
+                                <p v-if="onsiteSale.sale_payment_method.payment_method == 'transfer' ">
+                                    <label class="mx-3">รูปสลิป</label>
+                                    <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+                                    <img :src="`${onsiteSale.sale_payment_method.slip_image}`" width="200">
+                                </p>
+
+
+                                <p v-if="onsiteSale.sale_payment_method.payment_method == 'credit_card' ">
+                                    <label class="mx-3 my-3">ประเภทบัตรเครดิต</label>
+                                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.sale_payment_method.credit_card_type">
+                                        <option value="Mastercard">Mastercard</option>
+                                        <option value="VISA">VISA</option>
+                                        <option value="Union Pay">Union Pay</option>
+                                        <option value="American Express">American Express</option>
+                                        <option value="อื่นๆ">อื่นๆ</option>
+                                    </select>
+
+                                    <label class="mx-3 my-3">ธนาคาร</label>
+                                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.sale_payment_method.bank_name">
+                                        <option value="กสิกร">กสิกร</option>
+                                        <option value="กรุงเทพ">กรุงเทพ</option>
+                                        <option value="กรุงไทย">กรุงไทย</option>
+                                        <option value="กรุงศรี">กรุงศรี</option>
+                                        <option value="ออมสิน">ออมสิน</option>
+                                        <option value="ไทยพาณิช">ไทยพาณิช</option>
+                                        <option value="อื่นๆ">อื่นๆ</option>
+                                    </select>
+                                </p>
+                        
+                            </div>
+                        </div>
+                        <div class="text-center">
+                                <button type="submit" :disabled="disableButton" class="red-btn w-[323px] mx-auto mt-2 mb-2">
+                                    บันทึกรายการ
+                                </button>
+                                <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                                    ยืนยันรายการสั่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                                </label>
+                                <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                                    - {{error}}
+                                </label>
+                            </div>
+                    </div>
+                </form>
+            </div>
+            </div>
         </div>
-        <div v-if="onsiteSale.gold.weight == null">
-            <p class="mx-3" v-if="onsiteSale.gold.custom_weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.custom_weight}}</p>
-            <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
-        </div>
-        <p class="mx-3" v-if="onsiteSale.gold.size != null">ขนาดสินค้า: {{onsiteSale.gold.size}}</p>
-        <p class="mx-3" v-else>ขนาดสินค้า: -</p>
-        <p class="mx-3">วันที่ขาย: {{showDate}}</p>
-        <p class="mx-3" v-if="onsiteSale.gold_sell_price != null">ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}} </p>
-        <p class="mx-3" v-else>ราคาทอง ณ เวลาขาย: -</p>
-
-        <label class="mx-3"> ราคาสินค้า </label>
-        <input class="mx-3" type="number" step=".01" v-model="onsiteSale.gold_price" autocomplete="off" required>
-
-        <br>
-        <input v-model="is_switch_gold" id="เปลี่ยน" type="checkbox" value="เปลี่ยน">
-        <label class="mx-3">ทองเปลี่ยน</label>
-        <div v-if="is_switch_gold == true">
-            <label class="mx-3">ระบุเลขที่บิลรับซื้อ</label>
-            <input class="mx-3" type="text" v-model="redemption.id" autocomplete="off">
-            <button @click="findRedemption" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-                ค้นหา
-            </button>
-            <label v-if="redemption.found == true" class="inline-block mx-3">พบเลขที่บิลรับซื้อท่ี {{redemption.id}}</label>
-        </div>
-        <div>
-            <label>ช่องทางการชำระเงิน</label>
-            <input v-model="onsiteSale.sale_payment_method.payment_method" id="cash" type="radio" value="cash">
-            <label for="cash"> เงินสด </label>
-            <input v-model="onsiteSale.sale_payment_method.payment_method" id="transfer" type="radio" value="transfer">
-            <label for="transfer"> โอน </label>
-            <input v-model="onsiteSale.sale_payment_method.payment_method" id="credit_card" type="radio" value="credit_card">
-            <label for="credit_card"> บัตรเครดิต </label>
-
-            <p v-if="onsiteSale.sale_payment_method.payment_method == 'cash' ">
-                <label>ราคาสุทธิ: {{onsiteSale.gold_price}}</label>
-                <p>เงินที่ลูกค้าชำระ: </p>
-                <input class="mx-3" type="number" v-model="change" autocomplete="off" required>
-                <p>เงินทอน: </p>
-                <label> {{ onsiteSale.sale_payment_method.paid_change}}</label>
-            </p>
-
-            <p v-if="onsiteSale.sale_payment_method.payment_method == 'transfer' ">
-                <label class="mx-3">รูปสลิป</label>
-                <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
-                <img :src="`${onsiteSale.sale_payment_method.slip_image}`" width="200">
-            </p>
-
-            <p v-if="onsiteSale.sale_payment_method.payment_method == 'credit_card' ">
-                <label class="mx-3 my-3">ประเภทบัตรเครดิต</label>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.sale_payment_method.credit_card_type">
-                    <option value="Mastercard">Mastercard</option>
-                    <option value="VISA">VISA</option>
-                    <option value="Union Pay">Union Pay</option>
-                    <option value="American Express">American Express</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                </select>
-
-                <label class="mx-3 my-3">ธนาคาร</label>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="onsiteSale.sale_payment_method.bank_name">
-                    <option value="กสิกร">กสิกร</option>
-                    <option value="กรุงเทพ">กรุงเทพ</option>
-                    <option value="กรุงไทย">กรุงไทย</option>
-                    <option value="กรุงศรี">กรุงศรี</option>
-                    <option value="ออมสิน">ออมสิน</option>
-                    <option value="ไทยพาณิช">ไทยพาณิช</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                </select>
-
-            </p>
-        </div>
-
     </div>
-    <button type="submit" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-        บันทึกรายการขาย
-    </button>
-    <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
-        บันทึกรายการขายไม่สำเร็จ ตรวจสอบ error ข้างล่าง
-    </label>
-    <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
-        - {{error}}
-    </label>
-</form>
 </template>
 
 <script>
@@ -208,6 +243,8 @@ export default {
                 user: {
                     id: null,
                     username: null,
+                    first_name: null,
+                    last_name: null,
                     phone: null,
                 },
                 gold_sell_price: {
@@ -391,12 +428,16 @@ export default {
                 user == null) {
                 this.onsiteSale.user.id = null
                 this.onsiteSale.user.username = null
+                this.onsiteSale.user.first_name = null
+                this.onsiteSale.user.last_name = null
                 this.checks.phone_user = false
                 tel.preventDefault();
                 return
             }
             this.onsiteSale.user.id = user.id
             this.onsiteSale.user.username = user.username
+            this.onsiteSale.user.first_name = user.first_name
+            this.onsiteSale.user.last_name = user.last_name
             this.checks.phone_user = true
             e.preventDefault();
         },
