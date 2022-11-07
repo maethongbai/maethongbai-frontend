@@ -87,6 +87,12 @@
         <div>
             <label for="gold.employee_add_stock" class="mx-3">พนักงานที่ทำรายการ {{ gold.employee_add_stock.nickname}}</label>
         </div>
+        <div>
+            <p class="m-2"><b>รูปสินค้า</b></p>
+            <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
+            <img :src="`${gold.image}`" width="200">
+            <!-- </p> -->
+        </div>
     </div>
     <button @click="saveGold()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
         ยืนยันการเปลี่ยนแปลงรายการ
@@ -217,6 +223,7 @@ export default {
                 pattern_type: this.gold.pattern_type,
                 gold_pattern_id: this.gold_pattern_store.findByName(this.gold.gold_pattern.name).id,
                 size: this.gold.size,
+                image: this.gold.image,
                 // amount: this.gold.amount,
                 stock_approval_status: this.gold.stock_approval_status,
                 wholesale_id: this.wholesale_store.findByName(this.gold.wholesale.name).id,
@@ -237,6 +244,14 @@ export default {
                 console.error(error.response.data)
             }
 
+        },
+        onFileChange(e) {
+            const reader = new FileReader()
+            reader.readAsDataURL(e.target.files[0])
+            reader.onload = e => {
+                this.gold.image = e.target.result
+                // console.log(this.image)
+            }
         }
     }
 
