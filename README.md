@@ -52,8 +52,7 @@ serve -s app/dist -l 9000
     - password: amornamorn
 
 ## ระบุ release tag ของโปรเจคที่สมบูรณ์ ใช้ในการนำเสนอ
-ยังไม่มี (สร้าง git tag -> กำหนด release) ในหน้า github
-https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+v1.0.0
 
 ## ระบุ release tag ของโปรเจคที่แก้ไขหลังการนำเสนอ (หากมีการแก้ไข)
 ยังไม่มี
