@@ -50,7 +50,7 @@
                             {{ item.gold.stock_approval_status}}
                         </td>
                         <td class="px-6 py-4 pl-10">
-                            <a v-bind:href="'/stock/edit/'+ item.id" >
+                            <a v-bind:href="'/stock/edit/'+ item.gold.id" >
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -122,6 +122,7 @@ export default {
 
         await this.gold_store.fetch()
         this.list = this.gold_store.countUnsellable()
+        console.log(this.list)
 
     },
     methods: {

@@ -6,7 +6,7 @@
                     <!-- breadcrumb -->
                     <b>หน้าหลักระบบหลังร้าน > สต็อกทองทั้งหมด > แก้ไขข้อมูลทองลงสต็อก</b>
                 </div>
-                <form @submit.prevent="createGold()">
+                <form @submit.prevent="saveGold()">
                     <div class="card-gray w-[1044px] mb-4">
                         <div class="grid grid-cols-2">
                             <div class="flex flex-col">
