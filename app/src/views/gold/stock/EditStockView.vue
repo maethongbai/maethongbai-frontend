@@ -1,103 +1,157 @@
 <template>
-<div v-if='user.role == "manager"'>
-    <div class="block my-5">
-        <router-link to="/stock/view" class="px-5 py-2 mx-4 my-4 bg-gray-200 rounded-xl">Back</router-link>
+    <div v-if='user.role == "manager"'>
+        <div class="pt-8 pb-8 flex items-center justify-center">
+            <div class="card-white w-[1200px] text-s1">
+                <div class="m-4 ml-0">
+                    <!-- breadcrumb -->
+                    <b>หน้าหลักระบบหลังร้าน > สต็อกทองทั้งหมด > แก้ไขข้อมูลทองลงสต็อก</b>
+                </div>
+                <form @submit.prevent="saveGold()">
+                    <div class="card-gray w-[1044px] mb-4">
+                        <div class="grid grid-cols-2">
+                            <div class="flex flex-col">
+                                <p class="pt-2 pb-2 text-xl"><b>รายละเอียดทอง</b></p>
+                                <label for="goldID" class="p-2">รหัสทอง: {{ gold.id }}</label>
+                                <div class="flex flex-row">
+                                    <label for="gold.type" class="p-2">ประเภททอง</label>
+                                    <select class="select-box w-[300px] ml-auto mr-6" v-model="gold.gold_type.name">
+                                        <option disabled value="">กรุณาเลือกประเภททอง</option>
+                                        <option v-for="gold_type in gold_types" :value="gold_type.name">{{
+                                                gold_type.name
+                                        }}</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-row">
+                                        <label for="gold.weight" class="p-2">น้ำหนักทอง</label>
+                                        <select class="select-box w-[300px] ml-auto mr-6" v-model="gold.weight">
+                                            <option disabled value="">กรุณาเลือกน้ำหนักทอง</option>
+                                            <option value="ครึ่งสลึง">ครึ่งสลึง</option>
+                                            <option value="1 สลึง">1 สลึง</option>
+                                            <option value="2 สลึง">2 สลึง</option>
+                                            <option value="3 สลึง">3 สลึง</option>
+                                            <option value="6 สลึง">6 สลึง</option>
+                                            <option value="1 บาท">1 บาท</option>
+                                            <option value="2 บาท">2 บาท</option>
+                                            <option value="3 บาท">3 บาท</option>
+                                            <option value="4 บาท">4 บาท</option>
+                                            <option value="5 บาท">5 บาท</option>
+                                            <option value="6 บาท">6 บาท</option>
+                                            <option value="7 บาท">7 บาท</option>
+                                            <option value="8 บาท">8 บาท</option>
+                                            <option value="9 บาท">9 บาท</option>
+                                            <option value="10 บาท">10 บาท</option>
+                                            <option value="15 บาท">15 บาท</option>
+                                            <option value="20 บาท">20 บาท</option>
+                                            <option value="ตามชั่ง">น้ำหนักตามชั่ง</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row" v-if="gold.weight == 'ตามชั่ง'">
+                                    <label for="gold.custom_weight" class="p-2">น้ำหนักทองตามชั่ง</label>
+                                    <input class="text-field w-[300px]" type="number" step=".01"
+                                        v-model="gold.custom_weight">
+                                    <label for="gold.custom_weight" class="p-2">กรัม</label>
+                                </div>
+
+                                <div class="mx-2 mt-2">
+
+                                    <label for="gold.pattern_type" class="mr-3">ประเภทลายทอง</label>
+                                    <input type="radio" id="ทองตัน" value="ทองตัน" v-model="gold.pattern_type">
+                                    <label for="ทองตัน" class="mr-5 ml-1 ">ตัน</label>
+                                    <input type="radio" id="ทองโป่ง" value="ทองโป่ง" v-model="gold.pattern_type">
+                                    <label for="ทองโป่ง" class="ml-1">โป่ง</label>
+
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.pattern" class="p-2">ลายทอง</label>
+                                    <select class="select-box w-[300px] ml-auto mr-6" v-model="gold.gold_pattern.name">
+                                        <option disabled value="">กรุณาเลือกลายทอง</option>
+                                        <option v-for="gold_pattern in gold_patterns" :value="gold_pattern.name">{{
+                                                gold_pattern.name
+                                        }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.size" class="p-2">ขนาด</label>
+                                    <input class="text-field w-[300px] ml-auto mr-3" type="number" step=".01"
+                                        v-model="gold.size">
+                                    <label for="gold.size" class="p-2"
+                                        v-if="gold.gold_type.name != 'แหวน'">เซนติเมตร</label>
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.goldsmith_charge" class="p-2">ค่ากำเหน็จต่อชิ้น {{
+                                            gold.pension_per_piece
+                                    }} บาท</label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flex flex-col">
+                                <div class="my-3 mt-12">
+                                    <label for="gold.import_date" class="p-2">วันที่นำทองเข้า: {{ gold.import_date
+                                    }}</label>
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.wholesale" class="p-2">ร้านขายส่ง</label>
+                                    <select class="select-box w-[276px] ml-auto mr-12" v-model="gold.wholesale.name">
+                                        <option disabled value="">กรุณาเลือกร้านขายส่ง</option>
+                                        <option v-for="wholesale in wholesales" :value="wholesale.name">{{
+                                                wholesale.name
+                                        }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.gold_buy_price_wholesale" class="p-2">ราคาทองตอนซื้อจากร้านขายส่ง
+                                        {{
+                                                gold.gold_buy_price_wholesale
+                                        }} บาท</label>
+                                </div>
+
+                                <div class="flex flex-row">
+                                    <label for="gold.stock_approval_status" class="p-2">สถานะสินค้า </label>
+                                    <select
+                                        class="select-box w-[300px] ml-auto mr-6" v-model="gold.stock_approval_status">
+                                        <option disabled value="">กรุณาเลือกสถานะ</option>
+                                        <option value="รออนุมัติ">รออนุมัติ</option>
+                                        <option value="อนุมัติ">อนุมัติ</option>
+                                        <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-row">
+                                    <label for="gold.employee_add_stock" class="p-2">พนักงานที่ทำรายการ {{
+                                            gold.employee_add_stock.nickname
+                                    }}</label>
+                                </div>
+
+                                <div>
+                                    <p class="p-2"><b>รูปสินค้า</b></p>
+                                    <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange"
+                                        id="file-input">
+                                    <img :src="`${gold.image}`" width="200">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="w-[250px] mx-auto mt-4">
+                            <button type="submit" class="red-btn w-[323px] mx-auto">
+                                ยืนยันการเปลี่ยนแปลงรายการ
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
-    <div v-if=" gold != null" class="mx-3 my-3">
-        <h5 class="mx-6 mb-2 text-2xl font-bold tracking-tight text-gray-900">
-            รายละเอียดทอง
-        </h5>
-        <label for="goldID" class="mx-3">รหัสทอง: {{ gold.id }}</label>
-    </div>
-    <div class="mx-3 my-3">
-        <label for="gold.type" class="mx-3">ประเภททอง</label>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.gold_type.name">
-            <option disabled value="">กรุณาเลือกประเภททอง</option>
-            <option v-for="gold_type in gold_types" :value="gold_type.name">{{ gold_type.name }}</option>
-        </select>
-        <label for="gold.weight" class="mx-3">น้ำหนักทอง</label>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.weight">
-            <option disabled value="">กรุณาเลือกน้ำหนักทอง</option>
-            <option value="ครึ่งสลึง">ครึ่งสลึง</option>
-            <option value="1 สลึง">1 สลึง</option>
-            <option value="2 สลึง">2 สลึง</option>
-            <option value="3 สลึง">3 สลึง</option>
-            <option value="6 สลึง">6 สลึง</option>
-            <option value="1 บาท">1 บาท</option>
-            <option value="2 บาท">2 บาท</option>
-            <option value="3 บาท">3 บาท</option>
-            <option value="4 บาท">4 บาท</option>
-            <option value="5 บาท">5 บาท</option>
-            <option value="6 บาท">6 บาท</option>
-            <option value="7 บาท">7 บาท</option>
-            <option value="8 บาท">8 บาท</option>
-            <option value="9 บาท">9 บาท</option>
-            <option value="10 บาท">10 บาท</option>
-            <option value="15 บาท">15 บาท</option>
-            <option value="20 บาท">20 บาท</option>
-            <option value="ตามชั่ง">น้ำหนักตามชั่ง</option>
-        </select>
-        <div class=" my-3" v-if=" gold.weight == 'ตามชั่ง'">
-            <label for="gold.custom_weight" class="mx-3">น้ำหนักทองตามชั่ง</label>
-            <input class="mx-3" type="number" step=".01" v-model="gold.custom_weight">
-            <label for="gold.custom_weight" class="mx-3">กรัม</label>
-        </div>
-        <div class="my-3">
-            <label class="mx-3">ประเภทลายทอง</label>
-            <input type="radio" id="ทองตัน" value="ทองตัน" v-model="gold.pattern_type">
-            <label for="ทองตัน">ตัน</label>
-            <input type="radio" id="ทองโป่ง" value="ทองโป่ง" v-model="gold.pattern_type">
-            <label for="ทองโป่ง">โป่ง</label>
-        </div>
-        <label for="gold.pattern" class="mx-3">ลายทอง</label>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.gold_pattern.name">
-            <option disabled value="">กรุณาเลือกลายทอง</option>
-            <option v-for="gold_pattern in gold_patterns" :value="gold_pattern.name">{{ gold_pattern.name }}</option>
-        </select>
-        <div class="my-3">
-            <label for="gold.size" class="mx-3">ขนาด</label>
-            <input class="mx-3" type="number" step=".01" v-model="gold.size">
-            <label for="gold.size" class="mx-3" v-if="gold.gold_type.name != 'แหวน'">เซนติเมตร</label>
-        </div>
-        <div class="my-3">
-            <label for="gold.goldsmith_charge" class="mx-3">ค่ากำเหน็จต่อชิ้น {{ gold.pension_per_piece }} บาท</label>
-        </div>
-        <div class="my-3">
-            <label for="gold.import_date" class="mx-3">วันที่นำทองเข้า: {{ gold.import_date }}</label>
-        </div>
-        <div class="my-3">
-            <label for="gold.wholesale" class="mx-3">ร้านขายส่ง</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.wholesale.name">
-                <option disabled value="">กรุณาเลือกร้านขายส่ง</option>
-                <option v-for="wholesale in wholesales" :value="wholesale.name">{{ wholesale.name }}</option>
-            </select>
-        </div>
-        <div class="my-3">
-            <label for="gold.gold_buy_price_wholesale" class="mx-3">ราคาทองตอนซื้อจากร้านขายส่ง {{ gold.gold_buy_price_wholesale }} บาท</label>
-        </div>
-        <div class="my-3">
-            <label for="gold.stock_approval_status" class="mx-3">สถานะอนุมัติสินค้าลง stock</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="gold.stock_approval_status">
-                <option disabled value="">กรุณาเลือกสถานะ</option>
-                <option value="รออนุมัติ">รออนุมัติ</option>
-                <option value="อนุมัติ">อนุมัติ</option>
-                <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
-            </select>
-        </div>
-        <div>
-            <label for="gold.employee_add_stock" class="mx-3">พนักงานที่ทำรายการ {{ gold.employee_add_stock.nickname}}</label>
-        </div>
-        <div>
-            <p class="m-2"><b>รูปสินค้า</b></p>
-            <input type="file" ref="fileInput" accept="image/*" v-on:change="onFileChange" id="file-input">
-            <img :src="`${gold.image}`" width="200">
-            <!-- </p> -->
-        </div>
-    </div>
-    <button @click="saveGold()" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
-        ยืนยันการเปลี่ยนแปลงรายการ
-    </button>
-</div>
 </template>
 
 <script>
