@@ -145,7 +145,7 @@
         async setSelected(id) {
             this.error = null
             try {
-                this.selected = await this.user_store.findByPhone(id)
+                this.selected = await this.user_store.findById(id)
                 console.table(this.selected)
             } catch (error) {
                 console.log(error.message)

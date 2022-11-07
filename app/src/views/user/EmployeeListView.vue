@@ -105,9 +105,10 @@
       data() {
         return {
             auth: null,
-            users: null,
+            users: [],
             selected: null,
             error: null,
+            user: null
         }
       },
       async mounted() {
@@ -127,6 +128,7 @@
         
         await this.user_store.fetch()
         this.users = this.user_store.filterEmployee
+        this.users.forEach((user) => console.log(user))
         
       },
       methods: {
