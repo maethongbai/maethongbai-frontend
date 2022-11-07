@@ -10,7 +10,6 @@
                 <div class="grid grid-cols-2 flex mb-10">
                     <div class="mx-auto border">
                         <p class="mx-1 mb-3 font-normal text-gray-700">
-                            รูปสินค้า
                             <img :src="`${order.gold.image}`" alt="ไม่พบรูปสินค้า" width="200">
                         </p>
                     </div>

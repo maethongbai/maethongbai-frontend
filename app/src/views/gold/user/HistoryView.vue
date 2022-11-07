@@ -120,7 +120,8 @@
                         </div>
 
                         <div v-if="searched_obj.item.payment_method == 'transfer'">
-                            <p> รูปสลิป : {{searched_obj.item.slip_image}}</p>
+                            <p> รูปสลิป </p>
+                            <img :src="searched_obj.item.slip_image">
                             <p> สถานะการโอน : {{searched_obj.item.transfer_status}}</p>
                             <p> หมายเหตุการโอน : {{searched_obj.item.transfer_note}}</p>
                         </div>

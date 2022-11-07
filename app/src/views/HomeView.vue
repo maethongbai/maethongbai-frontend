@@ -1,15 +1,15 @@
 <template>
     <div class="pt-8 pb-8 flex items-center justify-center flex flex-col">
-        <div class="card-white w-[1200px] h-[250px] text-center">
-            banner 1200x250
+        <div class="card-white w-[1200px] p-0 h-[250px] text-center">
+            <img class="mx-auto w-[1200px]" src="@/assets/actuallybanner1.GIF" />
         </div>
 
         <div class="flex flex-row gap-6 mt-6">
-            <div class="card-white w-[588px] h-[250px] text-center">
-                banner 588x250
+            <div class="card-white w-[588px] p-0 h-[250px] text-center">
+                <img class="mx-auto" src="@/assets/bannerh2.png" />
             </div>
-            <div class="card-white w-[588px] h-[250px] text-center">
-                banner 588x250
+            <div class="card-white w-[588px] p-0 h-[250px] text-center">
+                <img class="mx-auto" src="@/assets/bannerh3.png" />
             </div>
         </div>
 

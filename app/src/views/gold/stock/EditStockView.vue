@@ -4,7 +4,7 @@
             <div class="card-white w-[1200px] text-s1">
                 <div class="m-4 ml-0">
                     <!-- breadcrumb -->
-                    <b>หน้าหลักระบบหลังร้าน > สต็อกทองทั้งหมด > แก้ไขข้อมูลทองลงสต็อก</b>
+                    <b>หน้าหลักระบบหลังร้าน > สถานะทองที่ถูกเพิ่ม > แก้ไขข้อมูลทองลงสต็อก</b>
                 </div>
                 <form @submit.prevent="saveGold()">
                     <div class="card-gray w-[1044px] mb-4">
