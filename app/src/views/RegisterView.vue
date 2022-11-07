@@ -150,7 +150,7 @@ export default {
             this.input_check.is_valid = true
 
 
-            if (this.user_store.findByEmail(this.user.email) == undefined &&
+            if (this.user_store.findByEmail(this.user.email) != undefined &&
                 this.user.email != null) {
                 this.input_check.errors.push("อีเมลนี้ถูกใช้ไปแล้ว")
                 this.input_check.is_valid = false

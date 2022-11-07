@@ -335,6 +335,10 @@ export default {
                 this.input_check.errors.push("กรุณาค้นหาข้อมูลลูกค้า")
                 this.input_check.is_valid = false
             }
+            if (this.redemption.id_card_image == null) {
+                this.input_check.errors.push("กรุณาใส่รูปบัตรประชาชน")
+                this.input_check.is_valid = false
+            }
 
             if (this.input_check.is_valid == false) {
                 this.disableButton = false
