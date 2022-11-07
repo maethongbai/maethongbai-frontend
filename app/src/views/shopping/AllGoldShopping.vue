@@ -1,28 +1,28 @@
 <template>
-<br>
-<div class="flex items-center justify-center">
-    <div class="ml-4 mr-4 w-[1200px] ">
-        <img src="@/assets/banner01.png">
-    </div>
-</div>
-<br>
-
-<div>
+    <br>
     <div class="flex items-center justify-center">
-        <div class=" w-[1200px] ">
-            <p class="text-lg p-2 text-s1"> <b>หน้าหลัก > หน้าสินค้าทั้งหมด</b> </p>
+        <div class="ml-4 mr-4 w-[1200px] ">
+           <img src="@/assets/banner01.png">
         </div>
     </div>
+    <br>
 
-    <div class="flex items-center justify-center">
-        <div class="bg-[#9B0000] rounded-lg w-[1200px] pt-2 pb-5">
+    <div>
+        <div class="flex items-center justify-center">
+            <div class=" w-[1200px] ">
+                <p class="text-lg p-2 text-s1"> <b>หน้าหลัก > หน้าสินค้าทั้งหมด</b> </p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center">
+            <div class="bg-[#9B0000] rounded-lg w-[1200px] pt-2 pb-5">
             <h1 class="text-xl text-white ml-2 p-3 pl-6">ประเภททอง</h1>
 
             <vue-horizontal responsive class="text-white">
                 <a v-bind:href="'/shopping/'+ type.name" v-for="type in this.gold_type" class="w-[250px] h-[100px] text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-basket2 mx-auto m-2" viewBox="0 0 16 16">
-                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0v-2z" />
-                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6H2.163z" />
+                    <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0v-2z"/>
+                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6H2.163z"/>
                     </svg>
                     {{type.name}}
                 </a>
@@ -31,22 +31,6 @@
         </div>
 
     </div>
-    <section v-if="this.sortA == true" v-for="gold in sortASC()">
-        <div>
-            <img :src="`${gold.gold.gold.image}`" width="200">
-            {{gold.gold.gold.name}}
-            <br>
-            {{gold.total_price}}
-            <br>
-            <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                ดูรายละเอียด
-                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </a>
-
-        </div>
-    </section>
 
     <div class="pt-8 pb-8 flex items-center justify-center text-s1">
         <div class="card-white w-[1200px]">
@@ -86,6 +70,65 @@
         <div class="card-white w-[1200px] p-0">
             <div class="w-[1200px] h-[64px] bg-[#9B0000] rounded-t-lg">
                 <p class="text-white text-xl ml-10 mt-5"><b>สินค้าทั้งหมด</b></p>
+            </div>
+
+            <div hidden>
+                {{rangePrice()}}
+                {{this.range_price = true}}
+            </div>
+
+            <div class="grid grid-cols-6 gap-x-16 p-16">
+                <div v-if="this.sortA == false && this.sortD == false && this.sortN == false && this.sortO == false  && this.range_price == true" v-for="gold in this.sort_array">
+                    <div>
+                        <img :src="`${gold.gold.gold.image}`" width="200">
+                        {{gold.gold.gold.name}}
+                        <br>
+                        {{gold.total_price}}
+                        <br>
+                        <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            ดูรายละเอียด
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+
+                    </div>
+                </div>
+
+                <section v-if="this.sortA == true" v-for="gold in sortASC()">
+                    <div>
+                        <img :src="`${gold.gold.gold.image}`" width="200">
+                        {{gold.gold.gold.name}}
+                        <br>
+                        {{gold.total_price}}
+                        <br>
+                        <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            ดูรายละเอียด
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+
+                    </div>
+                </section>
+
+                <section v-if="this.sortD == true" v-for="gold in sortDESC()">
+                    <div>
+                        <img :src="`${gold.gold.gold.image}`" width="200">
+                        {{gold.gold.gold.name}}
+                        <br>
+                        {{gold.total_price}}
+                        <br>
+                        <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            ดูรายละเอียด
+                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+
+                    </div>
+                </section>
+
                 <section v-if="this.sortN == true" v-for="gold in sortNew()">
                     <div>
                         <img :src="`${gold.gold.gold.image}`" width="200">
@@ -94,7 +137,7 @@
                         {{gold.total_price}}
                         <br>
                         {{gold.gold.gold.import_date}}
-                        <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ดูรายละเอียด
                             <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -102,10 +145,7 @@
                         </a>
                     </div>
                 </section>
-                <div hidden>
-                    {{rangePrice()}}
-                    {{this.range_price = true}}
-                </div>
+
                 <section v-if="this.sortO == true" v-for="gold in sortOld()">
                     <div>
                         <img :src="`${gold.gold.gold.image}`" width="200">
@@ -114,7 +154,7 @@
                         {{gold.total_price}}
                         <br>
                         {{gold.gold.gold.import_date}}
-                        <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ดูรายละเอียด
                             <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -122,93 +162,7 @@
                         </a>
                     </div>
                 </section>
-                <div class="grid grid-cols-6 gap-x-16 p-16">
-                    <div v-if="this.sortA == false && this.sortD == false && this.sortN == false && this.sortO == false  && this.range_price == true" v-for="gold in this.sort_array">
-                        <div>
-                            <img :src="`${gold.gold.gold.image}`" width="200">
-                            {{gold.gold.gold.name}}
-                            <br>
-                            {{gold.total_price}}
-                            <br>
-                            <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ดูรายละเอียด
-                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
 
-                        </div>
-                    </div>
-
-                    <section v-if="this.sortA == true" v-for="gold in sortASC()">
-                        <div>
-                            <img :src="`${gold.gold.gold.image}`" width="200">
-                            {{gold.gold.gold.name}}
-                            <br>
-                            {{gold.total_price}}
-                            <br>
-                            <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ดูรายละเอียด
-                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-
-                        </div>
-                    </section>
-
-                    <section v-if="this.sortD == true" v-for="gold in sortDESC()">
-                        <div>
-                            <img :src="`${gold.gold.gold.image}`" width="200">
-                            {{gold.gold.gold.name}}
-                            <br>
-                            {{gold.total_price}}
-                            <br>
-                            <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ดูรายละเอียด
-                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-
-                        </div>
-                    </section>
-
-                    <section v-if="this.sortN == true" v-for="gold in sortNew()">
-                        <div>
-                            <img :src="`${gold.gold.gold.image}`" width="200">
-                            {{gold.gold.gold.name}}
-                            <br>
-                            {{gold.total_price}}
-                            <br>
-                            {{gold.gold.gold.import_date}}
-                            <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ดูรายละเอียด
-                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </section>
-
-                    <section v-if="this.sortO == true" v-for="gold in sortOld()">
-                        <div>
-                            <img :src="`${gold.gold.gold.image}`" width="200">
-                            {{gold.gold.gold.name}}
-                            <br>
-                            {{gold.total_price}}
-                            <br>
-                            {{gold.gold.gold.import_date}}
-                            <a v-bind:href="'/shopping/'+ gold.id" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ดูรายละเอียด
-                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </section>
-
-                </div>
             </div>
         </div>
     </div>
@@ -278,7 +232,7 @@ export default {
             sort_array: [],
             range_price: false,
             price_valid: true,
-            banner: []
+            banner:[]
 
         }
     },
@@ -326,23 +280,23 @@ export default {
                 gold.gold.weight == "2 สลึง" ||
                 gold.gold.weight == "3 สลึง" ||
                 gold.gold.weight == "6 สลึง") {
-                var fprice = this.gold_sell_price.sell_price / 4
-                if (gold.gold.weight == "ครึ่งสลึง") {
-                    total = (fprice / 2) + ((gold.gold.pension_per_piece * 5) + 500)
-                } else if (gold.gold.weight == "1 สลึง") {
-                    total = fprice + ((gold.gold.pension_per_piece * 5) + 500)
-                } else if (gold.gold.weight == "2 สลึง") {
-                    total = (fprice * 2) + ((gold.gold.pension_per_piece * 5) + 500)
-                } else if (gold.gold.weight == "3 สลึง") {
-                    total = (fprice * 3) + ((gold.gold.pension_per_piece * 5) + 500)
-                } else if (gold.gold.weight == "6 สลึง") {
-                    total = (fprice * 6) + ((gold.gold.pension_per_piece * 5) + 500)
-                }
+                    var fprice = this.gold_sell_price.sell_price/4
+                    if(gold.gold.weight == "ครึ่งสลึง"){
+                       total = (fprice/2) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "1 สลึง") {
+                        total = fprice + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "2 สลึง") {
+                        total = (fprice*2) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "3 สลึง") {
+                        total = (fprice*3) + ((gold.gold.pension_per_piece * 5) + 500)
+                    } else if (gold.gold.weight == "6 สลึง") {
+                        total = (fprice*6) + ((gold.gold.pension_per_piece * 5) + 500)
+                    }
             } else if (gold.gold.custom_weight != null) {
-                var pricee = this.gold_sell_price.sell_price / 15.16
+                var pricee = this.gold_sell_price.sell_price/15.16
                 total = pricee + ((gold.gold.pension_per_piece * 5) + 500)
-
-            } else {
+                
+            }else {
                 if (gold.gold.weight == "1 บาท") {
                     total = price * 1
                 } else if (gold.gold.weight == "2 บาท") {
@@ -486,9 +440,9 @@ export default {
                         return false
                     }
                     if (this.l_price < 0) {
-                        this.price_valid = false
-                        return false
-                    }
+                    this.price_valid = false
+                    return false
+                }
                 }
                 if (this.l_price < 0) {
                     this.price_valid = false
@@ -497,14 +451,14 @@ export default {
             }
 
             if (this.h_price != null &&
-                this.h_price != "" &&
-                this.h_price != NaN &&
-                this.h_price != undefined) {
-                if (this.h_price < 0) {
-                    this.price_valid = false
-                    return false
+                    this.h_price != "" &&
+                    this.h_price != NaN &&
+                    this.h_price != undefined) {
+                    if (this.h_price < 0) {
+                        this.price_valid = false
+                        return false
+                    }
                 }
-            }
 
             this.price_valid = true
             return true
