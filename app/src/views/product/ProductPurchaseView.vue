@@ -83,7 +83,8 @@ export default {
             this.user = JSON.parse(this.auth_store.getUser)
             if (this.user.role == "employee" ||
                 this.user.role == "account" ||
-                this.user.role == "manager") {
+                this.user.role == "manager" ||
+                this.user.role == "user") {
                 console.log("authorized " + document.URL);
 
             } else {

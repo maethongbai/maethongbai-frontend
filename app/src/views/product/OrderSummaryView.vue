@@ -245,7 +245,8 @@ export default {
             console.log(this.user)
             if (this.user.role == "employee" ||
                 this.user.role == "account" ||
-                this.user.role == "manager") {
+                this.user.role == "manager" ||
+                this.user.role == "user") {
                 console.log("authorized");
             } else {
                 this.$router.push("/")
