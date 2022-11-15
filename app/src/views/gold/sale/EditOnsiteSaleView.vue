@@ -68,8 +68,9 @@
                     <button @click="findRedemption" :disabled="disabledButton" class="p-2 mx-3 my-3 bg-green-400 border rounded-lg">
                         ค้นหา
                     </button>
+                    <label v-if="redemption_found == true" class="inline-block mx-3">>>> พบเลขที่บิลรับซื้อท่ี {{onsiteSale.redemption.id}}  </label> 
                 </p>
-                <p>{{onsiteSale.redemption}}</p>
+                <!-- <p>{{onsiteSale.redemption}}</p> -->
 
                 <p>ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}}</p>
                 <p>ราคาสินค้าที่ขาย:</p>
@@ -184,6 +185,7 @@ export default {
             checks: {
                 phone_user: true
             },
+            redemption_found: false,
         }
 
     },
@@ -278,9 +280,11 @@ export default {
                 redemption == null) {
                     this.onsiteSale.redemption.id = null
                     e.preventDefault();
+                    this.redemption_found = false
                     return
             }
             this.onsiteSale.redemption.id = redemption.id
+            this.redemption_found = true
             e.preventDefault();
         },
         findNewRedemption(e) {

@@ -83,7 +83,8 @@
                 </div>
 
                 <div v-if="sale_search.payment_method == 'transfer'">
-                    <p> รูปสลิป : {{sale_search.slip_image}}</p>
+                    <p> รูปสลิป :</p>
+                    <img :src="`${sale_search.slip_image}`" width="200">
                     <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
                     <p> หมายเหตุการโอน : {{sale_search.transfer_note}}</p>
                 </div>
@@ -108,7 +109,8 @@
                 <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
                 <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
                 <p> วันที่ขาย : {{sale_search.sale_date}}</p>
-                <p> รูปสลิป : {{sale_search.slip_image}}</p>
+                <p> รูปสลิป :</p>
+                <img :src="`${sale_search.slip_image}`" width="200">
                 <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price}}</p>
                 <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.amount}}</p>
                 <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
