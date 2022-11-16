@@ -210,12 +210,7 @@
             if (this.employee.birth_date == null) {
                 this.input_check.errors.push("กรุณากรอกข้อมูลวันเกิด")
                 this.input_check.is_valid = false
-            } else {
-                if ((new Date(this.employee.birth_date)) < moment()) {
-                    this.input_check.errors.push("วันเกิดต้องไม่อยู่ในอดีต")
-                    this.input_check.is_valid = false
-                }
-            }
+            } 
 
             if (this.employee.salary < 0) {
                 this.input_check.errors.push("เงินเดือนต้องเป็นจำนวนบวก")

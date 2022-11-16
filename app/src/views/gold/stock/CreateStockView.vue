@@ -277,7 +277,7 @@ export default {
                 this.input_check.is_valid = false
             }
 
-            if (Number(this.gold.gold_size) < 0) {
+            if (Number(this.gold.gold_size) <= 0) {
                 this.input_check.errors.push("ขนาดทองต้องเป็นจำนวนบวก")
                 this.input_check.is_valid = false
             }
@@ -296,7 +296,7 @@ export default {
                 this.input_check.errors.push("กรุณาเลือกร้านขายส่ง")
                 this.input_check.is_valid = false
             }
-            if (this.gold.gold_buy_price_wholesale < 0) {
+            if (this.gold.gold_buy_price_wholesale <= 0) {
                 this.input_check.errors.push("ราคาจากร้านขายส่งต้องเป็นจำนวนบวก")
                 this.input_check.is_valid = false
             }

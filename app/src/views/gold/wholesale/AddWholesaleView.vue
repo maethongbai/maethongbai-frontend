@@ -31,6 +31,12 @@
                         </div>
                     </form>
                 </div>
+                <label v-if="input_check.is_valid == false" class="inline-block mx-1 mb-2 text-red-500 font-bold">
+                            เพิ่มร้านขายส่งไม่สำเร็จ ตรวจสอบ error ข้างล่าง
+                </label>
+                <label v-if="input_check.is_valid == false" v-for="error in input_check.errors" class="block mx-3 font-medium text-red-500">
+                            - {{error}}
+                </label>
             </div>
         </div>
     </div>
@@ -65,7 +71,11 @@ export default {
                 phone: null,
                 address: null
             },
-            disabledButton: false
+            disabledButton: false,
+            input_check: {
+                errors: [],
+                is_valid: true
+            }
         }
     },
     watch: {
@@ -99,18 +109,36 @@ export default {
     },
     methods: {
         async createWholesale() {
-            try {
-                var wholesale = {
-                    name: this.wholesale.name,
-                    phone: this.wholesale.phone,
-                    address: this.wholesale.address
+
+                this.disableButton = true
+                // validation
+                this.input_check.errors = []
+                this.input_check.is_valid = true
+
+                if (this.wholesale.phone.length != 10) {
+                    this.input_check.errors.push("เบอร์โทรศัพท์ไม่ถูกต้อง")
+                    this.input_check.is_valid = false
                 }
-                await this.wholesale_store.add(wholesale)
-                this.$router.push("/wholesale/view")
-            } catch (error) {
-                this.error = error.message
-                console.error(error.response.data)
-            }
+ 
+
+                if (this.input_check.is_valid == false) {
+                    this.disableButton = false
+                    return
+                }
+
+                try {
+                    var wholesale = {
+                        name: this.wholesale.name,
+                        phone: this.wholesale.phone,
+                        address: this.wholesale.address
+                    }
+                    await this.wholesale_store.add(wholesale)
+                    this.$router.push("/wholesale/view")
+                } catch (error) {
+                    this.error = error.message
+                    console.error(error.response.data)
+                }
+                this.disabledButton = false
         }
     }
 }
