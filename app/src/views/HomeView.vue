@@ -27,7 +27,7 @@
                             <img :src="`${gold.gold.gold.image}`" width="150" height="150" class="mx-auto">
                             <div class="flex flex-col gap-1">
                                 <p class="text-center mt-2">{{gold.gold.gold.name}}</p>
-                                <p class="text-center text-[#9B0000]">฿{{gold.total_price}}</p>
+                                <p class="text-center text-[#9B0000]">฿{{gold.total_price.toLocaleString()}}</p>
                                 <a v-bind:href="'/product/detail/'+ gold.gold.gold.id" class="red-btn w-[110px] mx-auto text-sm">
                                         ดูรายละเอียด
                                 </a>

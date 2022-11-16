@@ -32,7 +32,7 @@
             <tr>
                 <td class="border border-green-700"> {{income.id}} </td>
                 <td class="border border-green-700"> {{income.name}} </td>
-                <td class="border border-green-700"> {{income.amount}} </td>
+                <td class="border border-green-700"> {{income.amount.toLocaleString()}} </td>
                 <td class="border border-green-700"> {{income.employee.nickname}} </td>
             </tr>
         </tbody>
@@ -47,7 +47,7 @@
             </h5>
             <p> เลขที่บิลรับเงิน : {{income_search.id}}</p>
             <p> รายการรับเงิน : {{income_search.name}}</p>
-            <p> จำนวนเงิน : {{income_search.amount}}</p>
+            <p> จำนวนเงิน : {{income_search.amount.toLocaleString()}} บาท</p>
             <p> หมายเหตุ : {{income_search.note}}</p>
             <p> พนักงานที่ลงรายการ : {{income_search.employee.nickname}}</p>
             <div v-if="user.role == 'manager'">

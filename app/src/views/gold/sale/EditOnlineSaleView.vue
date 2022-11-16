@@ -35,15 +35,15 @@
                         <p> ชื่อสินค้า: {{onlineSale.gold.name}}</p>
                         <p> ประเภทสินค้า: {{onlineSale.gold.gold_type.name}}</p>
                         <p v-if="onlineSale.gold.custom_weight == null"> นำ้หนัก: {{onlineSale.gold.weight}}</p>
-                        <p v-if="onlineSale.gold.weight == null"> นำ้หนัก: {{onlineSale.gold.custom_weight}}</p>
+                        <p v-if="onlineSale.gold.weight == null"> นำ้หนัก: {{onlineSale.gold.custom_weight.toLocaleString()}} กรัม</p>
                         <p> ลาย: {{onlineSale.gold.gold_pattern.name}}</p>
                         <p> ไซส์: {{onlineSale.gold.size}}</p>
                         <p> ราคาสินค้า:</p>
-                        <p> {{onlineSale.gold_price}} </p>
+                        <p> {{onlineSale.gold_price.toLocaleString()}} บาท</p>
                     
                     
                         <p> วันที่ขาย: {{onlineSale.sale_date}}</p>
-                        <p> ราคาทอง ณ เวลาขาย: {{onlineSale.gold_sell_price.sell_price}}</p>
+                        <p> ราคาทอง ณ เวลาขาย: {{onlineSale.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
                         
                         <div v-if='user.role == "manager"'>
                             <p> รายละเอียดเพิ่มเติมจากลูกค้า:</p>

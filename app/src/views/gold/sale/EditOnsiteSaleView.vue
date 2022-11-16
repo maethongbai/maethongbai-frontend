@@ -44,7 +44,7 @@
                 <p> ชื่อสินค้า: {{onsiteSale.gold.name}}</p>
                 <p> ประเภทสินค้า: {{onsiteSale.gold.gold_type.name}}</p>
                 <p v-if="onsiteSale.gold.custom_weight == null"> นำ้หนัก: {{onsiteSale.gold.weight}}</p>
-                <p v-if="onsiteSale.gold.weight == null"> นำ้หนัก: {{onsiteSale.gold.custom_weight}}</p>
+                <p v-if="onsiteSale.gold.weight == null"> นำ้หนัก: {{onsiteSale.gold.custom_weight.toLocaleString()}} กรัม</p>
                 <p> ลาย: {{onsiteSale.gold.gold_pattern.name}}</p>
                 <p> วันที่ขาย: {{onsiteSale.sale_date}}</p>
                 <label class="mx-3 my-3">ประเภททองเปลี่ยน</label>
@@ -72,9 +72,9 @@
                 </p>
                 <!-- <p>{{onsiteSale.redemption}}</p> -->
 
-                <p>ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}}</p>
+                <p>ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
                 <p>ราคาสินค้าที่ขาย:</p>
-                <p> {{onsiteSale.gold_price}} </p>
+                <p> {{onsiteSale.gold_price.toLocaleString()}} บาท</p>
 
                 <p>ช่องทางการชำระเงิน: </p>
                 <p>{{onsiteSale.payment_method}}</p>
@@ -82,9 +82,9 @@
                 <p v-if="onsiteSale.payment_method == 'cash'">
                     <div >
                         <p>เงินที่ลูกค้าชำระ: </p>
-                        <p> {{onsiteSale.paid_amount}}</p>
+                        <p> {{onsiteSale.paid_amount.toLocaleString()}} บาท</p>
                         <p> เงินทอน: </p>
-                        <p> {{onsiteSale.paid_change}}</p>
+                        <p> {{onsiteSale.paid_change.toLocaleString()}} บาท</p>
                     </div>
                 </p>
 

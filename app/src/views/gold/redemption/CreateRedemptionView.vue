@@ -119,11 +119,11 @@
                                 <label class="p-2">วันที่รับซื้อ: {{showDate}}</label>
                             </div>
                             <div>
-                                <label class="p-2">ราคาทอง ณ เวลารับซื้อ: {{redemption.gold_redemption_price.buy_price}} บาท</label>
+                                <label class="p-2">ราคาทอง ณ เวลารับซื้อ: {{redemption.gold_redemption_price.buy_price.toLocaleString()}} บาท</label>
                             </div>
                             <div>
                                 <label class="p-2">ราคาที่รับซื้อ: </label>
-                                <label class="" v-if="redemption.gold.weight != null">{{redemption.redemption_price}} บาท</label>
+                                <label class="" v-if="redemption.gold.weight != null">{{redemption.redemption_price.toLocaleString()}} บาท</label>
                                 <label class="inline" v-else>-</label>
                             </div>
 

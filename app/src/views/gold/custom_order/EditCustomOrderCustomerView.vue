@@ -17,19 +17,19 @@
                 ประเภท/ลักษณะ: {{custom_order.type}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                น้ำหนัก: {{custom_order.weight}} กรัม
+                น้ำหนัก: {{custom_order.weight.toLocaleString()}} กรัม
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ค่าแรง: {{custom_order.wage}} บาท
+                ค่าแรง: {{custom_order.wage.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ราคาเต็ม: {{custom_order.full_price}} บาท
+                ราคาเต็ม: {{custom_order.full_price.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                มัดจำ: {{custom_order.deposit_total_amount}} บาท
+                มัดจำ: {{custom_order.deposit_total_amount.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ส่วนต่าง: {{custom_order.difference_amount}} บาท
+                ส่วนต่าง: {{custom_order.difference_amount.toLocaleString()}} บาท
             </p>
             <div class="mx-1 mb-3 font-normal text-gray-700">
                 <p class="inline">วันที่เสร็จ: </p>
@@ -79,7 +79,7 @@
                 <label class="mx-3 my-3">เงินสด</label>
                 <div v-if="checks.cash_check == true">
                     <div>
-                        <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.difference_amount}} บาท</label>
+                        <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.difference_amount.toLocaleString()}} บาท</label>
                     </div>
                     <div>
                         <label class="mx-3 my-3">เงินที่ลูกค้าจ่าย</label>
@@ -88,7 +88,7 @@
                     </div>
                     <div>
                         <label class="my-3 ml-3">เงินทอน: </label>
-                        <label class="inline" v-if="difference_values.cash.change_amount != null">{{difference_values.cash.change_amount}} บาท</label>
+                        <label class="inline" v-if="difference_values.cash.change_amount != null">{{difference_values.cash.change_amount.toLocaleString()}} บาท</label>
                         <label class="inline" v-else>-</label>
                     </div>
                 </div>

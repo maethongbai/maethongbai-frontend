@@ -82,12 +82,12 @@
 
                             <div class="flex flex-row">
                                 <p class="p-2">ราคาทองตอนสั่ง: </p>
-                                <p class=" p-2 ml-1 mr-3">{{custom_order.gold_order_price.sell_price}} บาท</p>
+                                <p class=" p-2 ml-1 mr-3">{{custom_order.gold_order_price.sell_price.toLocaleString()}} บาท</p>
                             </div>
 
                             <div class="flex flex-row">
                                 <p class="p-2">ราคาเต็ม: </p>
-                                <p class=" p-2 pl-3 ml-12 mr-3">{{custom_order.full_price}} บาท</p>
+                                <p class=" p-2 pl-3 ml-12 mr-3">{{custom_order.full_price.toLocaleString()}} บาท</p>
                             </div>
 
                             <div class="flex flex-row">
@@ -98,7 +98,7 @@
 
                             <div class="flex flex-row">
                                 <p class="p-2">ส่วนต่าง: </p>
-                                <p class=" p-2 pl-4 ml-12 mr-3">{{custom_order.difference_amount}} บาท</p>
+                                <p class=" p-2 pl-4 ml-12 mr-3">{{custom_order.difference_amount.toLocaleString()}} บาท</p>
                             </div>       
                         </div>
 
@@ -128,7 +128,7 @@
 
                             <div class="mx-3 my-3" v-if="select.payment_method == 'เงินสด'">
                                 <div>
-                                    <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.deposit_total_amount}} บาท</label>
+                                    <label class="my-3 ml-3">ราคาสุทธิ: {{custom_order.deposit_total_amount.toLocaleString()}} บาท</label>
                                 </div>
                                 <div class="flex flex-row">
                                     <label class="mx-3 my-3 pt-2">เงินที่ลูกค้าจ่าย</label>
@@ -136,7 +136,7 @@
                                     <label class="mx-3 my-3">บาท</label>
                                 </div>
                                 <div>
-                                    <label class="my-3 ml-3">เงินทอน: {{custom_order.cash.change_amount}} บาท</label>
+                                    <label class="my-3 ml-3">เงินทอน: {{custom_order.cash.change_amount.toLocaleString()}} บาท</label>
                                 </div>
                             </div>
 

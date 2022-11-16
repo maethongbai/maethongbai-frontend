@@ -31,21 +31,21 @@ user.role == "manager"'>
             </div>
             <div class="mx-3 my-3">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    ค่าแรง: {{custom_order.wage}} บาท
+                    ค่าแรง: {{custom_order.wage.toLocaleString()}} บาท
                 </p>
             </div>
             <div class="mx-3 my-3">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    ราคาเต็ม: {{custom_order.full_price}} บาท
+                    ราคาเต็ม: {{custom_order.full_price.toLocaleString()}} บาท
                 </p>
             </div>
             <div class="mx-3 my-3">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    มัดจำ: {{custom_order.deposit_total_amount}} บาท
+                    มัดจำ: {{custom_order.deposit_total_amount.toLocaleString()}} บาท
                 </p>
             </div>
             <div class="mx-3 my-3">
-                <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount}} บาท</label>
+                <label class="ml-3">ส่วนต่าง: {{custom_order.difference_amount.toLocaleString()}} บาท</label>
             </div>
             <div class="mx-3 my-3">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
@@ -79,19 +79,19 @@ user.role == "manager"'>
                 ประเภท/ลักษณะ: {{custom_order.type}}
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                น้ำหนัก: {{custom_order.weight}} กรัม
+                น้ำหนัก: {{custom_order.weight.toLocaleString()}} กรัม
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ค่าแรง: {{custom_order.wage}} บาท
+                ค่าแรง: {{custom_order.wage.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ราคาเต็ม: {{custom_order.full_price}} บาท
+                ราคาเต็ม: {{custom_order.full_price.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                มัดจำ: {{custom_order.deposit_total_amount}} บาท
+                มัดจำ: {{custom_order.deposit_total_amount.toLocaleString()}} บาท
             </p>
             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                ส่วนต่าง: {{custom_order.difference_amount}} บาท
+                ส่วนต่าง: {{custom_order.difference_amount.toLocaleString()}} บาท
             </p>
             <div class="mx-1 mb-3 font-normal text-gray-700">
                 <p class="inline">วันที่เสร็จ: </p>
@@ -124,10 +124,10 @@ user.role == "manager"'>
             </div>
             <div v-else-if="custom_order.deposit_payment_method == 'cash'">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    เงินที่ลูกค้าจ่าย: {{custom_order.deposit_paid_amount}}
+                    เงินที่ลูกค้าจ่าย: {{custom_order.deposit_paid_amount.toLocaleString()}}
                 </p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    เงินทอน: {{custom_order.deposit_change_amount}}
+                    เงินทอน: {{custom_order.deposit_change_amount.toLocaleString()}}
                 </p>
             </div>
             <div v-else-if="custom_order.deposit_payment_method == 'transfer'">
@@ -152,10 +152,10 @@ user.role == "manager"'>
             </div>
             <div v-else-if="custom_order.difference_payment_method == 'cash'">
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    เงินที่ลูกค้าจ่าย: {{custom_order.difference_paid_amount}}
+                    เงินที่ลูกค้าจ่าย: {{custom_order.difference_paid_amount.toLocaleString()}}
                 </p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                    เงินทอน: {{custom_order.difference_change_amount}}
+                    เงินทอน: {{custom_order.difference_change_amount.toLocaleString()}}
                 </p>
             </div>
             <div v-else-if="custom_order.difference_payment_method == 'transfer'">

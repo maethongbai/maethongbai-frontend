@@ -21,7 +21,7 @@
             <div>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">ตำแหน่ง: {{ selected.role }}</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่เริ่มทำงาน: {{ selected.employee.work_start_date }}</p>
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">เงินเดือน: {{ selected.employee.salary }} บาท</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">เงินเดือน: {{ selected.employee.salary.toLocaleString() }} บาท</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่แก้ไขล่าสุด: {{ selected.employee.updated_at }}</p>
                 <a v-bind:href="'/employee/view/edit/'+ selected.id " class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     แก้ไข

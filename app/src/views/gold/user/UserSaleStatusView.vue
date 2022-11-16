@@ -70,7 +70,7 @@
                     น้ำหนัก: {{selected_sale.gold.weight}}
                 </p>
                 <p v-else class="mx-1 mb-3 font-normal text-gray-700 ">
-                    น้ำหนัก: {{selected_sale.gold.custom_weight}}
+                    น้ำหนัก: {{selected_sale.gold.custom_weight.toLocaleString()}} กรัม
                 </p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">
                     ลาย: {{selected_sale.gold.gold_pattern.name}}
@@ -99,7 +99,7 @@
                     </p>
                 </div>
                 <p v-if="selected_sale.gold_sell_price != null" class="mx-1 mb-3 font-normal text-gray-700 ">
-                    ราคา: {{selected_sale.gold_sell_price.sell_price}} บาท
+                    ราคา: {{selected_sale.gold_sell_price.sell_price.toLocaleString()}} บาท
                 </p>
                 <p v-else class="mx-1 mb-3 font-normal text-gray-700 ">
                     ราคา: - บาท

@@ -34,7 +34,7 @@
                             </div>
                             </div>
                         
-                            <p class="p-2"> ราคา: {{ gold_price }} </p>
+                            <p class="p-2"> ราคา: {{ gold_price.toLocaleString() }} บาท</p>
                         </div>
                     </div>
 
@@ -101,10 +101,10 @@
                             <p class="mx-3 my-3 font-normal text-gray-700 inline ">{{ select_count }} ชิ้น</p>
                             <br>
                             <p class="mx-3 my-3 font-bold text-gray-700 inline">รวมยอดสั่งซื้อสินค้า</p>
-                            <p class="mx-3 my-3 font-semibold text-red-700 inline"> {{ total_gold_price }} บาท</p>
+                            <p class="mx-3 my-3 font-semibold text-red-700 inline"> {{ total_gold_price.toLocaleString() }} บาท</p>
                             <br>
                             <p class="mx-3 my-3 font-normal text-gray-700 ">ค่าจัดส่งสินค้า ฟรี </p>
-                            <p class="mx-3 my-3 font-normal text-gray-700 ">ยอดสั่งซื้อสินค้าทั้งหมด {{ total_gold_price }} </p>
+                            <p class="mx-3 my-3 font-normal text-gray-700 ">ยอดสั่งซื้อสินค้าทั้งหมด {{ total_gold_price.toLocaleString() }} บาท</p>
                         </div>
 
                     </div>

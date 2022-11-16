@@ -51,7 +51,7 @@
                                     น้ำหนัก: {{redemption_searched.gold.weight}}
                                 </p>
                                 <p class="mx-1 mb-3 font-normal text-grv  ay-700" v-else>
-                                    น้ำหนัก: {{redemption_searched.gold.custom_weight}}
+                                    น้ำหนัก: {{redemption_searched.gold.custom_weight.toLocaleString()}} กรัม
                                 </p>
                                 <p class="mx-1 mb-3 font-normal text-gray-700">
                                     ลาย: {{redemption_searched.gold.gold_pattern.name}}
@@ -63,10 +63,10 @@
                                     วันที่รับซื้อ: {{redemption_searched.redemption_date}}
                                 </p>
                                 <p class="mx-1 mb-3 font-normal text-gray-700">
-                                    ราคาทองตอนรับซื้อ: {{redemption_searched.gold_redemption_price.buy_price}}
+                                    ราคาทองตอนรับซื้อ: {{redemption_searched.gold_redemption_price.buy_price.toLocaleString()}} บาท
                                 </p>
                                 <p class="mx-1 mb-3 font-normal text-gray-700">
-                                    ราคาที่รับซื้อ: {{redemption_searched.redemption_price}}
+                                    ราคาที่รับซื้อ: {{redemption_searched.redemption_price.toLocaleString()}} บาท
                                 </p>
                                 <p class="mx-1 mb-3 font-normal text-gray-700">
                                     สถานะตรวจสอบ: {{redemption_searched.check_status}}

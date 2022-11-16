@@ -14,7 +14,7 @@
             <input type="text" v-model="income.name">
             
             <p>จำนวนเงิน: </p>
-            <p>{{income.amount}}</p>
+            <p>{{income.amount.toLocaleString()}} บาท</p>
 
             <p>หมายเหตุ: </p>
             <input type="text" v-model="income.note">

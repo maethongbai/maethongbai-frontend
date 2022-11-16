@@ -72,7 +72,7 @@
                         น้ำหนัก: {{searched_obj.item.gold.weight}}
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700" v-else>
-                        น้ำหนัก: {{searched_obj.item.gold.custom_weight}}
+                        น้ำหนัก: {{searched_obj.item.gold.custom_weight.toLocaleString()}} กรัม
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700">
                         ลาย: {{searched_obj.item.gold.gold_pattern.name}}
@@ -84,10 +84,10 @@
                         วันที่รับซื้อ: {{searched_obj.item.redemption_date}}
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700">
-                        ราคาทองตอนรับซื้อ: {{searched_obj.item.gold_redemption_price.buy_price}}
+                        ราคาทองตอนรับซื้อ: {{searched_obj.item.gold_redemption_price.buy_price.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700">
-                        ราคาที่รับซื้อ: {{searched_obj.item.redemption_price}}
+                        ราคาที่รับซื้อ: {{searched_obj.item.redemption_price.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700">
                         สถานะตรวจสอบ: {{searched_obj.item.check_status}}
@@ -110,8 +110,8 @@
                         <p> รหัสสินค้า : {{searched_obj.item.gold.id}}</p>
                         <p> ชื่อสินค้า : {{searched_obj.item.gold.name}}</p>
                         <p> วันที่ขาย : {{searched_obj.item.sale_date}}</p>
-                        <p> ราคาทอง ณ เวลาที่ขาย : {{searched_obj.item.gold_sell_price.sell_price}}</p>
-                        <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{searched_obj.item.gold_price}}</p>
+                        <p> ราคาทอง ณ เวลาที่ขาย : {{searched_obj.item.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
+                        <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{searched_obj.item.gold_price.toLocaleString()}} บาท</p>
                         <p> ช่องทางการชำระเงิน : {{searched_obj.item.payment_method}} </p>
 
                         <div v-if="searched_obj.item.payment_method == 'credit_card'">
@@ -126,8 +126,8 @@
                         </div>
 
                         <div v-if="searched_obj.item.payment_method == 'cash'">
-                            <p> ยอดเงินที่ลูกค้าชำระ : {{searched_obj.item.paid_amount}}</p>
-                            <p> ยอดเงินทอน : {{searched_obj.item.paid_change}}</p>
+                            <p> ยอดเงินที่ลูกค้าชำระ : {{searched_obj.item.paid_amount.toLocaleString()}} บาท</p>
+                            <p> ยอดเงินทอน : {{searched_obj.item.paid_change.toLocaleString()}} บาท</p>
                         </div>
 
                         <p v-if="searched_obj.item.is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
@@ -167,10 +167,11 @@
                         การขายออนไลน์
                         <p> รหัสสินค้า : {{searched_obj.item.gold.id}}</p>
                         <p> ชื่อสินค้า : {{searched_obj.item.name}}</p>
+                        <p> จำนวนสินค้าที่ซื้อ : {{searched_obj.item.amount}} ชิ้น</p>
                         <p> วันที่ขาย : {{searched_obj.item.sale_date}}</p>
                         <p> รูปสลิป : {{searched_obj.item.slip_image}}</p>
-                        <p> ราคาทอง ณ เวลาที่ขาย : {{searched_obj.item.gold_sell_price.sell_price}}</p>
-                        <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{searched_obj.item.amount}}</p>
+                        <p> ราคาทอง ณ เวลาที่ขาย : {{searched_obj.item.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
+                        <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{searched_obj.item.gold_price.toLocaleString()}} บาท</p>
                         <p> สถานะการโอน : {{searched_obj.item.transfer_status}}</p>
                         <p> หมายเหตุการโอน : {{searched_obj.item.transfer_note}}</p>
                         <p> สถานะส่งของ : {{searched_obj.item.delivery_status}}</p>
@@ -197,19 +198,19 @@
                         ประเภท/ลักษณะ: {{searched_obj.item.type}}
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                        น้ำหนัก: {{searched_obj.item.weight}}
+                        น้ำหนัก: {{searched_obj.item.weight.toLocaleString()}} กรัม
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                        ค่าแรง: {{searched_obj.item.wage}}
+                        ค่าแรง: {{searched_obj.item.wage.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                        ราคาเต็ม: {{searched_obj.item.full_price}}
+                        ราคาเต็ม: {{searched_obj.item.full_price.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                        มัดจำ: {{searched_obj.item.deposit_total_amount}}
+                        มัดจำ: {{searched_obj.item.deposit_total_amount.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                        ส่วนต่าง: {{searched_obj.item.difference_amount}}
+                        ส่วนต่าง: {{searched_obj.item.difference_amount.toLocaleString()}} บาท
                     </p>
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">
                         วันที่เสร็จ: {{searched_obj.item.finish_date}}
@@ -259,10 +260,10 @@
                     </div>
                     <div v-else-if="searched_obj.item.deposit_payment_method == 'cash'">
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            เงินที่ลูกค้าจ่าย: {{searched_obj.item.deposit_paid_amount}}
+                            เงินที่ลูกค้าจ่าย: {{searched_obj.item.deposit_paid_amount.toLocaleString()}} บาท
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            เงินทอน: {{searched_obj.item.depoosit_change_amount}}
+                            เงินทอน: {{searched_obj.item.depoosit_change_amount.toLocaleString()}} บาท
                         </p>
                     </div>
                     <div v-else-if="searched_obj.item.deposit_payment_method == 'credit card'">

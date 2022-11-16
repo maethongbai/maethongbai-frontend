@@ -71,13 +71,13 @@
                                         <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
                                     </div>
                                     <div v-if="onsiteSale.gold.weight == null">
-                                        <p class="mx-3" v-if="onsiteSale.gold.custom_weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.custom_weight}}</p>
+                                        <p class="mx-3" v-if="onsiteSale.gold.custom_weight != null">นำ้หนักสินค้า: {{onsiteSale.gold.custom_weight.toLocaleString()}} กรัม</p>
                                         <p class="mx-3" v-else>นำ้หนักสินค้า: -</p>
                                     </div>
                                     <p class="mx-3" v-if="onsiteSale.gold.size != null">ขนาดสินค้า: {{onsiteSale.gold.size}}</p>
                                     <p class="mx-3" v-else>ขนาดสินค้า: -</p>
                                     <p class="mx-3">วันที่ขาย: {{showDate}}</p>
-                                    <p class="mx-3" v-if="onsiteSale.gold_sell_price != null">ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price}} </p>
+                                    <p class="mx-3" v-if="onsiteSale.gold_sell_price != null">ราคาทอง ณ เวลาขาย: {{onsiteSale.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
                                     <p class="mx-3" v-else>ราคาทอง ณ เวลาขาย: -</p>
                                     <div class="flex flex-row">
                                         <label class="p-2"> ราคาสินค้า </label>
@@ -114,11 +114,11 @@
                                     <label for="credit_card"> บัตรเครดิต </label>
                                 </div>
                                 <p v-if="onsiteSale.sale_payment_method.payment_method == 'cash' ">
-                                    <label>ราคาสุทธิ: {{onsiteSale.gold_price}}</label>
+                                    <label>ราคาสุทธิ: {{onsiteSale.gold_price.toLocaleString()}} บาท</label>
                                     <p>เงินที่ลูกค้าชำระ: </p>
                                     <input class="mx-3 text-field w-[200px]" type="number" v-model="change" autocomplete="off" required>
                                     <p>เงินทอน: </p>
-                                    <label> {{ onsiteSale.sale_payment_method.paid_change}}</label>
+                                    <label> {{ onsiteSale.sale_payment_method.paid_change.toLocaleString()}} บาท</label>
                                 </p>
 
                                 <p v-if="onsiteSale.sale_payment_method.payment_method == 'transfer' ">

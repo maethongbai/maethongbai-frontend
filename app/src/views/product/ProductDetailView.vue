@@ -19,7 +19,7 @@
                         <p class="mx-3 my-3 font-normal text-gray-700"> ลาย: {{ gold.gold_pattern.name }}</p>
                         <p class="ml-3 my-3  font-normal text-gray-700 inline">ขนาด: {{ gold.size }}</p>
                         <p class="font-normal text-gray-700 inline" v-if=" gold.gold_type.name != 'แหวน'"> เซนติเมตร </p>
-                        <p class="mx-3 my-3 font-normal text-gray-700"> ราคา: {{ gold_price }} </p>
+                        <p class="mx-3 my-3 font-normal text-gray-700"> ราคา: {{ gold_price.toLocaleString() }} บาท</p>
                         <a v-bind:href="'/product/order_summary/'+ gold_id" class="red-btn w-[200px]">
                             ซื้อเลย
                         </a>

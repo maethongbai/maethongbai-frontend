@@ -14,7 +14,7 @@
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">รายละเอียด: (ไม่มีรายละเอียดเพิ่มเติม)</p>
                 </div>
                 
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">จำนวนเงิน: {{ selected_income.amount }} บาท</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">จำนวนเงิน: {{ selected_income.amount.toLocaleString() }} บาท</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">พนักงานที่รับผิดชอบ: {{ selected_income.employee.nickname }}</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่ทำรายการ: {{ selected_income.transaction_date }}</p>
             </div>
@@ -32,7 +32,7 @@
                     <p class="mx-1 mb-3 font-normal text-gray-700 ">รายละเอียด: (ไม่มีรายละเอียดเพิ่มเติม)</p>
                 </div>
                 
-                <p class="mx-1 mb-3 font-normal text-gray-700 ">จำนวนเงิน: {{ selected_withdrawal.amount }} บาท</p>
+                <p class="mx-1 mb-3 font-normal text-gray-700 ">จำนวนเงิน: {{ selected_withdrawal.amount.toLocaleString() }} บาท</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">พนักงานที่รับผิดชอบ: {{ selected_withdrawal.employee.nickname }}</p>
                 <p class="mx-1 mb-3 font-normal text-gray-700 ">วันที่ทำรายการ: {{ selected_withdrawal.transaction_date }}</p>
             </div>
@@ -89,7 +89,7 @@
                             {{ income.name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ income.amount }}
+                            {{ income.amount.toLocaleString() }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ income.employee.nickname }}
@@ -142,7 +142,7 @@
                             {{ withdrawal.name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ withdrawal.amount }}
+                            {{ withdrawal.amount.toLocaleString() }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ withdrawal.employee.nickname }}
@@ -166,10 +166,10 @@
         <h5 class="mx-6 text-2xl font-bold tracking-tight text-gray-900">สรุปรายรับ-รายจ่าย</h5>
         <div>
             <p class="p-3 text-lg font-semibold text-gray-900 bg-white">
-            รายรับทั้งหมด: {{income_total_amount}} บาท
+            รายรับทั้งหมด: {{income_total_amount.toLocaleString()}} บาท
             </p>
             <p class="p-3 text-lg font-semibold text-gray-900 bg-white">
-                รายจ่ายทั้งหมด: {{withdrawal_total_amount}} บาท
+                รายจ่ายทั้งหมด: {{withdrawal_total_amount.toLocaleString()}} บาท
                 </p>
         </div>
         

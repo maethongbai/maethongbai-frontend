@@ -73,8 +73,8 @@
                 <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
                 <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
                 <p> วันที่ขาย : {{sale_search.sale_date}}</p>
-                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price}}</p>
-                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.gold_price}}</p>
+                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
+                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.gold_price.toLocaleString()}} บาท</p>
                 <p> ช่องทางการชำระเงิน : {{sale_search.payment_method}} </p>
 
                 <div v-if="sale_search.payment_method == 'credit_card'">
@@ -90,8 +90,8 @@
                 </div>
 
                 <div v-if="sale_search.payment_method == 'cash'">
-                    <p> ยอดเงินที่ลูกค้าชำระ : {{sale_search.paid_amount}}</p>
-                    <p> ยอดเงินทอน : {{sale_search.paid_change}}</p>
+                    <p> ยอดเงินที่ลูกค้าชำระ : {{sale_search.paid_amount.toLocaleString()}} บาท</p>
+                    <p> ยอดเงินทอน : {{sale_search.paid_change.toLocaleString()}} บาท</p>
                 </div>
 
                 <p v-if="is_switch_gold == false"> ไม่เป็นทองเปลี่ยน </p>
@@ -108,11 +108,12 @@
                 <p> เลขที่บิลขายออนไลน์ : {{sale_search.id}}</p>
                 <p> รหัสสินค้า : {{sale_search.gold.id}}</p>
                 <p> ชื่อสินค้า : {{sale_search.gold.name}}</p>
+                <p> จำนวนสินค้าที่ซื้อ : {{sale_search.amount}} ชิ้น</p>
                 <p> วันที่ขาย : {{sale_search.sale_date}}</p>
                 <p> รูปสลิป :</p>
                 <img :src="`${sale_search.slip_image}`" width="200">
-                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price}}</p>
-                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.amount}}</p>
+                <p> ราคาทอง ณ เวลาที่ขาย : {{sale_search.gold_sell_price.sell_price.toLocaleString()}} บาท</p>
+                <p> ราคาที่ขายสืนค้า(ราคาสุทธิ) : {{sale_search.gold_price.toLocaleString()}} บาท</p>
                 <p> สถานะการโอน : {{sale_search.transfer_status}}</p>
                 <p> หมายเหตุการโอน : {{sale_search.transfer_note}}</p>
                 <p v-if="sale_search.delivery_status != null"> สถานะส่งของ : {{sale_search.delivery_status}}</p>

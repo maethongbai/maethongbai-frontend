@@ -86,7 +86,7 @@
 
                                 <div class="flex flex-row">
                                     <label for="gold.goldsmith_charge" class="p-2">ค่ากำเหน็จต่อชิ้น {{
-                                            gold.pension_per_piece
+                                            gold.pension_per_piece.toLocaleString()
                                     }} บาท</label>
 
                                 </div>
@@ -112,7 +112,7 @@
                                 <div class="flex flex-row">
                                     <label for="gold.gold_buy_price_wholesale" class="p-2">ราคาทองตอนซื้อจากร้านขายส่ง
                                         {{
-                                                gold.gold_buy_price_wholesale
+                                                gold.gold_buy_price_wholesale.toLocaleString()
                                         }} บาท</label>
                                 </div>
 

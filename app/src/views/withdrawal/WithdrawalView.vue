@@ -85,7 +85,7 @@
             </h5>
             <p> เลขที่บิลเบิกเงิน : {{withdrawal_search.id}}</p>
             <p> รายการเบิกเงิน : {{withdrawal_search.name}}</p>
-            <p> จำนวนเงิน : {{withdrawal_search.amount}}</p>
+            <p> จำนวนเงิน : {{withdrawal_search.amount.toLocaleString()}} บาท</p>
             <p> สถานะรายการเบิกเงิน : {{withdrawal_search.withdrawal_status}}</p>
             <p> พนักงานที่ต้องการเบิกเงิน : {{withdrawal_search.employee.nickname}}</p>
             <p v-if="withdrawal_search.employee_withdrawal !=null"> พนักงานที่ลงรายการเบิกเงิน : {{withdrawal_search.employee_withdrawal.nickname}}</p>

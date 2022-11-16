@@ -41,19 +41,19 @@
                             ประเภท/ลักษณะ: {{custom_order_searched.type}}
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            น้ำหนัก: {{custom_order_searched.weight}}
+                            น้ำหนัก: {{custom_order_searched.weight.toLocaleString()}} กรัม
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            ค่าแรง: {{custom_order_searched.wage}}
+                            ค่าแรง: {{custom_order_searched.wage.toLocaleString()}} บาท
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            ราคาเต็ม: {{custom_order_searched.full_price}}
+                            ราคาเต็ม: {{custom_order_searched.full_price.toLocaleString()}} บาท
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            มัดจำ: {{custom_order_searched.deposit_total_amount}}
+                            มัดจำ: {{custom_order_searched.deposit_total_amount.toLocaleString()}} บาท
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                            ส่วนต่าง: {{custom_order_searched.difference_amount}}
+                            ส่วนต่าง: {{custom_order_searched.difference_amount.toLocaleString()}} บาท
                         </p>
                         <p class="mx-1 mb-3 font-normal text-gray-700 ">
                             วันที่เสร็จ: {{custom_order_searched.finish_date}}
@@ -121,10 +121,10 @@
                         </div>
                         <div v-else-if="custom_order_searched.deposit_payment_method == 'cash'">
                             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                                เงินที่ลูกค้าจ่าย: {{custom_order_searched.deposit_paid_amount}}
+                                เงินที่ลูกค้าจ่าย: {{custom_order_searched.deposit_paid_amount.toLocaleString()}} บาท
                             </p>
                             <p class="mx-1 mb-3 font-normal text-gray-700 ">
-                                เงินทอน: {{custom_order_searched.depoosit_change_amount}}
+                                เงินทอน: {{custom_order_searched.depoosit_change_amount.toLocaleString()}} บาท
                             </p>
                         </div>
                         <div v-else-if="custom_order_searched.deposit_payment_method == 'credit card'">
