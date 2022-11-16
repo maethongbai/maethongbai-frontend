@@ -132,6 +132,7 @@ export default {
             try {
                 console.log(this.withdrawal)
                 await this.withdrawal_store.edit(this.withdrawal.id,this.withdrawal)
+                console.table(this.withdrawal_store.getWithdrawals)
                 this.$router.push("/withdrawal/view");
                 
             } catch (error) {

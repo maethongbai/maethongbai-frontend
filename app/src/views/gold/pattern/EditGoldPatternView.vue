@@ -103,6 +103,7 @@ export default {
             }
             try {
                 await this.gold_pattern_store.editGoldPattern(gold_pattern.id, gold_pattern)
+                console.table(this.gold_pattern_store.getGoldPatterns)
                 this.$router.push("/gold_pattern/view")
             } catch (error) {
                 this.error = error.message

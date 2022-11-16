@@ -304,6 +304,7 @@ export default {
         async saveOnsiteSale(e) {
             try {
                 await this.onsiteSale_store.edit(this.onsiteSale.id,this.onsiteSale)
+                console.table(this.onsiteSale_store.getOnsiteSales)
                 this.$router.push("/sale/view");
                 
             } catch (error) {

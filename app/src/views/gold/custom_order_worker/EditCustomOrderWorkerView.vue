@@ -116,6 +116,7 @@ export default {
             }
             try {
                 await this.custom_order_worker_store.editWorker(worker.id, worker)
+                console.table(this.custom_order_worker_store.getCustomOrderWorkers)
                 this.$router.push("/custom_order_worker/view")
             } catch (error) {
                 this.error = error.message

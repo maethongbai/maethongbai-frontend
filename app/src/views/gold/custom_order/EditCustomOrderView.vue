@@ -433,6 +433,7 @@ export default {
             }
             try {
                 await this.custom_order_store.edit(this.custom_order_id, custom_order)
+                console.table(this.custom_order_store.getCustomOrders)
                 this.$router.push("/custom_order/view")
             } catch (error) {
                 console.log(error.response.data)

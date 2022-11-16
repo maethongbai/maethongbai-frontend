@@ -410,7 +410,9 @@ export default {
                     is_sold: true
                 }
                 await this.onsiteSale_store.add(onsiteSale)
+                console.table(this.onsiteSale_store.getOnsiteSales)
                 await this.gold_store.edit(temp_gold)
+                console.table(this.gold_store.getGolds)
 
                 this.$router.push("/sale/view");
 

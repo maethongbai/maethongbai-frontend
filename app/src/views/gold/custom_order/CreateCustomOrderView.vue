@@ -506,6 +506,7 @@ export default {
 
             try {
                 await this.custom_order_store.add(custom_order)
+                console.table(this.custom_order_store.getCustomOrders)
                 this.$router.push("/custom_order/view");
             } catch (error) {
                 console.error(error.response.data)

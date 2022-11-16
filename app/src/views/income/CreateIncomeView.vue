@@ -149,6 +149,7 @@ export default {
                     transaction_date: this.income.transaction_date
                 }
                 await this.income_store.add(income)
+                console.table(this.income_store.getIncomes)
                 console.log(income)
 
                 this.$router.push("/income/view");

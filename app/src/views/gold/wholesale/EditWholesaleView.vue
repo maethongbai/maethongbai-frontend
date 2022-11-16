@@ -119,6 +119,7 @@ export default {
             }
             try {
                 await this.wholesale_store.editWholesale(wholesale.id, wholesale)
+                console.table(this.wholesale_store.getWholesales)
                 this.$router.push("/wholesale/view")
             } catch (error) {
                 this.error = error.message

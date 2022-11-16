@@ -359,6 +359,7 @@ export default {
             try {
                 await this.custom_order_store.editDeliveryDate(this.custom_order_id, moment().format("YYYY-MM-DD"))
                 await this.custom_order_store.editDifferenceValues(this.custom_order_id, difference_values)
+                console.table(this.custom_order_store.getCustomOrders)
                 this.$router.push("/custom_order/view")
             } catch (error) {
                 console.log(error.response.data.message)

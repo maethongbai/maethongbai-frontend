@@ -106,6 +106,7 @@ export default {
             try {
                 console.log(this.income)
                 await this.income_store.edit(this.income.id,this.income)
+                console.table(this.income_store.getIncomes)
                 this.$router.push("/income/view");
                 
             } catch (error) {

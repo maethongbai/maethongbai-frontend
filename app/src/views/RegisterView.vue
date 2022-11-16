@@ -187,6 +187,7 @@ export default {
             try {
                 console.log(user_obj)
                 await this.user_store.add(user_obj)
+                console.table(this.user_store.getUsers)
                 this.$router.push('/login')
             } catch (error) {
                 console.error(error.response.data)

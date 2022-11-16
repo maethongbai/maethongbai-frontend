@@ -157,6 +157,7 @@ export default {
                     withdrawals_employee_id: this.user.employee.id
                 }
                 await this.withdrawal_store.add(withdrawal)
+                console.table(this.withdrawal_store.getWithdrawals)
                 console.log(withdrawal)
 
                 this.$router.push("/withdrawal/view");

@@ -130,7 +130,7 @@ export default {
 
         await this.custom_order_worker_store.fetch()
         this.workers = this.custom_order_worker_store.getCustomOrderWorkers
-        console.log(this.workers)
+        // console.table(this.custom_order_worker_store.getCustomOrderWorkers)
     },
     methods: {
         async searchID() {

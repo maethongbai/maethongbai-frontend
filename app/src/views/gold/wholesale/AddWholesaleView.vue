@@ -133,6 +133,7 @@ export default {
                         address: this.wholesale.address
                     }
                     await this.wholesale_store.add(wholesale)
+                    console.table(this.wholesale_store.getWholesales)
                     this.$router.push("/wholesale/view")
                 } catch (error) {
                     this.error = error.message

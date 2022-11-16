@@ -266,6 +266,7 @@ export default {
         async saveOnlineSale(e) {
             try {
                 await this.onlineSale_store.edit(this.onlineSale.id,this.onlineSale)
+                console.table(this.onsiteSale_store.getOnsiteSales)
                 this.$router.push("/sale/view");
                 
             } catch (error) {

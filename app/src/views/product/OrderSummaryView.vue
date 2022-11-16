@@ -333,6 +333,7 @@ export default {
             }
             try {
                 await this.online_sale_store.add(onlineSale)
+                console.table(this.online_sale_store.getOnlineSales)
 
                 var sold = 0
                 // console.log(this.gold_count)
@@ -346,6 +347,7 @@ export default {
                                     is_sold: true
                                 }
                                 await this.gold_store.edit(temp_gold)
+                                console.table(this.gold_store.getGolds)
                             }
                     } else {
                         break

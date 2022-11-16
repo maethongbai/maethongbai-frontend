@@ -100,6 +100,7 @@ export default {
                     phone: this.worker.phone
                 }
                 await this.custom_order_worker_store.add(worker)
+                console.table(this.custom_order_worker_store.getCustomOrderWorkers)
                 this.$router.push("/custom_order_worker/view")
             } catch (error) {
                 this.error = error.message

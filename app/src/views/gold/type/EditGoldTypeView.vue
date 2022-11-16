@@ -101,6 +101,7 @@ export default {
             }
             try {
                 await this.gold_type_store.editGoldType(gold_type.id, gold_type)
+                console.table(this.gold_type_store.getGoldTypes)
                 this.$router.push("/gold_type/view");
             } catch (error) {
                 this.error = error.message

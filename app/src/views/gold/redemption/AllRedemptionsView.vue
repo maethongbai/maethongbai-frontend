@@ -288,6 +288,7 @@ export default {
             this.$router.push("/login")
         }
         await this.redemption_store.fetch()
+        console.table(this.redemption_store.getRedemptions)
         this.redemptions_checking = this.redemption_store.filterChecking
         this.redemptions_confirmed = this.redemption_store.filterConfirmed
         this.redemptions_failed = this.redemption_store.filterFailed

@@ -124,6 +124,7 @@ export default {
             this.$router.push("/login")
         }
         await this.gold_pattern_store.fetch()
+        // console.table(this.gold_pattern_store.getGoldPatterns)
         this.gold_patterns = this.gold_pattern_store.getGoldPatterns
     },
     methods: {

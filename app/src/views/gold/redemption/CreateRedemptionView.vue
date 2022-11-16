@@ -382,6 +382,7 @@ export default {
                 }
 
                 await this.redemption_store.add(redemption)
+                // console.table(this.redemption_store.getRedemptions)
 
                 this.$router.push("/redemption/view");
             } catch (error) {

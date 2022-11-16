@@ -231,6 +231,7 @@ export default {
                 }
 
                 await this.gold_store.edit(gold)
+                console.table(this.gold_store.getGolds)
 
                 var redemption = {
                     id: this.redemption.id,
@@ -239,12 +240,15 @@ export default {
                     user_id: this.user_store.findByPhone(this.temp.phone).id
                 }
                 await this.redemption_store.edit(redemption)
+                console.table(this.redemption_store.getRedemptions)
 
                 if (this.redemption.user.id_card_number == null) {
                     await this.user_store.editIDCardNumber(this.redemption.user.id, this.temp.id_num)
+                    console.table(this.user_store.getUsers)
                 }
                 if (this.redemption.user.address == null) {
                     await this.user_store.editAddress(this.redemption.user.id, this.temp.address)
+                    console.table(this.user_store.getUsers)
                 }
                 
                 this.$router.push("/redemption/view")

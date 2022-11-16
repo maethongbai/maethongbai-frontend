@@ -85,6 +85,7 @@ export default {
         }
 
         await this.gold_pattern_store.fetch()
+
         this.gold_pattern.id = this.gold_pattern_store.getNextID()
     },
     methods: {
@@ -94,6 +95,7 @@ export default {
                     name: this.gold_pattern.name
                 }
                 await this.gold_pattern_store.add(gold_pattern)
+                console.table(this.gold_pattern_store.getGoldPatterns)
                 this.$router.push("/gold_pattern/view")
             } catch (error) {
                 this.error = error.message

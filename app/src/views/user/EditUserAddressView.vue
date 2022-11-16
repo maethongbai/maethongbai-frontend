@@ -127,6 +127,7 @@ export default {
             try {
                 console.log(user_obj)
                 await this.user_store.edit(this.user.id, user_obj)
+                console.table(this.user_store.getUsers)
                 this.$router.push('/product/order_summary/' + this.gold.id)
             } catch (error) {
                 console.error(error.response.data)

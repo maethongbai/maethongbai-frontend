@@ -262,6 +262,7 @@
             try {
                 // console.table(employee_obj)
                 this.employee_obj_id = await this.employee_store.add(employee_obj)
+                console.table(this.employee_store.getEmployees)
                 // console.log(this.employee_obj_id)
             } catch (error) {
                 console.log(error.message)

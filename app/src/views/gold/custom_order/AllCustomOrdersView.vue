@@ -368,6 +368,7 @@ export default {
             this.$router.push("/login")
         }
         await this.custom_order_store.fetch()
+        // console.table(this.custom_order_store.getCustomOrders)
         this.custom_orders_not_sent = this.custom_order_store.filterNotSent
         this.custom_orders_sent = this.custom_order_store.filterSent
     },

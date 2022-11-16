@@ -336,6 +336,7 @@ export default {
                     }
                     console.log(gold)
                     await this.gold_store.add(gold)
+                    console.table(this.gold_store.getGolds)
                 }
                 this.$router.push("/stock/view")
             } catch (error) {
